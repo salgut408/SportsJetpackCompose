@@ -232,14 +232,16 @@ fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
     tennisScoreboard?.events?.forEach { eventData ->
         eventData.groupings.forEach { groupingData ->
             groupingData.grouping.displayName
-            Text(text = groupingData.grouping.displayName)
+            Text(text = groupingData.grouping.displayName, fontWeight = FontWeight.Bold)
             groupingData.competitions.forEach { competitionsData ->
-                competitionsData.competitors.forEach { competitor ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(text = competitor.athlete.shortName ?: "null")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                Text(text = competitionsData.competitors.getOrNull(0)?.athlete?.shortName ?: "")
+                    Text(text = competitionsData.startDate ?: "")
+                    Text(text = competitionsData.competitors.getOrNull(1)?.athlete?.shortName ?: "")
+
 //                        BasicImage(
 //                            imgUrl = competitor.athlete.flag.href,
 //                            contentDescription = "",
@@ -248,7 +250,7 @@ fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
 //                            borderWidth = 0.dp,
 //                            borderColor = Color.Black
 //                        )
-                    }
+
                 }
             }
         }
