@@ -228,7 +228,7 @@ fun Scoreboard(
 fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
     val tennisScoreboard = scoreboardData as? TennisScoreboard
 
-//    Text(text = tennisScoreboard?.events?.getOrNull(0)?.groupings .toString())
+    Text(text = tennisScoreboard?.events?.getOrNull(0)?.groupings .toString())
     tennisScoreboard?.events?.forEach { eventData ->
         eventData.groupings.forEach { groupingData ->
             groupingData.grouping.displayName
@@ -241,15 +241,6 @@ fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
                 Text(text = competitionsData.competitors.getOrNull(0)?.athlete?.shortName ?: "")
                     Text(text = competitionsData.startDate ?: "")
                     Text(text = competitionsData.competitors.getOrNull(1)?.athlete?.shortName ?: "")
-
-//                        BasicImage(
-//                            imgUrl = competitor.athlete.flag.href,
-//                            contentDescription = "",
-//                            elevation = 2.dp,
-//                            backgroundColor = Color.White,
-//                            borderWidth = 0.dp,
-//                            borderColor = Color.Black
-//                        )
 
                 }
             }

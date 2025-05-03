@@ -46,28 +46,16 @@ import com.sgut.android.nationalfootballleague.R.string as AppText
 fun HomeTeamCardsListScreen(
     selectionViewModel: SelectionViewModel,
     navController: NavController,
-    homeListViewModel: HomeListViewModel = hiltViewModel(),
-
     ) {
-    val uiStateFromHomeListVm by  homeListViewModel.listUiState.collectAsStateWithLifecycle() // TODO REMOVE HOME LIST VIEWMODEL
     val uiStateBySelectionVm by selectionViewModel.selectionUiFullSportState.collectAsStateWithLifecycle()
-
-
     val news = selectionViewModel.articleList
-
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    
-    val errorMessage = homeListViewModel.errorMessage.collectAsStateWithLifecycle()
-
-    if (errorMessage.value != null) {
-        ShowToast(message = errorMessage.value!!)
-    }
 
     SportScaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             ToolBar3(
-                title = uiStateBySelectionVm.league.name ?: "",
+                title = uiStateBySelectionVm.league.name,
                 scrollBehavior = scrollBehavior
             )
         },
@@ -80,7 +68,6 @@ fun HomeTeamCardsListScreen(
                     leagues = LIST_OF_LEAGUE_PAIRS,
                     padding = padding,
                     onLeagueSelected = { sport, league ->
-                        Timber.d("SAL_GUT LEAGUE SELECTED SPORT: $sport LEAGUE: $league")
                         selectionViewModel.setDifferentSport(sport, league)
                     }
                 )

@@ -29,12 +29,12 @@ class SelectionViewModel @Inject constructor(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
-     private suspend fun loadSport(sport: String, league: String) {
+     private fun loadSport(sport: String, league: String) {
          viewModelScope.launch {
 
              val sportModel =  fullTeamsListRepository.getSport(sport, league)
              loadNews(sport, league)
-             Timber.d("SAL_GUT TENNIS? : $sportModel")
+             Timber.d("SAL_GUT sportModel  $sportModel")
 
              _selectionFullSportUiState.update {
                  it.copy(
@@ -45,7 +45,7 @@ class SelectionViewModel @Inject constructor(
                      league = sportModel.league
                  )
              }
-             Timber.d("SAL_GUT SPORT SELECTED: ${selectionUiFullSportState.value.toString()}")
+             Timber.d("SAL_GUT SPORT SELECTED: ${selectionUiFullSportState.value}")
          }
     }
 
@@ -57,8 +57,4 @@ class SelectionViewModel @Inject constructor(
     private suspend fun loadNews(sport: String, league: String) {
        _articleList.value = getArticles(sport, league)
     }
-
-
-
-
 }

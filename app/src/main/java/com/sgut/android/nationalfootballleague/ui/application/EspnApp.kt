@@ -26,8 +26,7 @@ fun EspnApp(
 
     val appState = rememberAppState()
     val backStackEntry by appState.navController.currentBackStackEntryAsState()
-    val currentScreen =
-        backStackEntry?.destination?.route ?: NavigationScreens.MainScreenTeamsList.route
+    val currentScreen = backStackEntry?.destination?.route ?: NavigationScreens.MainScreenTeamsList.route
     val scaffoldState = rememberScaffoldState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 

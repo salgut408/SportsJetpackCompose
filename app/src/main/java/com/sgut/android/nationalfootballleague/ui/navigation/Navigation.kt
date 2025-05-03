@@ -54,7 +54,6 @@ fun Navigation(
             HomeTeamCardsListScreen(
                 selectionViewModel = selectionViewModel,
                 navController = appState.navController,
-
             )
         }
         composable(
