@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
-import androidx.wear.compose.material.ripple
 
 @Composable
 fun Theme(
@@ -19,7 +18,7 @@ fun Theme(
     content: @Composable () -> Unit,
 ) {
 
-    val rippleIndication = ripple()
+//    val rippleIndication = ripple()
     val textSelectionColors = remember(colors) { TextSelectionColors(
         handleColor = colors.primaryAccent,
         backgroundColor = colors.primaryAccent.copy(alpha = 0.2F),
@@ -27,7 +26,7 @@ fun Theme(
 
     CompositionLocalProvider(
         LocalColorScheme provides colors,
-        LocalIndication provides rippleIndication,
+//        LocalIndication provides rippleIndication,
         LocalTextSelectionColors provides textSelectionColors,
         LocalTypography provides typography,
     ) {

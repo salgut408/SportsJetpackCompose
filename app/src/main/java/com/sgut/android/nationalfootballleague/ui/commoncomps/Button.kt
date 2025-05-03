@@ -172,13 +172,13 @@ fun NewButton(text: @Composable () -> Unit) {
         onClick = { /*TODO*/ },
         modifier = Modifier
             .clip(shape = shape)
-            .indication(
-                interactionSource = interactionSource,
-                indication = rememberRipple(
-                    color = rippleColor,
-                    radius = 90.dp
-                )
-            )
+//            .indication(
+//                interactionSource = interactionSource,
+////                indication = rememberRipple(
+////                    color = rippleColor,
+////                    radius = 90.dp
+////                )
+//            )
             .height(height = 50.dp),
         shape = shape,
         interactionSource = interactionSource
