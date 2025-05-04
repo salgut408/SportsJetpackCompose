@@ -25,10 +25,3 @@ ScreenViewState contains the complete view state for the screen as an @Immutable
 The UI uses ScreenViewModel, and observes it's ScreenViewState as Compose State, using collectAsStateWithLifecycle():
   
 The Repository class is responsible for handling the data fetching of all information:
-
-  ![Video](https://github.com/salgut408/SportsJetpackCompose/assets/61568828/f4bb542e-7959-43aa-8372-81efed686536)
-![ScoreboardScreen2](https://github.com/salgut408/SportsJetpackCompose/assets/61568828/a2eba9e1-6689-4e55-aa1a-d5163cf0e1a9)
-![ScoreBoard](https://github.com/salgut408/SportsJetpackCompose/assets/61568828/58d9a86f-7f8d-4c73-89b4-cd9094a78125)
-![MainScreen](https://github.com/salgut408/SportsJetpackCompose/assets/61568828/e9e5b7e8-ea16-4ba3-9b11-a3693985bfae)
-
-
