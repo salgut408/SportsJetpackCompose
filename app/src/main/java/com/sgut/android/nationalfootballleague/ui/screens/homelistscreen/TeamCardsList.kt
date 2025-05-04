@@ -31,9 +31,11 @@ import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
 import com.sgut.android.nationalfootballleague.ui.commoncomps.SportScaffold
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.*
 import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
+import com.sgut.android.nationalfootballleague.ui.newComponents.FilledButton
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.standings_screen.Standings
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
+import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.LIST_OF_LEAGUE_PAIRS
 import com.sgut.android.nationalfootballleague.utils.basicButton
 import timber.log.Timber
@@ -71,14 +73,17 @@ fun HomeTeamCardsListScreen(
                         selectionViewModel.setDifferentSport(sport, league)
                     }
                 )
-                BasicButton(
-                    text = AppText.scores_games,
-                    modifier = Modifier.basicButton(),
-                    action = {
+                FilledButton(
+                    onClick = {
                         navController.navigate(
                             NavigationScreens.ScoreboardScreen.withArgs(uiStateBySelectionVm.slug, uiStateBySelectionVm.league.slug)
                         )
-                    })
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(text = "scores_games")
+                }
+
 
                     TeamsListCircleRow(
                         teams = uiStateBySelectionVm.league.teams,

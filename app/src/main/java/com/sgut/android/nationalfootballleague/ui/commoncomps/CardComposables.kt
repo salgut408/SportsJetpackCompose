@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sgut.android.nationalfootballleague.ui.commoncomps.SIXTEEN
 import com.sgut.android.nationalfootballleague.ui.theme.NationalFootballLeagueTheme
+import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
 import com.sgut.android.nationalfootballleague.utils.dropdownSelector
 
 
@@ -119,8 +120,8 @@ fun CardSelector(
 @Composable
 fun DefaultCard(
     modifier: Modifier,
-    color: Color = Color.LightGray,
-    contentColor: Color = Color.Black,
+    color: Color = Theme.colors.surface,
+    contentColor: Color = Theme.colors.onSurface,
     content: @Composable () -> Unit,
 ) {
     Card(
@@ -145,8 +146,8 @@ fun DefaultCard(
 fun SportCard(
     modifier: Modifier = Modifier,
     shape: Shape = MaterialTheme.shapes.medium,
-    color: Color = Color.LightGray,
-    contentColor: Color = Color.Black,
+    color: Color = Theme.colors.surface,
+    contentColor: Color = Theme.colors.onSurface,
     border: BorderStroke? = null,
     content: @Composable () -> Unit,
     ) {

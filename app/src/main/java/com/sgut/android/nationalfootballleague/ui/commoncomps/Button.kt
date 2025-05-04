@@ -24,54 +24,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
-@Composable
-fun ButtonWithState() {
-
-}
 
 
-@Composable
-fun BasicTextButton(
-    @StringRes text: Int,
-    modifier: Modifier,
-    action: () -> Unit,
-) {
-    TextButton(
-        onClick = action,
-        modifier = modifier
-    ) {
-        Text(
-            text = stringResource(text)
-        )
-    }
-}
 
-@Composable
-fun BasicButtonToNavigate(
-    @StringRes text: Int,
-    modifier: Modifier,
-    sport: String,
-    league: String,
-    onNavigateTo: (sport: String, league: String) -> Unit,
-) {
-    val onNavTo = { onNavigateTo(sport, league) }
-    Button(
-        onClick = onNavTo,
-        modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
-        )
-    ) {
-        Text(text = stringResource(text), fontSize = 16.sp)
-    }
-}
 
-@Composable
-fun RowOfButtons() {
 
-}
+
+
 
 
 @Composable

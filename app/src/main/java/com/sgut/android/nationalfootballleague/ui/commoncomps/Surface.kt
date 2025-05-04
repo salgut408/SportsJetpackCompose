@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
 import kotlin.math.ln
 
 
@@ -26,14 +27,14 @@ import kotlin.math.ln
 fun SportSurface(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
-    color: Color = MaterialTheme.colorScheme.background,
-    contentColor: Color = MaterialTheme.colorScheme.onBackground,
+    color: Color = Theme.colors.surface,
+    contentColor: Color = Theme.colors.onSurface,
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
     padding: Dp = 0.dp,
     content: @Composable () -> Unit,
 
-) {
+    ) {
     Box(
         modifier = modifier
             .shadow(elevation = elevation, shape = shape, clip = false)
