@@ -10,12 +10,12 @@ import androidx.compose.animation.core.spring
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.platform.LocalContext
 
-import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
-import coil.imageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
-import coil.size.Scale
+import coil3.BitmapImage
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.SuccessResult
+import coil3.size.Scale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -119,24 +119,19 @@ private suspend fun calculateSwatchesInImage(
     val request = ImageRequest.Builder(context)
         .data(imageUrl)
         .size(128).scale(Scale.FILL)
-        .allowHardware(false)
         .memoryCacheKey("$imageUrl.palette")
         .build()
 
-    val bitmap = when (val result = context.imageLoader.execute(request)) {
-        is SuccessResult -> result.drawable.toBitmap()
-        else -> null
+    val bitmap = (context.imageLoader.execute(request) as? SuccessResult)
+        ?.let { (it.image as? BitmapImage)?.bitmap }
+        ?: return emptyList()
+
+    return withContext(Dispatchers.Default) {
+        Palette.Builder(bitmap)
+            .resizeBitmapArea(0)
+            .clearFilters()
+            .maximumColorCount(8)
+            .generate()
+            .swatches
     }
-
-    return bitmap?.let {
-        withContext(Dispatchers.Default) {
-            val palette = Palette.Builder(bitmap)
-                .resizeBitmapArea(0)
-                .clearFilters()
-                .maximumColorCount(8)
-                .generate()
-
-            palette.swatches
-        }
-    } ?: emptyList()
 }

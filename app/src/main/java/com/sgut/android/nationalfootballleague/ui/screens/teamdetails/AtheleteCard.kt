@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.size.Scale
-import coil.util.CoilUtils
+import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.size.Scale
 import com.sgut.android.nationalfootballleague.Athletes
 import com.sgut.android.nationalfootballleague.R
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SportSurface
@@ -158,7 +158,7 @@ fun AltheleteCard3(
     athelete: Athletes,
     modifier: Modifier,
 ) {
-    Card(modifier = modifier.fillMaxWidth(2f),
+    Card(modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp)) {
         Box(modifier = Modifier.height(200.dp)) {
             // image ()

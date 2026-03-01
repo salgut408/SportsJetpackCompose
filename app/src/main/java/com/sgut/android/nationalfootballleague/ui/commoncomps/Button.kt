@@ -1,26 +1,19 @@
 package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
 
-import android.graphics.drawable.Icon
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.ripple.RippleAlpha
-import androidx.compose.material.ripple.RippleTheme
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -39,9 +32,7 @@ fun BasicTextButton(
         onClick = action,
         modifier = modifier
     ) {
-        Text(
-            text = stringResource(text)
-        )
+        Text(text = stringResource(text))
     }
 }
 
@@ -54,10 +45,9 @@ fun BasicButton(
     Button(
         onClick = action,
         modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Text(text = stringResource(text), fontSize = 16.sp)
@@ -71,10 +61,9 @@ fun DialogConfirmButton(
 ) {
     Button(
         onClick = action,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Text(text = stringResource(text))
@@ -88,15 +77,12 @@ fun DialogCancelButton(
 ) {
     Button(
         onClick = action,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.onPrimary,
-            contentColor = MaterialTheme.colors.primary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.primary
         )
     ) {
-        Text(
-            text = stringResource(text)
-        )
+        Text(text = stringResource(text))
     }
 }
 
@@ -108,15 +94,12 @@ fun PressIconButton(
     modifier: Modifier = Modifier,
     isPressed: Boolean,
 ) {
-
-
     Button(
         onClick = onClick,
         modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.onPrimary,
-            contentColor = MaterialTheme.colors.primary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.primary
         ),
         interactionSource = remember { MutableInteractionSource() }
     ) {
@@ -140,15 +123,12 @@ fun NewButton(text: @Composable () -> Unit) {
     val shape = RoundedCornerShape(size = 16.dp)
 
     OutlinedButton(
-        onClick = { /*TODO*/ },
+        onClick = { },
         modifier = Modifier
             .clip(shape = shape)
             .indication(
                 interactionSource = interactionSource,
-                indication = rememberRipple(
-                    color = rippleColor,
-                    radius = 90.dp
-                )
+                indication = ripple(color = rippleColor, radius = 90.dp)
             )
             .height(height = 50.dp),
         shape = shape,
@@ -157,13 +137,3 @@ fun NewButton(text: @Composable () -> Unit) {
         text()
     }
 }
-
-
-//private object RippleCustomTheme: RippleTheme {
-//    override fun defaultColor() = RippleTheme.defaultRippleColor(Color.Cyan, lightTheme = true)
-//
-//    override fun rippleAlpha(): RippleAlpha =
-//        RippleTheme.defaultRippleAlpha(Color.Blue, lightTheme = true)
-//
-//}
-

@@ -41,6 +41,7 @@ class GameDetailViewModel @Inject constructor(
             Loading -> {}
             Error -> {}
             is GameDetailsLoaded -> {}
+            Success -> TODO()
         }
     }
 

@@ -22,8 +22,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.sgut.android.nationalfootballleague.domain.domainmodels.TeamDomainModel
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SportSurface
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.VerticalGrid
