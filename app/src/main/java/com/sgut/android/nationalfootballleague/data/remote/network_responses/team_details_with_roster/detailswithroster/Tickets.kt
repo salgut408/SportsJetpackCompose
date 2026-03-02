@@ -13,9 +13,9 @@ data class Tickets3(
   @SerializedName("description")
   val description: String? = null,
   @SerializedName("maxPrice")
-  val maxPrice: Int? = null,
+  val maxPrice: Double? = null,
   @SerializedName("startingPrice")
-  val startingPrice: Int? = null,
+  val startingPrice: Double? = null,
   @SerializedName("numberAvailable")
   val numberAvailable: Int? = null,
   @SerializedName("totalPostings")
@@ -28,9 +28,9 @@ data class Tickets3(
 fun Tickets3.asDomain() : TicketsModel {
   return  TicketsModel(
     id = id ?: "",
-    maxPrice = maxPrice ?: 0,
+    maxPrice = maxPrice ?: 0.0,
     description = description ?: "",
-    startingPrice = startingPrice ?: 0,
+    startingPrice = startingPrice ?: 0.0,
     numberAvailable = numberAvailable ?: 0,
     links = links
   )

@@ -3,15 +3,13 @@ package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,15 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
-
-
-
-
-
-
-
-
-
 @Composable
 fun BasicButton(
     @StringRes text: Int,
@@ -42,10 +31,9 @@ fun BasicButton(
     Button(
         onClick = action,
         modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Text(text = stringResource(text), fontSize = 16.sp)
@@ -59,10 +47,9 @@ fun DialogConfirmButton(
 ) {
     Button(
         onClick = action,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Text(text = stringResource(text))
@@ -76,15 +63,12 @@ fun DialogCancelButton(
 ) {
     Button(
         onClick = action,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.onPrimary,
-            contentColor = MaterialTheme.colors.primary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.primary
         )
     ) {
-        Text(
-            text = stringResource(text)
-        )
+        Text(text = stringResource(text))
     }
 }
 
@@ -96,15 +80,12 @@ fun PressIconButton(
     modifier: Modifier = Modifier,
     isPressed: Boolean,
 ) {
-
-
     Button(
         onClick = onClick,
         modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.onPrimary,
-            contentColor = MaterialTheme.colors.primary
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.primary
         ),
         interactionSource = remember { MutableInteractionSource() }
     ) {
@@ -120,24 +101,15 @@ fun PressIconButton(
     }
 }
 
-
 @Composable
 fun NewButton(text: @Composable () -> Unit) {
     val interactionSource = remember { MutableInteractionSource() }
-    val rippleColor = Color.Red
     val shape = RoundedCornerShape(size = 16.dp)
 
     OutlinedButton(
-        onClick = { /*TODO*/ },
+        onClick = { },
         modifier = Modifier
             .clip(shape = shape)
-//            .indication(
-//                interactionSource = interactionSource,
-////                indication = rememberRipple(
-////                    color = rippleColor,
-////                    radius = 90.dp
-////                )
-//            )
             .height(height = 50.dp),
         shape = shape,
         interactionSource = interactionSource
@@ -145,7 +117,6 @@ fun NewButton(text: @Composable () -> Unit) {
         text()
     }
 }
-
 
 @Composable
 fun ToggleFollowIconButton(
@@ -170,7 +141,7 @@ fun ToggleFollowIconButton(
                 else -> "Not following"
             },
             tint = animateColorAsState(
-                when  {
+                when {
                     isFollowed -> LocalContentColor.current
                     else -> Color.White
                 }
@@ -179,5 +150,3 @@ fun ToggleFollowIconButton(
         )
     }
 }
-
-

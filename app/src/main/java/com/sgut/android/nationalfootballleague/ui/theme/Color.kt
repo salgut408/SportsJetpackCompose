@@ -1,6 +1,6 @@
 package com.sgut.android.nationalfootballleague.ui.theme
 
-import androidx.compose.material.Colors
+import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
@@ -10,7 +10,7 @@ const val MinContrastOfPrimaryVsSurface = 3f
 
 
 @Composable
-fun Colors.compositedOnSurface(alpha: Float): Color {
+fun ColorScheme.compositedOnSurface(alpha: Float): Color {
     return onSurface.copy(alpha = alpha).compositeOver(surface)
 }
 

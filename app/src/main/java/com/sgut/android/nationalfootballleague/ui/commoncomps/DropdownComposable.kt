@@ -4,9 +4,18 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterial3Api::class)
 fun DropdownContextMenu(
     options: List<String>,
     modifier: Modifier,
@@ -28,7 +37,9 @@ fun DropdownContextMenu(
         onExpandedChange = { isExpanded = !isExpanded }
     ) {
         Icon(
-            modifier = Modifier.padding(8.dp, 0.dp),
+            modifier = Modifier
+                .padding(8.dp, 0.dp)
+                .menuAnchor(MenuAnchorType.PrimaryNotEditable),
             imageVector = Icons.Default.MoreVert,
             contentDescription = "More"
         )
@@ -40,20 +51,19 @@ fun DropdownContextMenu(
         ) {
             options.forEach { selectionOption ->
                 DropdownMenuItem(
+                    text = { Text(text = selectionOption) },
                     onClick = {
                         isExpanded = false
                         onActionClick(selectionOption)
                     }
-                ) {
-                    Text(text = selectionOption)
-                }
+                )
             }
         }
     }
 }
 
 @Composable
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterial3Api::class)
 fun DropdownSelector(
     @StringRes label: Int,
     options: List<String>,
@@ -69,7 +79,9 @@ fun DropdownSelector(
         onExpandedChange = { isExpanded = !isExpanded }
     ) {
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(MenuAnchorType.PrimaryEditable),
             readOnly = true,
             value = selection,
             onValueChange = {},
@@ -81,28 +93,28 @@ fun DropdownSelector(
         ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
             options.forEach { selectionOption ->
                 DropdownMenuItem(
+                    text = { Text(text = selectionOption) },
                     onClick = {
                         onNewValue(selectionOption)
                         isExpanded = false
                     }
-                ) {
-                    Text(text = selectionOption)
-                }
+                )
             }
         }
     }
 }
 
 @Composable
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterial3Api::class)
 private fun dropdownColors(): TextFieldColors {
     return ExposedDropdownMenuDefaults.textFieldColors(
-        backgroundColor = MaterialTheme.colors.onPrimary,
+        focusedContainerColor = MaterialTheme.colorScheme.onPrimary,
+        unfocusedContainerColor = MaterialTheme.colorScheme.onPrimary,
         focusedIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent,
-        trailingIconColor = MaterialTheme.colors.onSurface,
-        focusedTrailingIconColor = MaterialTheme.colors.onSurface,
-        focusedLabelColor = MaterialTheme.colors.primary,
-        unfocusedLabelColor = MaterialTheme.colors.primary
+        focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
+        unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
+        focusedLabelColor = MaterialTheme.colorScheme.primary,
+        unfocusedLabelColor = MaterialTheme.colorScheme.primary
     )
 }

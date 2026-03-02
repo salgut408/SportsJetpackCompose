@@ -1,7 +1,7 @@
 package com.sgut.android.nationalfootballleague.ui.screens.teamdetails
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Tab
+import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*

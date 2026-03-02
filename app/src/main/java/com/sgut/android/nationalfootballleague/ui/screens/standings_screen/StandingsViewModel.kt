@@ -43,7 +43,7 @@ class StandingsViewModel @Inject constructor(
         currentLeague: String,
         currentStandingsModelUiState: StandingsModel,
         ) {
-        Timber.d("STANDINGS: $currentStandingsModelUiState")
+//        Timber.d("STANDINGS: $currentStandingsModelUiState")
         _standingsUiState.update {
             it.copy(
                 currentSport = currentSport,

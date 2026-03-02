@@ -1,9 +1,6 @@
 package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.DrawerValue
-import androidx.compose.material.ModalDrawer
-import androidx.compose.material.rememberDrawerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
