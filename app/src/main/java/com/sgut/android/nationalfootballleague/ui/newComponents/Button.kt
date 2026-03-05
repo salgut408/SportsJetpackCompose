@@ -128,7 +128,7 @@ internal fun Button(
             horizontalArrangement = Arrangement.spacedBy(MeasurementTokens.Spacing.Small, Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-//            if (loading) CircularProgressIndicatorIcon() else content()
+            content()
         }
     }
 }

@@ -81,7 +81,7 @@ fun HomeTeamCardsListScreen(
                     },
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(text = "scores_games")
+                    Text(text = "Scores & Games", color = Color.Black)
                 }
 
 
@@ -101,7 +101,7 @@ fun HomeTeamCardsListScreen(
                     Standings(
                         sport = uiStateBySelectionVm.slug,
                         league = uiStateBySelectionVm.league.slug,
-                        type = "0"
+                        type = "1"
                     )
             }
         },

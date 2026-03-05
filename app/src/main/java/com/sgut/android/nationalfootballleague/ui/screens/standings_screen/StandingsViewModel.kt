@@ -1,6 +1,5 @@
 package com.sgut.android.nationalfootballleague.ui.screens.standings_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sgut.android.nationalfootballleague.domain.domainmodels.standings_models.StandingsModel
@@ -21,10 +20,6 @@ class StandingsViewModel @Inject constructor(
 
     private val _standingsUiState = MutableStateFlow(StandingsUiState())
     var standingsState: StateFlow<StandingsUiState> = _standingsUiState.asStateFlow()
-
-    init {
-
-    }
 
 
     fun loadStandings(sport: String, league: String, type: String) = viewModelScope.launch {

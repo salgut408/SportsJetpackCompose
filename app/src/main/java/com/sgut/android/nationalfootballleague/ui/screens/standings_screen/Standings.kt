@@ -50,22 +50,6 @@ fun Standings(
 
             }
         }
-
-//        Row {
-//            standings.standingsUiState.children.map { child ->
-//                Children(child = child, modifier = modifier)
-//                Spacer(modifier = modifier.width(THIRTYSIX.dp))
-//                NormalDivider(
-//                    color = Color.Black,
-//                    modifier = modifier
-//                        .fillMaxHeight(1f)
-//                        .width(1.dp)
-//                )
-//                Spacer(modifier = modifier.width(EIGHT.dp))
-//
-//            }
-//        }
-//        Text(text = standings.standingsUiState.children.toString() )
     }
 }
 
