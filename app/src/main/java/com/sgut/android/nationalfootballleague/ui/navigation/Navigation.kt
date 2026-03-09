@@ -18,7 +18,7 @@ import com.sgut.android.nationalfootballleague.ui.application.EspnAppState
 import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
 import com.sgut.android.nationalfootballleague.ui.screens.athelete_detail.AthleteDetailScreen
 import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameDetailsScreen
-import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeListViewModel
+
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeTeamCardsListScreen
 import com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen.ScoreboardScreen
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
@@ -31,9 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 fun Navigation(
     appState: EspnAppState,
     padding: PaddingValues,
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) {
-
     NavHost(
         navController = appState.navController,
         startDestination = NavigationScreens.MainScreenTeamsList.route,
@@ -53,7 +51,12 @@ fun Navigation(
 
             HomeTeamCardsListScreen(
                 selectionViewModel = selectionViewModel,
-                navController = appState.navController,
+                onNavigateToScoreboard = { sport, league ->
+                    appState.navigate(NavigationScreens.ScoreboardScreen.withArgs(sport, league))
+                },
+                onNavigateToTeam = { team, sport, league ->
+                    appState.navigate(NavigationScreens.DetailScreenTeam.withArgs(team, sport, league))
+                },
             )
         }
         composable(
@@ -110,13 +113,12 @@ fun Navigation(
             val event = it.arguments?.getString("event")!!
 
             GameDetailsScreen(
-                navController = appState.navController,
                 sport = sportName,
                 league = leagueName,
                 event = event,
                 canNavigateBack = appState.navController.previousBackStackEntry != null,
                 navigateUp = { appState.navController.navigateUp() }
-                )
+            )
         }
 
         composable(
@@ -142,9 +144,11 @@ fun Navigation(
             ScoreboardScreen(
                 sport = sportName,
                 league = leagueName,
-                navController = appState.navController,
                 canNavigateBack = appState.navController.previousBackStackEntry != null,
                 navigateUp = { appState.navController.navigateUp() },
+                onNavigateToGame = { sport, league, event ->
+                    appState.navigate(NavigationScreens.GameDetailScreen.withArgs(sport, league, event))
+                },
                 selectionViewModel = selectionViewModel
             )
         }

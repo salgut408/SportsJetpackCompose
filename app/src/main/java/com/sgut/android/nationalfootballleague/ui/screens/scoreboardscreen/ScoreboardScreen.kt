@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
+
 import com.sgut.android.nationalfootballleague.*
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.ScoreboardData
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.TennisScoreboard
@@ -31,7 +31,7 @@ import com.sgut.android.nationalfootballleague.ui.commoncomps.EIGHT
 import com.sgut.android.nationalfootballleague.ui.commoncomps.LeagueSelectionRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.*
-import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
+
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeListViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.NewsRow
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
@@ -50,7 +50,7 @@ fun ScoreboardScreen(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     scoreboardViewModel: ScoreboardViewModel = hiltViewModel(),
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
     selectionViewModel: SelectionViewModel
 ) {
 
@@ -116,7 +116,7 @@ fun ScoreboardScreen(
                     modifier = modifier,
                     sport = sport,
                     league = league,
-                    navController = navController,
+                    onNavigateToGame = onNavigateToGame,
                     scoreboardData = newUiState.abstractScoreData
                 )
 
@@ -147,13 +147,11 @@ fun Scoreboard(
     events: List<DefaultScoreboardEventModel>,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
     modifier: Modifier,
     scoreboardData: ScoreboardData?
-
-    ) {
-    DefaultCard(modifier = modifier
-    ) {
+) {
+    DefaultCard(modifier = modifier) {
         CardHeaderText(text = "Scoreboard")
         NormalDivider()
         events.map { event ->
@@ -165,7 +163,7 @@ fun Scoreboard(
                     modifier = modifier,
                     sport = sport,
                     league = league,
-                    navController = navController
+                    onNavigateToGame = onNavigateToGame,
                 )
             }
             NormalDivider()
@@ -272,7 +270,7 @@ fun TeamsMatchUpListFromEvents(
     modifier: Modifier,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
 ) {
     DefaultCard(modifier = modifier) {
         CardHeaderText(text = "Scores")
@@ -281,7 +279,7 @@ fun TeamsMatchUpListFromEvents(
                 TeamComponent2(
                     compScoreboard = competition,
                     modifier = modifier,
-                    navController = navController,
+                    onNavigateToGame = onNavigateToGame,
                     sport = sport,
                     league = league,
                 )
@@ -361,11 +359,10 @@ fun TeamComponent(team: ScoreboardCompetitorsModel, modifier: Modifier) {
 fun TeamComponent2(
     compScoreboard: ScoreboardCompetitionModel,
     modifier: Modifier,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
     sport: String,
     league: String,
-
-    ) {
+) {
     val team1 = compScoreboard.competitors.first().team
     val team2 = compScoreboard.competitors.last().team
     val color1 = HexToJetpackColor2.getColor(team1.color)
@@ -380,15 +377,7 @@ fun TeamComponent2(
     DefaultCard(
         modifier = modifier
             .fillMaxSize()
-            .clickable {
-                navController.navigate(
-                    NavigationScreens.GameDetailScreen.withArgs(
-                        sport,
-                        league,
-                        compScoreboard.id
-                    )
-                )
-            }) {
+            .clickable { onNavigateToGame(sport, league, compScoreboard.id) }) {
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -582,16 +571,12 @@ fun CompetitorRow(
 fun NewEventMatchup(
     event: DefaultScoreboardEventModel,
     modifier: Modifier,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
     sport: String,
     league: String,
 ) {
     Column() {
-        Box(modifier = modifier.clickable {
-            navController.navigate(
-                NavigationScreens.GameDetailScreen.withArgs(sport, league, event.id)
-            )
-        }) {
+        Box(modifier = modifier.clickable { onNavigateToGame(sport, league, event.id) }) {
             Column() {
                 // leaders
 //                Text(text = event.competitions.first().competitors.first().leaders.toString())

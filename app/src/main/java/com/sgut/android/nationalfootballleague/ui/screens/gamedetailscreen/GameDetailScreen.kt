@@ -38,7 +38,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
+
 import com.sgut.android.nationalfootballleague.*
 import com.sgut.android.nationalfootballleague.di.GameDetailsTopBar
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.*
@@ -57,7 +57,6 @@ fun GameDetailsScreen(
     modifier: Modifier = Modifier,
     sport: String,
     league: String,
-    navController: NavController,
     event: String,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
@@ -814,44 +813,6 @@ fun NewVidList(
 }
 
 
-@Composable
-fun VideoPreview(
-    video: VideoModel,
-    modifier: Modifier,
-) {
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        modifier = modifier
-            .width(200.dp)
-            .height(200.dp)
-    ) {
-        Box(
-            modifier = modifier.fillMaxSize()
-        ) {
-            GenericImageLoader(
-                obj = video.thumbnail,
-                modifier = modifier.width(200.dp)
-            )
-            Column(modifier = modifier.fillMaxWidth()) {
-
-                NewVidPlayer(video = video)
-
-//                VideoPlayer(videos = video)
-
-
-                Text(
-                    text = video.headline,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier.padding(8.dp),
-                    textAlign = TextAlign.Left,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun DisplayLabels(list: List<GameDetailsStatisticModel>) {

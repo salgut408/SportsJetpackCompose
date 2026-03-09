@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
+
 import com.sgut.android.nationalfootballleague.di.ToolBar3
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.TeamModel
@@ -31,7 +31,7 @@ import com.sgut.android.nationalfootballleague.ui.commoncomps.LeagueSelectionRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
 import com.sgut.android.nationalfootballleague.ui.commoncomps.SportScaffold
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.*
-import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
+
 import com.sgut.android.nationalfootballleague.ui.newComponents.FilledButton
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.standings_screen.Standings
@@ -48,7 +48,8 @@ import com.sgut.android.nationalfootballleague.R.string as AppText
 @Composable
 fun HomeTeamCardsListScreen(
     selectionViewModel: SelectionViewModel,
-    navController: NavController,
+    onNavigateToScoreboard: (sport: String, league: String) -> Unit,
+    onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
 ) {
     val uiStateBySelectionVm by selectionViewModel.selectionUiFullSportState.collectAsStateWithLifecycle()
     val news by selectionViewModel.articleList.collectAsStateWithLifecycle()
@@ -92,11 +93,9 @@ fun HomeTeamCardsListScreen(
                     )
                     FilledButton(
                         onClick = {
-                            navController.navigate(
-                                NavigationScreens.ScoreboardScreen.withArgs(
-                                    uiStateBySelectionVm.slug,
-                                    uiStateBySelectionVm.league.slug
-                                )
+                            onNavigateToScoreboard(
+                                uiStateBySelectionVm.slug,
+                                uiStateBySelectionVm.league.slug
                             )
                         },
                         modifier = Modifier.fillMaxWidth(),
@@ -108,8 +107,7 @@ fun HomeTeamCardsListScreen(
                         teams = uiStateBySelectionVm.league.teams,
                         sport = uiStateBySelectionVm.slug,
                         league = uiStateBySelectionVm.league.slug,
-                        onTeamClick = {},
-                        navController = navController
+                        onNavigateToTeam = onNavigateToTeam,
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -132,11 +130,10 @@ fun HomeTeamCardsListScreen(
 @Composable
 fun TeamsListCircleRow(
     teams: List<TeamModel>,
-    onTeamClick: () -> Unit,
     modifier: Modifier = Modifier,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
 ) {
     DefaultCard(modifier = modifier) {
         CardHeaderText(text = league)
@@ -148,10 +145,9 @@ fun TeamsListCircleRow(
             items(teams) { team ->
                 TeamItem(
                     team = team,
-                    onTeamClick = onTeamClick,
                     sport = sport,
                     league = league,
-                    navController = navController
+                    onNavigateToTeam = onNavigateToTeam,
                 )
             }
         }
@@ -179,11 +175,10 @@ fun LabelText(@StringRes stringResId: Int) {
 @Composable
 fun TeamItem(
     team: TeamModel,
-    onTeamClick: () -> Unit,
     modifier: Modifier = Modifier,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
 ) {
     val teamColor = HexToJetpackColor2.getColor(team.color)
     val altColor = HexToJetpackColor2.getColor(team.alternateColor)
@@ -192,15 +187,7 @@ fun TeamItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .width(68.dp)
-            .clickable {
-                navController.navigate(
-                    NavigationScreens.DetailScreenTeam.withArgs(
-                        team.abbreviation,
-                        sport,
-                        league
-                    )
-                )
-            }
+            .clickable { onNavigateToTeam(team.abbreviation, sport, league) }
     ) {
         Box(contentAlignment = Alignment.Center) {
             // Colored circle background
