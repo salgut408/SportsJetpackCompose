@@ -1,7 +1,5 @@
 package com.sgut.android.nationalfootballleague.homelistscreen
 
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -9,74 +7,124 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomianModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardHeadlineModel
-import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.DefaultCard
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.GenericImageLoader
 
 
 @Composable
 fun ArticleCard(
     article: ArticleDomianModel,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Card(
-        shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = modifier
-            .height(200.dp)
-            .padding(8.dp)
-            .width(200.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
-        Box(modifier = modifier
-            .background(Color.White)
-            .fillMaxSize()) {
-            Column(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .padding(8.dp)
-            ) {
-                if (article.images.isNotEmpty()) {
-                    GenericImageLoader(
-                        obj = article.images.first().url,
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 6.dp)
+        Column {
+            // Hero image
+            if (article.images.isNotEmpty()) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(article.images.first().url)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = article.headline,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                )
+            }
+
+            Column(modifier = Modifier.padding(12.dp)) {
+                // Source tag
+                if (article.dataSourceIdentifier.isNotBlank()) {
+                    Text(
+                        text = article.dataSourceIdentifier.uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 6.dp)
                     )
                 }
-                NormalDivider()
 
+                // Headline
                 Text(
                     text = article.headline,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    modifier = modifier.padding(8.dp),
-                    textAlign = TextAlign.Left,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
-                Text(
-                    text = article.dataSourceIdentifier,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier.padding(8.dp),
-                    textAlign = TextAlign.Left,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis,
-                    color = Color.Black,
-                )
+
+                // Description
+                if (!article.description.isNullOrBlank()) {
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = article.description,
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+                HorizontalDivider(thickness = 0.5.dp, color = MaterialTheme.colorScheme.outlineVariant)
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Byline + published
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    if (!article.byline.isNullOrBlank()) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = article.byline,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                    if (article.published.isNotBlank()) {
+                        Text(
+                            text = article.published.take(10),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
             }
         }
     }
@@ -85,19 +133,22 @@ fun ArticleCard(
 
 // if list is needed
 @Composable
-fun ArticleList(articleList: List<ArticleDomianModel>, modifier: Modifier) {
-    LazyColumn(contentPadding = PaddingValues(8.dp)) {
+fun ArticleList(articleList: List<ArticleDomianModel>, modifier: Modifier = Modifier) {
+    LazyColumn(contentPadding = PaddingValues(vertical = 8.dp)) {
         items(items = articleList) { article ->
-            ArticleCard(article = article, modifier = modifier.padding(8.dp))
+            ArticleCard(article = article)
         }
     }
 }
 
 @Composable
 fun ArticleRow(articleList: List<ArticleDomianModel>) {
-    LazyRow(contentPadding = PaddingValues(8.dp)) {
+    LazyRow(contentPadding = PaddingValues(horizontal = 8.dp)) {
         items(items = articleList) { article ->
-            ArticleCard(article = article, modifier = Modifier)
+            ArticleCard(
+                article = article,
+                modifier = Modifier.width(300.dp)
+            )
         }
     }
 }

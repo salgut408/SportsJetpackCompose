@@ -2,12 +2,13 @@ package com.sgut.android.nationalfootballleague.ui.screens.homelistscreen
 
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -48,10 +49,23 @@ import com.sgut.android.nationalfootballleague.R.string as AppText
 fun HomeTeamCardsListScreen(
     selectionViewModel: SelectionViewModel,
     navController: NavController,
-    ) {
+) {
     val uiStateBySelectionVm by selectionViewModel.selectionUiFullSportState.collectAsStateWithLifecycle()
-    val news = selectionViewModel.articleList
+    val news by selectionViewModel.articleList.collectAsStateWithLifecycle()
+    val isLoading by selectionViewModel.isLoading.collectAsStateWithLifecycle()
+    val errorMessage by selectionViewModel.errorMessage.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(errorMessage) {
+        if (errorMessage != null) {
+            snackbarHostState.showSnackbar(
+                message = errorMessage!!,
+                duration = SnackbarDuration.Long
+            )
+            selectionViewModel.clearError()
+        }
+    }
 
     SportScaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -61,29 +75,34 @@ fun HomeTeamCardsListScreen(
                 scrollBehavior = scrollBehavior
             )
         },
-
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         content = { padding ->
-            Column(
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            ) {
-                LeagueSelectionRow(
-                    leagues = LIST_OF_LEAGUE_PAIRS,
-                    padding = padding,
-                    onLeagueSelected = { sport, league ->
-                        selectionViewModel.setDifferentSport(sport, league)
-                    }
-                )
-                FilledButton(
-                    onClick = {
-                        navController.navigate(
-                            NavigationScreens.ScoreboardScreen.withArgs(uiStateBySelectionVm.slug, uiStateBySelectionVm.league.slug)
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth(),
+            if (isLoading) {
+                DataLoadingComponent()
+            } else {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
-                    Text(text = "Scores & Games", color = Color.Black)
-                }
-
+                    LeagueSelectionRow(
+                        leagues = LIST_OF_LEAGUE_PAIRS,
+                        padding = padding,
+                        onLeagueSelected = { sport, league ->
+                            selectionViewModel.setDifferentSport(sport, league)
+                        }
+                    )
+                    FilledButton(
+                        onClick = {
+                            navController.navigate(
+                                NavigationScreens.ScoreboardScreen.withArgs(
+                                    uiStateBySelectionVm.slug,
+                                    uiStateBySelectionVm.league.slug
+                                )
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = "Scores & Games", color = Color.Black)
+                    }
 
                     TeamsListCircleRow(
                         teams = uiStateBySelectionVm.league.teams,
@@ -94,18 +113,19 @@ fun HomeTeamCardsListScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    NewsRow(news = news.value, modifier = Modifier.wrapContentSize())
+                    NewsRow(news = news, modifier = Modifier.wrapContentSize())
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Standings(
                         sport = uiStateBySelectionVm.slug,
                         league = uiStateBySelectionVm.league.slug,
-                        type = "1"
+                        type = "0"
                     )
+                }
             }
         },
-        )
+    )
 }
 
 
@@ -118,27 +138,23 @@ fun TeamsListCircleRow(
     league: String,
     navController: NavController,
 ) {
-
     DefaultCard(modifier = modifier) {
         CardHeaderText(text = league)
         NormalDivider()
-
         LazyRow(
-            modifier = modifier,
-            contentPadding = PaddingValues(8.dp)
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(teams) { team ->
                 TeamItem(
                     team = team,
                     onTeamClick = onTeamClick,
-                    modifier = modifier,
                     sport = sport,
                     league = league,
                     navController = navController
                 )
             }
         }
-
     }
 }
 
@@ -170,45 +186,69 @@ fun TeamItem(
     navController: NavController,
 ) {
     val teamColor = HexToJetpackColor2.getColor(team.color)
+    val altColor = HexToJetpackColor2.getColor(team.alternateColor)
 
-    SportSurface(
-        shape = MaterialTheme.shapes.medium,
-        color = Color.LightGray
-
-    ) {
-        Box(modifier = modifier) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .clickable {
-                        navController.navigate(
-                            NavigationScreens.DetailScreenTeam.withArgs(
-                                team.abbreviation,
-                                sport,
-                                league
-                            )
-                        )
-                    }
-                    .padding(4.dp)
-            ) {
-                BasicImage(
-                    imgUrl = team.logos,
-                    contentDescription = team.name,
-                    modifier = modifier.size(100.dp),
-                    elevation = 1.dp,
-                    backgroundColor = teamColor,
-                    borderColor = Color.Black,
-                    borderWidth = 1.dp,
-                    shape = RoundedCornerShape(8.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .width(68.dp)
+            .clickable {
+                navController.navigate(
+                    NavigationScreens.DetailScreenTeam.withArgs(
+                        team.abbreviation,
+                        sport,
+                        league
+                    )
                 )
             }
-            ToggleFollowIconButton(
-                isFollowed = team.isFavorite,
-                onClick = { onTeamClick },
-                modifier = Modifier.align(Alignment.TopEnd)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            // Colored circle background
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(teamColor, CircleShape)
             )
-
+            // Thin alt-color ring
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(Color.Transparent, CircleShape)
+                    .padding(2.dp)
+                    .background(altColor.copy(alpha = 0.35f), CircleShape)
+            )
+            // Team logo
+            BasicImage(
+                imgUrl = team.logos,
+                contentDescription = team.name,
+                modifier = Modifier
+                    .size(44.dp)
+                    .padding(2.dp),
+                elevation = 0.dp,
+                backgroundColor = Color.Transparent,
+                borderColor = Color.Transparent,
+                borderWidth = 0.dp,
+                shape = CircleShape
+            )
         }
+
+        Spacer(modifier = Modifier.height(5.dp))
+
+        Text(
+            text = team.abbreviation,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
+        Text(
+            text = team.shortDisplayName,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
     }
 }
 
