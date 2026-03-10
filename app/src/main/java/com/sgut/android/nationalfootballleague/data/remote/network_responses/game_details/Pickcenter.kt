@@ -1,25 +1,27 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.AwayTeamOddsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.HomeTeamOddsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.PickcenterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.ProviderModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Pickcenter(
 
-  @SerializedName("provider")
+  @SerialName("provider")
   val provider: Provider? = Provider(),
-  @SerializedName("details")
+  @SerialName("details")
   val details: String? = null,
-  @SerializedName("overUnder")
+  @SerialName("overUnder")
   val overUnder: Double? = null,
-  @SerializedName("spread")
+  @SerialName("spread")
   val spread: Double? = null,
-  @SerializedName("awayTeamOdds")
+  @SerialName("awayTeamOdds")
   val awayTeamOdds: AwayTeamOdds? = AwayTeamOdds(),
-  @SerializedName("homeTeamOdds")
+  @SerialName("homeTeamOdds")
   val homeTeamOdds: HomeTeamOdds? = HomeTeamOdds(),
 
   )

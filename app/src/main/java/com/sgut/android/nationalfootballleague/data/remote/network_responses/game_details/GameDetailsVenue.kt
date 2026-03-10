@@ -1,22 +1,24 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsVenueModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsVenue(
 
-  @SerializedName("id")
+  @SerialName("id")
   val id: String = "",
-  @SerializedName("fullName")
+  @SerialName("fullName")
   val fullName: String = "",
-  @SerializedName("address")
+  @SerialName("address")
   val address: GameDetailsAddress = GameDetailsAddress(),
-  @SerializedName("capacity")
+  @SerialName("capacity")
   val capacity: Int = 0,
-  @SerializedName("grass")
+  @SerialName("grass")
   val grass: Boolean = false,
-  @SerializedName("images")
+  @SerialName("images")
   val images: List<GameDetailsImages> = listOf(),
 
   )

@@ -1,18 +1,20 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.StatusDomainModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Status3(
 
-  @SerializedName("clock")
-  val clock: Int? = null,
-  @SerializedName("displayClock")
+  @SerialName("clock")
+  val clock: Double? = null,
+  @SerialName("displayClock")
   val displayClock: String? = null,
-  @SerializedName("period")
+  @SerialName("period")
   val period: Int? = null,
-  @SerializedName("type")
+  @SerialName("type")
   val type: Type3? = Type3(),
   )
 fun Status3.asDomain(): StatusDomainModel {

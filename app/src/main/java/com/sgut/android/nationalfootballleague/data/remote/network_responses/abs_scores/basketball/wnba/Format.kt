@@ -1,9 +1,11 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.wnba
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Format(
-    @SerializedName("regulation")
+    @SerialName("regulation")
     val regulation: Regulation = Regulation()
 )

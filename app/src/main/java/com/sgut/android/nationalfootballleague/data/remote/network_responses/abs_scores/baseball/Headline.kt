@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Headline(
-    @SerializedName("description")
+    @SerialName("description")
     val description: String = "",
-    @SerializedName("shortLinkText")
+    @SerialName("shortLinkText")
     val shortLinkText: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("video")
+    @SerialName("video")
     val video: List<Video> = listOf()
 )

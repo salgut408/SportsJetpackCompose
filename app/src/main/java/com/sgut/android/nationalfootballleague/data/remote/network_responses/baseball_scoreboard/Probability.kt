@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Probability(
-    @SerializedName("awayWinPercentage")
+    @SerialName("awayWinPercentage")
     val awayWinPercentage: Double? = 0.0,
-    @SerializedName("homeWinPercentage")
+    @SerialName("homeWinPercentage")
     val homeWinPercentage: Double? = 0.0,
-    @SerializedName("tiePercentage")
+    @SerialName("tiePercentage")
     val tiePercentage: Double? = 0.0
 )

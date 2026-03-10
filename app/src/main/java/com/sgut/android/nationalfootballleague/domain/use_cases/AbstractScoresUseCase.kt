@@ -18,5 +18,3 @@ class AbstractScoresUseCase @Inject constructor(
             return@withContext scores
         }
 }
-
-

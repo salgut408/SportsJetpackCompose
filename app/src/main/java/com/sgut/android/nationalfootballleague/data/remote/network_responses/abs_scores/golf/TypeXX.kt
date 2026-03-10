@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.golf
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TypeXX(
-    @SerializedName("completed")
+    @SerialName("completed")
     val completed: Boolean = false,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("state")
+    @SerialName("state")
     val state: String = ""
 )

@@ -1,18 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class LeagueCommon(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
     val id: String = "",
-    @SerializedName("logos")
+    @SerialName("logos")
     val logos: List<LogoComm> = listOf(),
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = ""
 )

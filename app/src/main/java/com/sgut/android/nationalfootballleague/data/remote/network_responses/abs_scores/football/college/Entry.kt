@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.football.college
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Entry(
-    @SerializedName("alternateLabel")
+    @SerialName("alternateLabel")
     val alternateLabel: String = "",
-    @SerializedName("detail")
+    @SerialName("detail")
     val detail: String = "",
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("label")
+    @SerialName("label")
     val label: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = "",
-    @SerializedName("value")
+    @SerialName("value")
     val value: String = ""
 )

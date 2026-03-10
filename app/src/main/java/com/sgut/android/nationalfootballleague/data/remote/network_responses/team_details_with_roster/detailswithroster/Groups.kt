@@ -1,12 +1,14 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Groups3 (
 
-  @SerializedName("id"           ) var id           : String?  = null,
-  @SerializedName("parent"       ) var parent       : Parent3?  = Parent3(),
-  @SerializedName("isConference" ) var isConference : Boolean? = null
+  @SerialName("id"           ) var id           : String?  = null,
+  @SerialName("parent"       ) var parent       : Parent3?  = Parent3(),
+  @SerialName("isConference" ) var isConference : Boolean? = null
 
 )

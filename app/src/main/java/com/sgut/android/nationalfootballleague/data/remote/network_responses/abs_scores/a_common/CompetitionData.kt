@@ -1,9 +1,9 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common
 
-import com.google.gson.annotations.SerializedName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm.StatusCommX
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard.Situation
-
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 abstract class CompetitionData {
     abstract val competitors: List<CompetitorData>
@@ -11,91 +11,93 @@ abstract class CompetitionData {
     abstract val startDate: String
     abstract val status: StatusCommX?
     abstract val uid: String
-
 }
 
+@Serializable
 data class DefaultCompetition(
-    @SerializedName("competitors")
-   override val competitors: List<DefaultCompetitor> = listOf(),
-    @SerializedName("id")
+    @SerialName("competitors")
+    override val competitors: List<DefaultCompetitor> = listOf(),
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     override val startDate: String = "",
-    @SerializedName("status")
-    override  val status: StatusCommX? = StatusCommX(),
-    @SerializedName("uid")
-    override val uid: String = "",
-    ): CompetitionData()
+    @SerialName("status")
+    override val status: StatusCommX? = StatusCommX(),
+    @SerialName("uid")
+    override val uid: String = ""
+) : CompetitionData()
 
+@Serializable
 data class BaseballCompetition(
-    @SerializedName("competitors")
+    @SerialName("competitors")
     override val competitors: List<BaseballCompetitor> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("situation")
+    @SerialName("situation")
     val situation: Situation? = Situation(),
-    @SerializedName("outsText")
+    @SerialName("outsText")
     val outsText: String? = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     override val startDate: String = "",
-    @SerializedName("status")
-    override  val status: StatusCommX? = StatusCommX(),
-    @SerializedName("uid")
-    override val uid: String = "",
-    ): CompetitionData()
+    @SerialName("status")
+    override val status: StatusCommX? = StatusCommX(),
+    @SerialName("uid")
+    override val uid: String = ""
+) : CompetitionData()
 
-
+@Serializable
 data class GolfCompetition(
     override val competitors: List<SingleCompetitor> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     override val startDate: String = "",
-    @SerializedName("status")
+    @SerialName("status")
     override val status: StatusCommX? = StatusCommX(),
-    @SerializedName("uid")
+    @SerialName("uid")
     override val uid: String = ""
-): CompetitionData()
+) : CompetitionData()
 
+@Serializable
 data class MmaCompetition(
-    @SerializedName("competitors")
+    @SerialName("competitors")
     override val competitors: List<SingleCompetitor> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     override val startDate: String = "",
-    @SerializedName("status")
+    @SerialName("status")
     override val status: StatusCommX = StatusCommX(),
-    @SerializedName("uid")
-    override val uid: String = "",
-): CompetitionData()
+    @SerialName("uid")
+    override val uid: String = ""
+) : CompetitionData()
 
+@Serializable
 data class SoccerCompetition(
-    @SerializedName("competitors")
+    @SerialName("competitors")
     override val competitors: List<DefaultCompetitor> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     override val startDate: String = "",
-    @SerializedName("status")
+    @SerialName("status")
     override val status: StatusCommX = StatusCommX(),
-    @SerializedName("uid")
-    override val uid: String = "",
-): CompetitionData()
+    @SerialName("uid")
+    override val uid: String = ""
+) : CompetitionData()
 
+@Serializable
 data class TennisCompetition(
-    @SerializedName("competitors")
+    @SerialName("competitors")
     override val competitors: List<SingleCompetitor> = listOf(),
-    @SerializedName("id")
-    override  val id: String = "",
-    @SerializedName("major")
+    @SerialName("id")
+    override val id: String = "",
+    @SerialName("major")
     val major: Boolean = false,
-    @SerializedName("startDate")
+    @SerialName("startDate")
     override val startDate: String = "",
-    @SerializedName("status")
+    @SerialName("status")
     override val status: StatusCommX? = StatusCommX(),
-    @SerializedName("uid")
-    override val uid: String = "",
-): CompetitionData()
-
-
+    @SerialName("uid")
+    override val uid: String = ""
+) : CompetitionData()

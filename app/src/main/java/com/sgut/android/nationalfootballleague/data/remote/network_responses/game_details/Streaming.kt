@@ -1,10 +1,12 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Streaming (
 
-  @SerializedName("href" ) var href : String? = null
+  @SerialName("href" ) var href : String? = null
 
 )

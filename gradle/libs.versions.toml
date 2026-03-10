@@ -15,6 +15,8 @@ coroutines          = "1.9.0"
 retrofit            = "2.11.0"
 okhttp              = "4.12.0"
 gson                = "2.11.0"
+kotlinxSerialization = "1.7.3"
+retrofitKotlinxSerializer = "1.0.0"
 coil                = "3.0.4"
 media3              = "1.5.0"
 firebaseBom         = "33.6.0"
@@ -71,6 +73,8 @@ retrofit                        = { group = "com.squareup.retrofit2",    name = 
 retrofit-gson                   = { group = "com.squareup.retrofit2",    name = "converter-gson",                version.ref = "retrofit" }
 okhttp-logging                  = { group = "com.squareup.okhttp3",      name = "logging-interceptor",           version.ref = "okhttp" }
 gson                            = { group = "com.google.code.gson",      name = "gson",                          version.ref = "gson" }
+kotlinx-serialization-json      = { group = "org.jetbrains.kotlinx",     name = "kotlinx-serialization-json",    version.ref = "kotlinxSerialization" }
+retrofit-kotlinx-serialization  = { group = "com.jakewharton.retrofit",  name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializer" }
 
 # Image loading (Coil 3 — group changed from io.coil-kt to io.coil-kt.coil3)
 coil-compose                    = { group = "io.coil-kt.coil3",          name = "coil-compose",                  version.ref = "coil" }
@@ -108,6 +112,7 @@ truth                           = { group = "com.google.truth",          name = 
 android-application             = { id = "com.android.application",                    version.ref = "agp" }
 android-library                 = { id = "com.android.library",                        version.ref = "agp" }
 kotlin-android                  = { id = "org.jetbrains.kotlin.android",               version.ref = "kotlin" }
+kotlin-serialization            = { id = "org.jetbrains.kotlin.plugin.serialization",  version.ref = "kotlin" }
 kotlin-compose                  = { id = "org.jetbrains.kotlin.plugin.compose",        version.ref = "kotlin" }
 ksp                             = { id = "com.google.devtools.ksp",                    version.ref = "ksp" }
 hilt                            = { id = "com.google.dagger.hilt.android",             version.ref = "hilt" }

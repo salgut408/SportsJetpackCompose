@@ -1,61 +1,63 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.*
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailResponse(
 
-    @SerializedName("rosters")
+    @SerialName("rosters")
     val rosters: List<Rosters> = listOf(),
-    @SerializedName("situation")
+    @SerialName("situation")
     val situation: Situation? = Situation(),
-    @SerializedName("notes")
+    @SerialName("notes")
     val notes: List<String> = listOf(),
-    @SerializedName("boxscore")
+    @SerialName("boxscore")
     val boxscore: GameDetailsBoxscore? = GameDetailsBoxscore(),
-    @SerializedName("format")
+    @SerialName("format")
     val format: GameDetailsFormat? = GameDetailsFormat(),
-    @SerializedName("gameInfo")
+    @SerialName("gameInfo")
     val gameInfo: GameInfo = GameInfo(),
-    @SerializedName("lastFiveGames")
+    @SerialName("lastFiveGames")
     val lastFiveGames: List<LastFiveGames> = listOf(),
-    @SerializedName("leaders")
+    @SerialName("leaders")
     val leaders: List<GameDetailsLeaders> = listOf(),
-    @SerializedName("injuries")
+    @SerialName("injuries")
     val injuries: List<GameDetailsInjuries> = listOf(),
-    @SerializedName("broadcasts")
+    @SerialName("broadcasts")
     val broadcasts: List<GameDetailsBroadcasts> = listOf(),
-    @SerializedName("predictor")
+    @SerialName("predictor")
     val predictor: Predictor? = Predictor(),
-    @SerializedName("pickcenter")
+    @SerialName("pickcenter")
     val pickcenter: List<Pickcenter> = listOf(),
-    @SerializedName("againstTheSpread")
+    @SerialName("againstTheSpread")
     val againstTheSpread: List<AgainstTheSpread> = listOf(),
-    @SerializedName("odds")
+    @SerialName("odds")
     val odds: List<Odds> = listOf(),
-    @SerializedName("header")
+    @SerialName("header")
     val header: Header? = Header(),
-    @SerializedName("news")
+    @SerialName("news")
     val news: News? = News(),
-    @SerializedName("article")
+    @SerialName("article")
     val singleGameArticle: GameDetailsArticle? = GameDetailsArticle(),
-    @SerializedName("ticketsInfo")
+    @SerialName("ticketsInfo")
     val ticketsInfo: GameDetailsTicketsInfo? = GameDetailsTicketsInfo(),
-    @SerializedName("standings")
+    @SerialName("standings")
     val standings: GameDetailsStandings? = GameDetailsStandings(),
-    @SerializedName("drives")
+    @SerialName("drives")
     val drives: Drives? = Drives(),
-    @SerializedName("plays")
+    @SerialName("plays")
     val plays: List<NetworkPlays> = listOf(),
-    @SerializedName("winprobability")
+    @SerialName("winprobability")
     val winprobability: List<Winprobability> = listOf(),
-    @SerializedName("scoringPlays")
+    @SerialName("scoringPlays")
     val scoringPlays: List<ScoringPlays> = listOf(),
-    @SerializedName("videos")
+    @SerialName("videos")
     val videos: List<Videos> = listOf(),
-//    @SerializedName("seasonseries")
+//    @SerialName("seasonseries")
 //    val seasonseries: List<Seasonseries> = listOf(),
 
     )

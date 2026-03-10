@@ -1,13 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 
 //data class CalendarScoreboard (
 //
-//  @SerializedName("label"     ) var label     : String?            = null,
-//  @SerializedName("startDate" ) var startDate : String?            = null,
-//  @SerializedName("endDate"   ) var endDate   : String?            = null,
-//  @SerializedName("entries"   ) var entries   : List<EntriesScoreboard> = listOf()
+//  @SerialName("label"     ) var label     : String?            = null,
+//  @SerialName("startDate" ) var startDate : String?            = null,
+//  @SerialName("endDate"   ) var endDate   : String?            = null,
+//  @SerialName("entries"   ) var entries   : List<EntriesScoreboard> = listOf()
 //
 //)

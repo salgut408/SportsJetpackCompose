@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.soccer
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Odd(
-    @SerializedName("awayTeamOdds")
+    @SerialName("awayTeamOdds")
     val awayTeamOdds: AwayTeamOdds = AwayTeamOdds(),
-    @SerializedName("details")
+    @SerialName("details")
     val details: String = "",
-    @SerializedName("drawOdds")
+    @SerialName("drawOdds")
     val drawOdds: DrawOdds = DrawOdds(),
-    @SerializedName("homeTeamOdds")
+    @SerialName("homeTeamOdds")
     val homeTeamOdds: HomeTeamOdds = HomeTeamOdds(),
-    @SerializedName("overUnder")
+    @SerialName("overUnder")
     val overUnder: Double = 0.0,
-    @SerializedName("provider")
+    @SerialName("provider")
     val provider: Provider = Provider()
 )

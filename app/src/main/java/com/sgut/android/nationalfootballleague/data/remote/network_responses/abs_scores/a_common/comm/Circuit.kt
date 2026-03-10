@@ -1,13 +1,14 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class Circuit(
-    @SerializedName("address")
+    @SerialName("address")
     val address: AddressComm = AddressComm(),
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = ""
 )

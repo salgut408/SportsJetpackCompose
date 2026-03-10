@@ -1,37 +1,39 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Competitor(
-    @SerializedName("errors")
+    @SerialName("errors")
     val errors: Int = 0,
-    @SerializedName("hits")
+    @SerialName("hits")
     val hits: Int = 0,
-    @SerializedName("homeAway")
+    @SerialName("homeAway")
     val homeAway: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("leaders")
+    @SerialName("leaders")
     val leaders: List<Leader> = listOf(),
-    @SerializedName("linescores")
+    @SerialName("linescores")
     val linescores: List<Linescore> = listOf(),
-    @SerializedName("order")
+    @SerialName("order")
     val order: Int = 0,
-    @SerializedName("probables")
+    @SerialName("probables")
     val probables: List<Probable> = listOf(),
-    @SerializedName("records")
+    @SerialName("records")
     val records: List<Record> = listOf(),
-    @SerializedName("score")
+    @SerialName("score")
     val score: String = "",
-    @SerializedName("statistics")
+    @SerialName("statistics")
     val statistics: List<StatisticX> = listOf(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: TeamXXX = TeamXXX(),
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = "",
-    @SerializedName("winner")
+    @SerialName("winner")
     val winner: Boolean = false
 )

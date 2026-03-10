@@ -1,12 +1,14 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardVenueModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class VenueScoreboard (
 
-  @SerializedName("id" )
+  @SerialName("id" )
   val id : String? = null
 
 )

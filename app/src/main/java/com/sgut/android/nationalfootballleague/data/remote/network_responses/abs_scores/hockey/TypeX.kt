@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.hockey
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TypeX(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = ""
 )

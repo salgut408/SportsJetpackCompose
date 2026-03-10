@@ -1,16 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm
 
-
-import com.google.gson.annotations.SerializedName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.nba.TypeX
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StatusCommX(
-    @SerializedName("clock")
+    @SerialName("clock")
     val clock: Double = 0.0,
-    @SerializedName("displayClock")
+    @SerialName("displayClock")
     val displayClock: String = "",
-    @SerializedName("period")
+    @SerialName("period")
     val period: Int = 0,
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeX = TypeX()
 )

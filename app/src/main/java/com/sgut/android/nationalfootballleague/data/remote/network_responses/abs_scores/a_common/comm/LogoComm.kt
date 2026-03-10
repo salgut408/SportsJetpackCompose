@@ -1,15 +1,16 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class LogoComm(
-    @SerializedName("alt")
+    @SerialName("alt")
     val alt: String = "",
-    @SerializedName("height")
+    @SerialName("height")
     val height: Int = 0,
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("width")
+    @SerialName("width")
     val width: Int = 0
 )

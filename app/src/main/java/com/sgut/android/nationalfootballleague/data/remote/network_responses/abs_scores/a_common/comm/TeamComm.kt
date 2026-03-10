@@ -1,27 +1,28 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class TeamComm(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("alternateColor")
+    @SerialName("alternateColor")
     val alternateColor: String = "",
-    @SerializedName("color")
+    @SerialName("color")
     val color: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("location")
+    @SerialName("location")
     val location: String = "",
-    @SerializedName("logo")
+    @SerialName("logo")
     val logo: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("shortDisplayName")
+    @SerialName("shortDisplayName")
     val shortDisplayName: String = "",
-    @SerializedName("uid")
-    val uid: String = "",
+    @SerialName("uid")
+    val uid: String = ""
 )

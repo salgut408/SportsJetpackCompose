@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.golf
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Calendar(
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("label")
+    @SerialName("label")
     val label: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = ""
 )

@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.VenueTennisModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Venue(
-    @SerializedName("court")
+    @SerialName("court")
     val court: String = "",
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String = ""
 )
 

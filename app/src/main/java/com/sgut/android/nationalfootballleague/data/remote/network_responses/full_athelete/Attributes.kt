@@ -1,9 +1,11 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Attributes(
-    @SerializedName("icon")
+    @SerialName("icon")
     val icon: String = ""
 )

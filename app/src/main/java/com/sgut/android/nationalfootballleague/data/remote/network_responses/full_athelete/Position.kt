@@ -1,21 +1,23 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Position(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("leaf")
+    @SerialName("leaf")
     val leaf: Boolean = false,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("parent")
+    @SerialName("parent")
     val parent: Parent = Parent(),
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String = ""
 )

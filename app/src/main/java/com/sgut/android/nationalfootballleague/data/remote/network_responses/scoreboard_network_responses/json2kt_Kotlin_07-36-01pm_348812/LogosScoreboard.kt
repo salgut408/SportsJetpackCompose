@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.LogosModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class LogosScoreboard (
 
-  @SerializedName("href"        ) var href        : String?           = null,
-  @SerializedName("width"       ) var width       : Int?              = null,
-  @SerializedName("height"      ) var height      : Int?              = null,
-  @SerializedName("alt"         ) var alt         : String?           = null,
-  @SerializedName("rel"         ) var rel         : ArrayList<String> = arrayListOf(),
-  @SerializedName("lastUpdated" ) var lastUpdated : String?           = null
+  @SerialName("href"        ) var href        : String?           = null,
+  @SerialName("width"       ) var width       : Int?              = null,
+  @SerialName("height"      ) var height      : Int?              = null,
+  @SerialName("alt"         ) var alt         : String?           = null,
+  @SerialName("rel"         ) var rel         : ArrayList<String> = arrayListOf(),
+  @SerialName("lastUpdated" ) var lastUpdated : String?           = null
 
 )
 

@@ -1,30 +1,32 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ParentX(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("isConference")
+    @SerialName("isConference")
     val isConference: Boolean = false,
-    @SerializedName("midsizeName")
+    @SerialName("midsizeName")
     val midsizeName: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("parent")
+    @SerialName("parent")
     val parent: ParentX = ParentX(),
-    @SerializedName("season")
+    @SerialName("season")
     val season: SeasonX = SeasonX(),
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String = "",
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String = "",
-    @SerializedName("standings")
+    @SerialName("standings")
     val standings: StandingsXX = StandingsXX(),
 
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = ""
 )

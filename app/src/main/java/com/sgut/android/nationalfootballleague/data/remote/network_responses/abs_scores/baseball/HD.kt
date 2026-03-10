@@ -1,9 +1,11 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class HD(
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = ""
 )

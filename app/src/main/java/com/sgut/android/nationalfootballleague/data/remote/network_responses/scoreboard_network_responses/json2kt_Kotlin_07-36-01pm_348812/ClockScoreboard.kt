@@ -1,14 +1,16 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardClockModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class ClockScoreboard(
 
-  @SerializedName("value")
+  @SerialName("value")
   val value: Int? = null,
-  @SerializedName("displayValue")
+  @SerialName("displayValue")
   val displayValue: String? = null,
 
   )

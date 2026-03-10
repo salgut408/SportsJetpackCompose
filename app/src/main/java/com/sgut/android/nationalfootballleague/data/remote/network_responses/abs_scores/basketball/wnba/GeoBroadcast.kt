@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.wnba
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GeoBroadcast(
-    @SerializedName("lang")
+    @SerialName("lang")
     val lang: String = "",
-    @SerializedName("market")
+    @SerialName("market")
     val market: Market = Market(),
-    @SerializedName("media")
+    @SerialName("media")
     val media: Media = Media(),
-    @SerializedName("region")
+    @SerialName("region")
     val region: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: Type = Type()
 )

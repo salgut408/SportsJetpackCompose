@@ -1,18 +1,20 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.BettingOddsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsAwayTeamModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsHomeTeamModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class BettingOdds (
 
-  @SerializedName("homeTeam" )
+  @SerialName("homeTeam" )
   val homeTeam : GameDetailsHomeTeam? = GameDetailsHomeTeam(),
-  @SerializedName("awayTeam" )
+  @SerialName("awayTeam" )
   val awayTeam : GameDetailsAwayTeam? = GameDetailsAwayTeam(),
-  @SerializedName("teamOdds" )
+  @SerialName("teamOdds" )
   val teamOdds : TeamOdds? = TeamOdds()
 
 )

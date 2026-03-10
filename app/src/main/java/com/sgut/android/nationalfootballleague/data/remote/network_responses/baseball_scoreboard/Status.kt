@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Status(
-    @SerializedName("clock")
+    @SerialName("clock")
     val clock: Double? = 0.0,
-    @SerializedName("displayClock")
+    @SerialName("displayClock")
     val displayClock: String? = "",
-    @SerializedName("period")
+    @SerialName("period")
     val period: Int? = 0,
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeXX? = TypeXX()
 )

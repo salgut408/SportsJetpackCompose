@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.AddressModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Address3(
 
-  @SerializedName("city")
+  @SerialName("city")
   val city: String? = null,
-  @SerializedName("state")
+  @SerialName("state")
   val state: String? = null,
-  @SerializedName("zipCode")
+  @SerialName("zipCode")
   val zipCode: String? = null,
 
   )

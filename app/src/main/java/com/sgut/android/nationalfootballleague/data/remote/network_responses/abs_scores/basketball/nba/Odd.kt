@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.nba
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Odd(
-    @SerializedName("details")
+    @SerialName("details")
     val details: String = "",
-    @SerializedName("overUnder")
+    @SerialName("overUnder")
     val overUnder: Double = 0.0,
-    @SerializedName("provider")
+    @SerialName("provider")
     val provider: Provider = Provider()
 )

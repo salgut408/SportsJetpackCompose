@@ -1,31 +1,33 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.TennisEventModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Event(
-    @SerializedName("date")
+    @SerialName("date")
     val date: String = "",
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("groupings")
+    @SerialName("groupings")
     val groupings: List<Grouping> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("previousWinners")
+    @SerialName("previousWinners")
     val previousWinners: List<PreviousWinner> = listOf(),
-    @SerializedName("season")
+    @SerialName("season")
     val season: SeasonXX = SeasonXX(),
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String = "",
-    @SerializedName("status")
+    @SerialName("status")
     val status: StatusX = StatusX(),
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = "",
-    @SerializedName("venue")
+    @SerialName("venue")
     val venue: VenueX = VenueX()
 )
 

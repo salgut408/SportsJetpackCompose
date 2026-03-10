@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.standings
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.standings_models.SeasonModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Season(
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = "",
-    @SerializedName("types")
+    @SerialName("types")
     val types: List<Type> = listOf(),
-    @SerializedName("year")
+    @SerialName("year")
     val year: Int = 0
 )
 

@@ -1,21 +1,23 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.EventScoreboard
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Seasonseries(
-    @SerializedName("type")
+    @SerialName("type")
     val type: String? = null,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String? = null,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String? = null,
-    @SerializedName("summary")
+    @SerialName("summary")
     val summary: String? = null,
-    @SerializedName("completed")
+    @SerialName("completed")
     val completed: Boolean? = null,
-    @SerializedName("totalCompetitions")
+    @SerialName("totalCompetitions")
     val totalCompetitions: Int? = null,
-    @SerializedName("events")
+    @SerialName("events")
     val events: List<EventScoreboard> = listOf(),
 )

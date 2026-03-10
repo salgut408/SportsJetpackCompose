@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Tracking(
-    @SerializedName("coverageType")
+    @SerialName("coverageType")
     val coverageType: String = "",
-    @SerializedName("leagueName")
+    @SerialName("leagueName")
     val leagueName: String = "",
-    @SerializedName("sportName")
+    @SerialName("sportName")
     val sportName: String = "",
-    @SerializedName("trackingId")
+    @SerialName("trackingId")
     val trackingId: String = "",
-    @SerializedName("trackingName")
+    @SerialName("trackingName")
     val trackingName: String = ""
 )

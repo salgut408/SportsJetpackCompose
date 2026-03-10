@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.golf
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Linescore(
-    @SerializedName("linescores")
+    @SerialName("linescores")
     val linescores: List<LinescoreX> = listOf(),
-    @SerializedName("statistics")
+    @SerialName("statistics")
     val statistics: Statistics = Statistics(),
-    @SerializedName("value")
+    @SerialName("value")
     val value: Double = 0.0
 )

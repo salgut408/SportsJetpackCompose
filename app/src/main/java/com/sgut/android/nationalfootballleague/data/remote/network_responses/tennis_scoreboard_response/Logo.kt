@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.LogoTennisModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Logo(
-    @SerializedName("alt")
+    @SerialName("alt")
     val alt: String = "",
-    @SerializedName("height")
+    @SerialName("height")
     val height: Int = 0,
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("lastUpdated")
+    @SerialName("lastUpdated")
     val lastUpdated: String = "",
-    @SerializedName("width")
+    @SerialName("width")
     val width: Int = 0
 )
 

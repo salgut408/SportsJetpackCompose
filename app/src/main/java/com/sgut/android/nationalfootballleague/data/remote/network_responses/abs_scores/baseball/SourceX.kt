@@ -1,20 +1,22 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SourceX(
-    @SerializedName("flash")
+    @SerialName("flash")
     val flash: Flash = Flash(),
-    @SerializedName("full")
+    @SerialName("full")
     val full: Full = Full(),
-    @SerializedName("HD")
+    @SerialName("HD")
     val hD: HD = HD(),
 
-    @SerializedName("hds")
+    @SerialName("hds")
     val hds: Hds = Hds(),
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("mezzanine")
+    @SerialName("mezzanine")
     val mezzanine: Mezzanine = Mezzanine()
 )

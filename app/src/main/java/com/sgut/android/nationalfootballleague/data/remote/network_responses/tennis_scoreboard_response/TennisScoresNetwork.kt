@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.TennisScoreboardModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TennisScoresNetwork(
-    @SerializedName("day")
+    @SerialName("day")
     val day: Day = Day(),
-    @SerializedName("events")
+    @SerialName("events")
     val events: List<Event> = listOf(),
-    @SerializedName("leagues")
+    @SerialName("leagues")
     val leagues: List<League> = listOf(),
-    @SerializedName("season")
+    @SerialName("season")
     val season: SeasonXX = SeasonXX()
 )
 

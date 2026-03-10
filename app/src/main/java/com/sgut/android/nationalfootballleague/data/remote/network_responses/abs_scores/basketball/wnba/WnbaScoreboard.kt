@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.wnba
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class WnbaScoreboard(
-    @SerializedName("events")
+    @SerialName("events")
     val events: List<Event> = listOf(),
-    @SerializedName("leagues")
+    @SerialName("leagues")
     val leagues: List<League> = listOf(),
 )

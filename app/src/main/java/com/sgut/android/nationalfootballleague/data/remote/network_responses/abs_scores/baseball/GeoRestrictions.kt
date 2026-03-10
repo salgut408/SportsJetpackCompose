@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GeoRestrictions(
-    @SerializedName("countries")
+    @SerialName("countries")
     val countries: List<String> = listOf(),
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = ""
 )

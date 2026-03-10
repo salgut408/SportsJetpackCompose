@@ -1,95 +1,100 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsAthleteDetailsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.AthletesRosterModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Athletes(
-  @SerializedName("id")
+  @SerialName("id")
   val id: String = "",
-  @SerializedName("uid")
+  @SerialName("uid")
   val uid: String = "",
-  @SerializedName("guid")
+  @SerialName("guid")
   val guid: String = "",
-  @SerializedName("type")
+  @SerialName("type")
   val type: String = "",
-  @SerializedName("alternateIds")
+  @SerialName("alternateIds")
   val alternateIds: AlternateIds? = AlternateIds(),
-  @SerializedName("firstName")
+  @SerialName("firstName")
   val firstName: String = "",
-  @SerializedName("lastName")
+  @SerialName("lastName")
   val lastName: String = "",
-  @SerializedName("fullName")
+  @SerialName("fullName")
   val fullName: String = "",
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String = "",
-  @SerializedName("shortName")
+  @SerialName("shortName")
   val shortName: String = "",
-  @SerializedName("weight")
-  val weight: Int = 0,
-  @SerializedName("displayWeight")
+  @SerialName("weight")
+  val weight: Double = 0.0,
+  @SerialName("displayWeight")
   val displayWeight: String = "",
-  @SerializedName("height")
-  val height: Int = 0,
-  @SerializedName("displayHeight")
+  @SerialName("height")
+  val height: Double = 0.0,
+  @SerialName("displayHeight")
   val displayHeight: String = "",
-  @SerializedName("age")
+  @SerialName("age")
   val age: Int? = null,
-  @SerializedName("dateOfBirth")
+  @SerialName("dateOfBirth")
   val dateOfBirth: String = "",
-  @SerializedName("debutYear")
+  @SerialName("debutYear")
   val debutYear: Int? = null,
-  @SerializedName("birthPlace")
+  @SerialName("birthPlace")
   val birthPlace: BirthPlace? = BirthPlace(),
-  @SerializedName("slug")
+  @SerialName("slug")
   val slug: String = "",
-  @SerializedName("headshot")
+  @SerialName("headshot")
   val headshot: Headshot = Headshot(),
-  @SerializedName("jersey")
+  @SerialName("jersey")
   val jersey: String = "",
-  @SerializedName("position")
+  @SerialName("position")
   val position: Position = Position(),
-  @SerializedName("injuries")
+  @SerialName("injuries")
   val injuries: List<Injury>? = listOf(),
-  @SerializedName("linked")
+  @SerialName("linked")
   val linked: Boolean? = null,
-  @SerializedName("experience")
+  @SerialName("experience")
   val experience: Experience? = Experience(),
-  @SerializedName("active")
+  @SerialName("active")
   val active: Boolean? = null,
-  @SerializedName("draft")
+  @SerialName("draft")
   val draft: Draft = Draft(),
-  @SerializedName("flag")
+  @SerialName("flag")
   val flag: Flag? = Flag(),
 )
 
+@Serializable
 data class Flag(
-  @SerializedName("href")
+  @SerialName("href")
   val href: String? = "",
   )
 
+@Serializable
 data class Injury(
-    @SerializedName("shortComment")
+    @SerialName("shortComment")
     val shortComment: String? = null,
-    @SerializedName("longComment")
+    @SerialName("longComment")
     val longComment: String? = null,
-    @SerializedName("status")
+    @SerialName("status")
     val injuryStatus: String? = null,
-    @SerializedName("details")
+    @SerialName("details")
     val detail: Details? = null,
     )
 
+@Serializable
 data class Details(
-    @SerializedName("type")
+    @SerialName("type")
     val type: String? = null,
-    @SerializedName("location")
+    @SerialName("location")
     val location: String? = null,
-    @SerializedName("side")
+    @SerialName("side")
     val side: String? = null,
-    @SerializedName("detail")
+    @SerialName("detail")
     val detail: String? = null,
-    @SerializedName("returnDate")
+    @SerialName("returnDate")
     val returnDate: String? = null,
 )
 

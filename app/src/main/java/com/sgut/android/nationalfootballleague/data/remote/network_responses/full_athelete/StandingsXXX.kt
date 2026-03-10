@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StandingsXXX(
-    @SerializedName("entries")
+    @SerialName("entries")
     val entries: List<Entry> = listOf(),
-    @SerializedName("header")
+    @SerialName("header")
     val header: String = "",
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = ""
 )

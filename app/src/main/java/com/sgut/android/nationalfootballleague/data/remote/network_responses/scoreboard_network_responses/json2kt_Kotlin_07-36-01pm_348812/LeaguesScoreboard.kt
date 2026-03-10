@@ -1,24 +1,26 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.DefaultLeagueModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class LeaguesScoreboard(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = null,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String? = null,
-    @SerializedName("midsizeName")
+    @SerialName("midsizeName")
     val midsizeName: String? = null,
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String? = null,
-    @SerializedName("logos")
+    @SerialName("logos")
     val logos: List<LogosScoreboard> = listOf(),
 )
 

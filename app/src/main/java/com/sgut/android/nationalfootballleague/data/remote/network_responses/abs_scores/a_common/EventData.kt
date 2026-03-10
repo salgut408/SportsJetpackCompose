@@ -1,8 +1,10 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common
 
-import com.google.gson.annotations.SerializedName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm.Circuit
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm.Grouping
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 abstract class EventData {
     abstract val competitions: List<CompetitionData>?
@@ -12,100 +14,105 @@ abstract class EventData {
     abstract val uid: String
 }
 
+@Serializable
 data class DefaultEvent(
-    @SerializedName("competitions")
-   override val competitions: List<DefaultCompetition>? = listOf(),
-    @SerializedName("id")
-    override val id: String = "",
-    @SerializedName("name")
-    override val name: String = "",
-    @SerializedName("shortName")
-    override val shortName: String = "",
-    @SerializedName("uid")
-    override val uid: String = ""
-): EventData()
-
-data class BaseballEvent(
-    @SerializedName("competitions")
-    override val competitions: List<BaseballCompetition>? = listOf(),
-    @SerializedName("id")
-    override val id: String = "",
-    @SerializedName("name")
-    override val name: String = "",
-    @SerializedName("shortName")
-    override val shortName: String = "",
-    @SerializedName("uid")
-    override val uid: String = ""
-): EventData()
-
-data class GolfEvent(
-    @SerializedName("competitions")
-    override val competitions: List<GolfCompetition>? = listOf(),
-    @SerializedName("id")
-    override val id: String = "",
-    @SerializedName("name")
-    override val name: String = "",
-    @SerializedName("shortName")
-    override val shortName: String = "",
-    @SerializedName("uid")
-    override val uid: String = ""
-): EventData()
-
-data class MmaEvent(
-    @SerializedName("competitions")
-    override val competitions: List<MmaCompetition>? = listOf(),
-    @SerializedName("id")
-    override val id: String = "",
-    @SerializedName("name")
-    override val name: String = "",
-    @SerializedName("shortName")
-    override val shortName: String = "",
-    @SerializedName("uid")
-    override val uid: String = ""
-): EventData()
-
-data class SoccerEvent(
-    @SerializedName("competitions")
-    override val competitions: List<SoccerCompetition>? = listOf(),
-    @SerializedName("id")
-    override val id: String = "",
-    @SerializedName("name")
-    override val name: String = "",
-    @SerializedName("shortName")
-    override val shortName: String = "",
-    @SerializedName("uid")
-    override val uid: String = ""
-): EventData()
-
-data class RacingEvent(
-    @SerializedName("circuit")
-    val circuit: Circuit = Circuit(),
-    @SerializedName("competitions")
+    @SerialName("competitions")
     override val competitions: List<DefaultCompetition>? = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     override val name: String = "",
-    @SerializedName("shortName")
+    @SerialName("shortName")
     override val shortName: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     override val uid: String = ""
-): EventData()
+) : EventData()
 
+@Serializable
+data class BaseballEvent(
+    @SerialName("competitions")
+    override val competitions: List<BaseballCompetition>? = listOf(),
+    @SerialName("id")
+    override val id: String = "",
+    @SerialName("name")
+    override val name: String = "",
+    @SerialName("shortName")
+    override val shortName: String = "",
+    @SerialName("uid")
+    override val uid: String = ""
+) : EventData()
+
+@Serializable
+data class GolfEvent(
+    @SerialName("competitions")
+    override val competitions: List<GolfCompetition>? = listOf(),
+    @SerialName("id")
+    override val id: String = "",
+    @SerialName("name")
+    override val name: String = "",
+    @SerialName("shortName")
+    override val shortName: String = "",
+    @SerialName("uid")
+    override val uid: String = ""
+) : EventData()
+
+@Serializable
+data class MmaEvent(
+    @SerialName("competitions")
+    override val competitions: List<MmaCompetition>? = listOf(),
+    @SerialName("id")
+    override val id: String = "",
+    @SerialName("name")
+    override val name: String = "",
+    @SerialName("shortName")
+    override val shortName: String = "",
+    @SerialName("uid")
+    override val uid: String = ""
+) : EventData()
+
+@Serializable
+data class SoccerEvent(
+    @SerialName("competitions")
+    override val competitions: List<SoccerCompetition>? = listOf(),
+    @SerialName("id")
+    override val id: String = "",
+    @SerialName("name")
+    override val name: String = "",
+    @SerialName("shortName")
+    override val shortName: String = "",
+    @SerialName("uid")
+    override val uid: String = ""
+) : EventData()
+
+@Serializable
+data class RacingEvent(
+    @SerialName("circuit")
+    val circuit: Circuit = Circuit(),
+    @SerialName("competitions")
+    override val competitions: List<DefaultCompetition>? = listOf(),
+    @SerialName("id")
+    override val id: String = "",
+    @SerialName("name")
+    override val name: String = "",
+    @SerialName("shortName")
+    override val shortName: String = "",
+    @SerialName("uid")
+    override val uid: String = ""
+) : EventData()
+
+@Serializable
 data class TennisEvent(
-    @SerializedName("groupings")
+    @SerialName("groupings")
     val groupings: List<Grouping> = listOf(),
-    @SerializedName("competitions")
+    // Tennis uses groupings, not competitions — field kept for interface compatibility
+    @Transient
     override val competitions: List<CompetitionData>? = null,
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     override val name: String = "",
-    @SerializedName("shortName")
+    @SerialName("shortName")
     override val shortName: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     override val uid: String = ""
-): EventData()
-
-
-
+) : EventData()

@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Api(
-    @SerializedName("artwork")
+    @SerialName("artwork")
     val artwork: Artwork = Artwork(),
-    @SerializedName("self")
+    @SerialName("self")
     val self: Self = Self()
 )

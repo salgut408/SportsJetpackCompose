@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 //TODO MAKE MODEL
+@Serializable
 data class BaseballScoreBoardNetwork(
-    @SerializedName("day")
+    @SerialName("day")
     val day: Day? = Day(),
-    @SerializedName("events")
+    @SerialName("events")
     val events: List<Event>? = listOf(),
-    @SerializedName("leagues")
+    @SerialName("leagues")
     val leagues: List<League>? = listOf(),
-    @SerializedName("season")
+    @SerialName("season")
     val season: SeasonXX? = SeasonXX()
 )

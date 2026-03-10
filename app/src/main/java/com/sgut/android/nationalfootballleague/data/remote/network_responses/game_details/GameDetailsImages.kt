@@ -1,23 +1,25 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsImages(
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("width")
+    @SerialName("width")
     val width: Int? = null,
-    @SerializedName("alt")
+    @SerialName("alt")
     val alt: String? = null,
-    @SerializedName("caption")
+    @SerialName("caption")
     val caption: String? = null,
-    @SerializedName("url")
+    @SerialName("url")
     val url: String? = null,
-    @SerializedName("height")
+    @SerialName("height")
     val height: Int? = null,
-    @SerializedName("href")
+    @SerialName("href")
     val href: String? = null,
 
 

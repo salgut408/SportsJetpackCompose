@@ -1,39 +1,41 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.*
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.VideoModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Videos(
 
-    @SerializedName("source")
+    @SerialName("source")
     val source: String? = null,
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int? = null,
-    @SerializedName("headline")
+    @SerialName("headline")
     val headline: String? = null,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String? = null,
-    @SerializedName("ad")
+    @SerialName("ad")
     val ad: Ad? = Ad(),
-    @SerializedName("tracking")
+    @SerialName("tracking")
     val tracking: Tracking? = Tracking(),
-    @SerializedName("cerebroId")
+    @SerialName("cerebroId")
     val cerebroId: String? = null,
-    @SerializedName("lastModified")
+    @SerialName("lastModified")
     val lastModified: String? = null,
-    @SerializedName("originalPublishDate")
+    @SerialName("originalPublishDate")
     val originalPublishDate: String? = null,
-    @SerializedName("timeRestrictions")
+    @SerialName("timeRestrictions")
     val timeRestrictions: TimeRestrictions? = TimeRestrictions(),
-    @SerializedName("deviceRestrictions")
+    @SerialName("deviceRestrictions")
     val deviceRestrictions: DeviceRestrictions? = DeviceRestrictions(),
-    @SerializedName("duration")
+    @SerialName("duration")
     val duration: Int? = null,
-    @SerializedName("thumbnail")
+    @SerialName("thumbnail")
     val thumbnail: String? = null,
-    @SerializedName("links")
+    @SerialName("links")
     val links: GameDetailsLinks? = GameDetailsLinks(),
 
     )

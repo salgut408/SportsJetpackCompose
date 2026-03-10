@@ -1,18 +1,20 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.WinprobabilityModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Winprobability(
 
-    @SerializedName("tiePercentage")
+    @SerialName("tiePercentage")
     val tiePercentage: Double? = null,
-    @SerializedName("homeWinPercentage")
+    @SerialName("homeWinPercentage")
     val homeWinPercentage: Double? = null,
-    @SerializedName("secondsLeft")
+    @SerialName("secondsLeft")
     val secondsLeft: Double? = null,
-    @SerializedName("playId")
+    @SerialName("playId")
     val playId: String? = null,
 
     )

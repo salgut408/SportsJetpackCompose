@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TypesX(
-    @SerializedName("count")
+    @SerialName("count")
     val count: Int = 0,
-    @SerializedName("items")
+    @SerialName("items")
     val items: List<ItemXX> = listOf(),
-    @SerializedName("pageCount")
+    @SerialName("pageCount")
     val pageCount: Int = 0,
-    @SerializedName("pageIndex")
+    @SerialName("pageIndex")
     val pageIndex: Int = 0,
-    @SerializedName("pageSize")
+    @SerialName("pageSize")
     val pageSize: Int = 0
 )

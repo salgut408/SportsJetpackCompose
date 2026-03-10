@@ -1,35 +1,37 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.SituationScoreboard
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitionModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardFormatModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class CompetitionScoreboard(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = null,
-    @SerializedName("date")
+    @SerialName("date")
     val date: String? = null,
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String? = null,
-    @SerializedName("attendance")
+    @SerialName("attendance")
     val attendance: Int? = null,
-    @SerializedName("status")
+    @SerialName("status")
     val status: StatusScoreboard? = StatusScoreboard(),
-    @SerializedName("venue")
+    @SerialName("venue")
     val venue: VenueScoreboard = VenueScoreboard(),
-    @SerializedName("format")
+    @SerialName("format")
     val format: FormatScoreboard? = FormatScoreboard(),
-    @SerializedName("competitors")
+    @SerialName("competitors")
     val competitors: List<CompetitorScoreboard> = listOf(),
-    @SerializedName("details")
+    @SerialName("details")
     val details: List<DetailsScoreboard> = listOf(),
-    @SerializedName("headlines")
+    @SerialName("headlines")
     val headlines: List<HeadlinesScoreboard> = listOf(),
-    @SerializedName("situation")
+    @SerialName("situation")
     val situation: SituationScoreboard? = SituationScoreboard(),
 
 

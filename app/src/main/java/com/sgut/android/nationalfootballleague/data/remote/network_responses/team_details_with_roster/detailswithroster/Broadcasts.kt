@@ -1,14 +1,16 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Broadcasts3(
 
-  @SerializedName("type") var type: Type3? = Type3(),
-  @SerializedName("market") var market: Market? = Market(),
-  @SerializedName("media") var media: Media? = Media(),
-  @SerializedName("lang") var lang: String? = null,
-  @SerializedName("region") var region: String? = null,
+  @SerialName("type") var type: Type3? = Type3(),
+  @SerialName("market") var market: Market? = Market(),
+  @SerialName("media") var media: Media? = Media(),
+  @SerialName("lang") var lang: String? = null,
+  @SerialName("region") var region: String? = null,
 
   )

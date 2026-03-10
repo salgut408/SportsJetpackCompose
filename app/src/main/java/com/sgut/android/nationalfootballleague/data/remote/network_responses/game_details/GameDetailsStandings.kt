@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsStandings(
 
-  @SerializedName("fullViewLink")
+  @SerialName("fullViewLink")
   val fullViewLink: FullViewLink? = FullViewLink(),
-  @SerializedName("groups")
+  @SerialName("groups")
   val groups: List<GameDetailsGroups> = listOf(),
 
   )

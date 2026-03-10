@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.college
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Note(
-    @SerializedName("headline")
+    @SerialName("headline")
     val headline: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = ""
 )

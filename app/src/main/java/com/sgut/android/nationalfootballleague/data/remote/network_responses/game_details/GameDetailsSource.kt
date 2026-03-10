@@ -1,14 +1,16 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsSource (
 
-  @SerializedName("href" ) var href : String? = null,
-  @SerializedName("headline" ) var headline : String? = null,
-  @SerializedName("thumbnail" ) var thumbnail : String? = null,
-  @SerializedName("links" ) var links : GameDetailsLinks? = null
+  @SerialName("href" ) var href : String? = null,
+  @SerialName("headline" ) var headline : String? = null,
+  @SerialName("thumbnail" ) var thumbnail : String? = null,
+  @SerialName("links" ) var links : GameDetailsLinks? = null
 
 
 

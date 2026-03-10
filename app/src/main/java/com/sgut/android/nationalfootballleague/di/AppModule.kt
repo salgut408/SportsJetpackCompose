@@ -10,14 +10,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.gson.*
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sgut.android.nationalfootballleague.data.db.SportsDataBase
 import com.sgut.android.nationalfootballleague.data.db.article.ArticleDao
 import com.sgut.android.nationalfootballleague.data.db.team.TeamsDao
 import com.sgut.android.nationalfootballleague.data.help.GenNetworkFlow
 import com.sgut.android.nationalfootballleague.data.location.DefaultLocationTrackerImpl
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
-import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.*
 import com.sgut.android.nationalfootballleague.data.repository.*
 import com.sgut.android.nationalfootballleague.data.service.AccountService
 import com.sgut.android.nationalfootballleague.data.service.LogService
@@ -28,29 +27,7 @@ import com.sgut.android.nationalfootballleague.data.service.impl.StorageServiceI
 import com.sgut.android.nationalfootballleague.domain.location.LocationTracker
 import com.sgut.android.nationalfootballleague.domain.repositories.*
 import com.sgut.android.nationalfootballleague.domain.use_cases.*
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.ATP
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.BASE_URL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.CHAMPIONS
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.CLUB_FRIENDLIES
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.EPL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.FIFA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.FRA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.LA_LIGA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.MLB
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.MLS
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NBA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_BASEBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_BASKETBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_FOOTBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_HOCKEY
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_LACROSSE
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NFL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NHL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.UEFA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.UFC
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.WBC
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.WNBA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.XFL
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -60,11 +37,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
-import java.lang.reflect.Type
 import javax.inject.Singleton
 
 @Module
@@ -204,17 +181,19 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideEspnApi(okHttpClient: OkHttpClient): SportsApi =
-        Retrofit.Builder()
+    fun provideEspnApi(okHttpClient: OkHttpClient): SportsApi {
+        val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+            isLenient = true
+        }
+        return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(
-                GsonBuilder()
-                    .registerTypeAdapter(ScoreboardData::class.java, InterfaceAdapter())
-                    .create()
-            ))
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
             .create(SportsApi::class.java)
+    }
 
 
     //Firebase things
@@ -255,78 +234,6 @@ object AppModule {
 }
 
 
-class InterfaceAdapter : JsonDeserializer<ScoreboardData> {
-    override fun deserialize(
-        json: JsonElement,
-        typeOfT: Type,
-        context: JsonDeserializationContext,
-    ): ScoreboardData {
-        val jsonObject = json.asJsonObject
-        val leagues = jsonObject.get("leagues").asJsonArray.first()
-        val slug = leagues.asJsonObject.get("slug").asString
-        Timber.d("SAL_GUT INTERFACE ADAPTER SLUG - $slug")
-        return when (slug) { // TODO rest of leagues or figure out sport
-            NFL ->             context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            NBA ->             context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            NHL ->             context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            MLB ->             context.deserialize(jsonObject, BaseballScoreboard::class.java)
-            NCAA_BASKETBALL -> context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            NCAA_FOOTBALL ->   context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            WNBA ->            context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            ATP ->             context.deserialize(jsonObject, TennisScoreboard::class.java)
-            UFC ->             context.deserialize(jsonObject, MmaScoreboard::class.java)
-            MLS ->             context.deserialize(jsonObject, SoccerScoreboard::class.java)
-            FIFA ->            context.deserialize(jsonObject, SoccerScoreboard::class.java)
-            XFL ->             context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            WBC ->             context.deserialize(jsonObject, BaseballScoreboard::class.java)
-            CHAMPIONS ->       context.deserialize(jsonObject, SoccerScoreboard::class.java)
-            NCAA_BASEBALL ->   context.deserialize(jsonObject, BaseballScoreboard::class.java)
-            NCAA_HOCKEY ->     context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            NCAA_LACROSSE ->   context.deserialize(jsonObject, DefaultScoreboardData::class.java)
-            LA_LIGA ->         context.deserialize(jsonObject, SoccerScoreboard::class.java)
-            EPL ->             context.deserialize(jsonObject, SoccerScoreboard::class.java)
-            FRA ->             context.deserialize(jsonObject, SoccerScoreboard::class.java)
-            UEFA ->            context.deserialize(jsonObject, SoccerScoreboard::class.java)
-            CLUB_FRIENDLIES -> context.deserialize(jsonObject, SoccerScoreboard::class.java)
-
-
-            else -> throw IllegalArgumentException("SAL_GUT APP MOD INTERFACE ADAPTER Unknown type: $slug")
-        }
-    }
-}
-
-
-//class InterfaceAdapter<T> : JsonDeserializer<T> {
-//    override fun deserialize(
-//        elem: JsonElement,
-//        interfaceType: Type,
-//        context: JsonDeserializationContext
-//    ): T {
-//        Log.e("JSON ELEMENT ", elem.toString())
-//        val wrapper = elem as JsonObject
-//        Log.e("JSON SHIT ", elem.toString())
-//
-//        val typeName = get(wrapper, "leagues") // type
-//        val data = get(wrapper, "leagues") // data
-//        val actualType = typeForName(typeName)
-//        return context.deserialize(data, actualType)
-//    }
-//
-//    private fun typeForName(typeElem: JsonElement): Type {
-//        return try {
-//            Class.forName(typeElem.toString())
-//        } catch (e: ClassNotFoundException) {
-//            throw JsonParseException(e)
-//        }
-//    }
-//
-//    private fun get(wrapper: JsonObject, memberName: String): JsonElement {
-//        val elem = wrapper.get(memberName)
-//        if (elem == null) {
-//            throw JsonParseException("no '$memberName' member found in what was expected to be an interface wrapper")
-//        }
-//        return elem
-//    }
 //}
 
 

@@ -1,20 +1,22 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.racing
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm.Circuit
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Event(
-    @SerializedName("circuit")
+    @SerialName("circuit")
     val circuit: Circuit = Circuit(),
-    @SerializedName("competitions")
+    @SerialName("competitions")
     val competitions: List<Competition> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = ""
 )

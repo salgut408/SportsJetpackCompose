@@ -1,18 +1,20 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.tennis
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm.Grouping
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Event(
-    @SerializedName("groupings")
+    @SerialName("groupings")
     val groupings: List<Grouping> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = "",
 )

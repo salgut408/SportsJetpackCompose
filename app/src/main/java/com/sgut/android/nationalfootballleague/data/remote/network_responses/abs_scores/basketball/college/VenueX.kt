@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.college
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class VenueX(
-    @SerializedName("address")
+    @SerialName("address")
     val address: Address = Address(),
-    @SerializedName("capacity")
+    @SerialName("capacity")
     val capacity: Int = 0,
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("indoor")
+    @SerialName("indoor")
     val indoor: Boolean = false
 )

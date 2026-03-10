@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.BasicScoreboardModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class NetworkScoreboardResponse(
-    @SerializedName("leagues")
+    @SerialName("leagues")
     val leagues: List<LeaguesScoreboard> = listOf(),
-    @SerializedName("season")
+    @SerialName("season")
     val season: SeasonScoreboard? = SeasonScoreboard(),
-    @SerializedName("day")
+    @SerialName("day")
     val day: DayScoreboard? = DayScoreboard(),
-    @SerializedName("events")
+    @SerialName("events")
     val events: List<EventScoreboard> = listOf(),
     )
 

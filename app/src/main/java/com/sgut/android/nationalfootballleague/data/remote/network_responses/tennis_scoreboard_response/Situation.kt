@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.SituationTennisModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Situation(
-    @SerializedName("onFirst")
+    @SerialName("onFirst")
     val onFirst: Boolean = false,
-    @SerializedName("onSecond")
+    @SerialName("onSecond")
     val onSecond: Boolean = false,
-    @SerializedName("onThird")
+    @SerialName("onThird")
     val onThird: Boolean = false
 )
 

@@ -1,25 +1,27 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.standings
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.standings_models.StandingsModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StandingsNetworkResponse(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("children")
+    @SerialName("children")
     val children: List<Children> = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("links")
+    @SerialName("links")
     val links: List<LinkXX> = listOf(),
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("seasons")
+    @SerialName("seasons")
     val seasons: List<Season> = listOf(),
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = ""
 )
 

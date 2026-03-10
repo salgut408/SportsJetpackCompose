@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.soccer
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StatusX(
-    @SerializedName("clock")
+    @SerialName("clock")
     val clock: Double = 0.0,
-    @SerializedName("displayClock")
+    @SerialName("displayClock")
     val displayClock: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: Type = Type()
 )

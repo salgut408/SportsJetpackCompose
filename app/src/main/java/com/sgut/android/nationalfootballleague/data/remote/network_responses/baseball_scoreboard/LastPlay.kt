@@ -1,28 +1,30 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LastPlay(
 
-    @SerializedName("alternativeType")
+    @SerialName("alternativeType")
     val alternativeType: AlternativeType? = AlternativeType(),
-    @SerializedName("atBatId")
+    @SerialName("atBatId")
     val atBatId: String? = "",
-    @SerializedName("athletesInvolved")
+    @SerialName("athletesInvolved")
     val athletesInvolved: List<AthletesInvolved>? = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = "",
-    @SerializedName("probability")
+    @SerialName("probability")
     val probability: Probability? = Probability(),
-    @SerializedName("scoreValue")
+    @SerialName("scoreValue")
     val scoreValue: Int? = 0,
-    @SerializedName("summaryType")
+    @SerialName("summaryType")
     val summaryType: String? = "",
-    @SerializedName("team")
+    @SerialName("team")
     val team: TeamX? = TeamX(),
-    @SerializedName("text")
+    @SerialName("text")
     val text: String? = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeX? = TypeX()
 )

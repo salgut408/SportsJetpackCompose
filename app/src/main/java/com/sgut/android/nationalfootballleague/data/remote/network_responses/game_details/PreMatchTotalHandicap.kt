@@ -1,12 +1,14 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class PreMatchTotalHandicap (
 
-  @SerializedName("oddId"      ) var oddId      : String? = null,
-  @SerializedName("value"      ) var value      : String? = null,
-  @SerializedName("betSlipUrl" ) var betSlipUrl : String? = null
+  @SerialName("oddId"      ) var oddId      : String? = null,
+  @SerialName("value"      ) var value      : String? = null,
+  @SerialName("betSlipUrl" ) var betSlipUrl : String? = null
 
 )

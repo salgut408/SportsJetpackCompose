@@ -1,58 +1,61 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.BatsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsAthleteDetailsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsAthleteDetailsModel4
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.ThrowModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsAthlete(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = null,
-    @SerializedName("guid")
+    @SerialName("guid")
     val guid: String? = null,
-    @SerializedName("lastName")
+    @SerialName("lastName")
     val lastName: String? = null,
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String? = null,
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String? = null,
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String? = null,
-    @SerializedName("headshot")
+    @SerialName("headshot")
     val headshot: GameDetailsHeadshot? = GameDetailsHeadshot(),
-    @SerializedName("jersey")
+    @SerialName("jersey")
     val jersey: String? = null,
-    @SerializedName("position")
+    @SerialName("position")
     val position: GameDetailsPosition? = GameDetailsPosition(),
 
     )
 
+@Serializable
 data class GameDetailsAthlete4(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = null,
-    @SerializedName("guid")
+    @SerialName("guid")
     val guid: String? = null,
-    @SerializedName("lastName")
+    @SerialName("lastName")
     val lastName: String? = null,
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String? = null,
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String? = null,
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String? = null,
-    @SerializedName("headshot")
+    @SerialName("headshot")
     val headshot: String? = "",
-    @SerializedName("jersey")
+    @SerialName("jersey")
     val jersey: String? = null,
-    @SerializedName("position")
+    @SerialName("position")
     val position: GameDetailsPosition? = GameDetailsPosition(),
 )
 
@@ -89,12 +92,13 @@ fun GameDetailsAthlete.asDomain(): GameDetailsAthleteDetailsModel {
     )
 }
 
+@Serializable
 data class Bats(
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("displayValue")
+    @SerialName("displayValue")
     val displayValue: String = "",
 )
 
@@ -108,12 +112,13 @@ return BatsModel(
 
 
 
+@Serializable
 data class Throw(
-  @SerializedName("type")
+  @SerialName("type")
   val type: String = "",
-  @SerializedName("abbreviation")
+  @SerialName("abbreviation")
   val abbreviation: String = "",
-  @SerializedName("displayValue")
+  @SerialName("displayValue")
   val displayValue: String = "",
   )
 

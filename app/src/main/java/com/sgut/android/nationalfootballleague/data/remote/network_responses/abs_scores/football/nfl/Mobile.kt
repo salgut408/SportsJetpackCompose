@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.football.nfl
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Mobile(
-    @SerializedName("alert")
+    @SerialName("alert")
     val alert: Alert = Alert(),
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("progressiveDownload")
+    @SerialName("progressiveDownload")
     val progressiveDownload: ProgressiveDownload = ProgressiveDownload(),
-    @SerializedName("source")
+    @SerialName("source")
     val source: Source = Source(),
-    @SerializedName("streaming")
+    @SerialName("streaming")
     val streaming: Streaming = Streaming()
 )

@@ -1,24 +1,26 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailsFranchiseModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Franchise3(
 
-    @SerializedName("\$ref") var ref: String? = null,
-    @SerializedName("id") val id: String? = null,
-    @SerializedName("uid") val uid: String? = null,
-    @SerializedName("slug") val slug: String? = null,
-    @SerializedName("location") val location: String? = null,
-    @SerializedName("name") val name: String? = null,
-    @SerializedName("nickname") val nickname: String? = null,
-    @SerializedName("abbreviation") val abbreviation: String? = null,
-    @SerializedName("displayName") val displayName: String? = null,
-    @SerializedName("shortDisplayName") val shortDisplayName: String? = null,
-    @SerializedName("color") val color: String? = null,
-    @SerializedName("isActive") val isActive: Boolean? = null,
-    @SerializedName("venue") val venue: Venue3? = Venue3(),
+    @SerialName("\$ref") var ref: String? = null,
+    @SerialName("id") val id: String? = null,
+    @SerialName("uid") val uid: String? = null,
+    @SerialName("slug") val slug: String? = null,
+    @SerialName("location") val location: String? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("nickname") val nickname: String? = null,
+    @SerialName("abbreviation") val abbreviation: String? = null,
+    @SerialName("displayName") val displayName: String? = null,
+    @SerialName("shortDisplayName") val shortDisplayName: String? = null,
+    @SerialName("color") val color: String? = null,
+    @SerialName("isActive") val isActive: Boolean? = null,
+    @SerialName("venue") val venue: Venue3? = Venue3(),
 )
 
  fun Franchise3.asDomain() : FullTeamDetailsFranchiseModel {

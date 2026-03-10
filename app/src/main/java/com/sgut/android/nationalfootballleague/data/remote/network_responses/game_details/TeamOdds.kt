@@ -1,21 +1,23 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class TeamOdds (
 
-  @SerializedName("preMatchMoneyLineAway"      ) var preMatchMoneyLineAway      : PreMatchMoneyLineAway?      = PreMatchMoneyLineAway(),
-  @SerializedName("preMatchMoneyLineHome"      ) var preMatchMoneyLineHome      : PreMatchMoneyLineHome?      = PreMatchMoneyLineHome(),
-  @SerializedName("preMatchSpreadHandicapAway" ) var preMatchSpreadHandicapAway : PreMatchSpreadHandicapAway? = PreMatchSpreadHandicapAway(),
-  @SerializedName("preMatchSpreadHome"         ) var preMatchSpreadHome         : PreMatchSpreadHome?         = PreMatchSpreadHome(),
-  @SerializedName("preMatchWinningMarginHome"  ) var preMatchWinningMarginHome  : PreMatchWinningMarginHome?  = PreMatchWinningMarginHome(),
-  @SerializedName("preMatchTotalOver"          ) var preMatchTotalOver          : PreMatchTotalOver?          = PreMatchTotalOver(),
-  @SerializedName("preMatchWinningMarginOther" ) var preMatchWinningMarginOther : PreMatchWinningMarginOther? = PreMatchWinningMarginOther(),
-  @SerializedName("preMatchSpreadAway"         ) var preMatchSpreadAway         : PreMatchSpreadAway?         = PreMatchSpreadAway(),
-  @SerializedName("preMatchWinningMarginAway"  ) var preMatchWinningMarginAway  : PreMatchWinningMarginAway?  = PreMatchWinningMarginAway(),
-  @SerializedName("preMatchTotalUnder"         ) var preMatchTotalUnder         : PreMatchTotalUnder?         = PreMatchTotalUnder(),
-  @SerializedName("preMatchTotalHandicap"      ) var preMatchTotalHandicap      : PreMatchTotalHandicap?      = PreMatchTotalHandicap(),
-  @SerializedName("preMatchSpreadHandicapHome" ) var preMatchSpreadHandicapHome : PreMatchSpreadHandicapHome? = PreMatchSpreadHandicapHome()
+  @SerialName("preMatchMoneyLineAway"      ) var preMatchMoneyLineAway      : PreMatchMoneyLineAway?      = PreMatchMoneyLineAway(),
+  @SerialName("preMatchMoneyLineHome"      ) var preMatchMoneyLineHome      : PreMatchMoneyLineHome?      = PreMatchMoneyLineHome(),
+  @SerialName("preMatchSpreadHandicapAway" ) var preMatchSpreadHandicapAway : PreMatchSpreadHandicapAway? = PreMatchSpreadHandicapAway(),
+  @SerialName("preMatchSpreadHome"         ) var preMatchSpreadHome         : PreMatchSpreadHome?         = PreMatchSpreadHome(),
+  @SerialName("preMatchWinningMarginHome"  ) var preMatchWinningMarginHome  : PreMatchWinningMarginHome?  = PreMatchWinningMarginHome(),
+  @SerialName("preMatchTotalOver"          ) var preMatchTotalOver          : PreMatchTotalOver?          = PreMatchTotalOver(),
+  @SerialName("preMatchWinningMarginOther" ) var preMatchWinningMarginOther : PreMatchWinningMarginOther? = PreMatchWinningMarginOther(),
+  @SerialName("preMatchSpreadAway"         ) var preMatchSpreadAway         : PreMatchSpreadAway?         = PreMatchSpreadAway(),
+  @SerialName("preMatchWinningMarginAway"  ) var preMatchWinningMarginAway  : PreMatchWinningMarginAway?  = PreMatchWinningMarginAway(),
+  @SerialName("preMatchTotalUnder"         ) var preMatchTotalUnder         : PreMatchTotalUnder?         = PreMatchTotalUnder(),
+  @SerialName("preMatchTotalHandicap"      ) var preMatchTotalHandicap      : PreMatchTotalHandicap?      = PreMatchTotalHandicap(),
+  @SerialName("preMatchSpreadHandicapHome" ) var preMatchSpreadHandicapHome : PreMatchSpreadHandicapHome? = PreMatchSpreadHandicapHome()
 
 )

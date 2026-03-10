@@ -1,23 +1,25 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.football.nfl
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Video(
-    @SerializedName("deviceRestrictions")
+    @SerialName("deviceRestrictions")
     val deviceRestrictions: DeviceRestrictions = DeviceRestrictions(),
-    @SerializedName("duration")
+    @SerialName("duration")
     val duration: Int = 0,
-    @SerializedName("headline")
+    @SerialName("headline")
     val headline: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int = 0,
-    @SerializedName("links")
+    @SerialName("links")
     val links: Links = Links(),
-    @SerializedName("source")
+    @SerialName("source")
     val source: String = "",
-    @SerializedName("thumbnail")
+    @SerialName("thumbnail")
     val thumbnail: String = "",
-    @SerializedName("tracking")
+    @SerialName("tracking")
     val tracking: Tracking = Tracking()
 )

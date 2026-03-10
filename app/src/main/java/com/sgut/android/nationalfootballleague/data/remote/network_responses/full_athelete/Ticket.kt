@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Ticket(
-    @SerializedName("link")
+    @SerialName("link")
     val link: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = ""
 )

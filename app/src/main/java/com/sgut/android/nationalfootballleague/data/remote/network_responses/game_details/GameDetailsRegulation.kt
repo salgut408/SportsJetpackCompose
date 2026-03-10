@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsRegulationModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsRegulation(
 
-  @SerializedName("periods")
+  @SerialName("periods")
   val periods: Int? = null,
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String? = null,
-  @SerializedName("slug")
+  @SerialName("slug")
   val slug: String? = null,
-  @SerializedName("clock")
-  val clock: Int? = null,
+  @SerialName("clock")
+  val clock: Double? = null,
 
   )
 
@@ -22,6 +24,6 @@ fun GameDetailsRegulation.asDomain(): GameDetailsRegulationModel {
     periods = periods ?: 0,
     displayName = displayName ?: "",
     slug = slug ?: "",
-    clock = clock ?: 0
+    clock = clock?.toInt() ?: 0
   )
 }

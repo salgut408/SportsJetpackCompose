@@ -1,33 +1,35 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsEventModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsOpponentModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsEvents(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-//  @SerializedName("links" ) var links : List<EventLinks> = listOf(),
-    @SerializedName("atVs")
+//  @SerialName("links" ) var links : List<EventLinks> = listOf(),
+    @SerialName("atVs")
     val atVs: String = "",
-    @SerializedName("gameDate")
+    @SerialName("gameDate")
     val gameDate: String = "",
-    @SerializedName("score")
+    @SerialName("score")
     val score: String = "",
-    @SerializedName("homeTeamScore")
+    @SerialName("homeTeamScore")
     val homeTeamScore: String = "",
-    @SerializedName("awayTeamScore")
+    @SerialName("awayTeamScore")
     val awayTeamScore: String = "",
-    @SerializedName("gameResult")
+    @SerialName("gameResult")
     val gameResult: String = "",
-    @SerializedName("opponent") val
+    @SerialName("opponent") val
     opponent: Opponent = Opponent(),
-    @SerializedName("opponentLogo") val
+    @SerialName("opponentLogo") val
     opponentLogo: String = "",
-    @SerializedName("leagueName") val
+    @SerialName("leagueName") val
     leagueName: String = "",
-    @SerializedName("leagueAbbreviation")
+    @SerialName("leagueAbbreviation")
     val leagueAbbreviation: String = "",
 
     )
@@ -47,14 +49,15 @@ fun GameDetailsEvents.asDomain(): GameDetailsEventModel {
     )
 }
 
+@Serializable
 data class Opponent(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("logo")
+    @SerialName("logo")
     val logo: String = "",
     )
 fun Opponent.asDomain(): GameDetailsOpponentModel {
@@ -66,7 +69,8 @@ fun Opponent.asDomain(): GameDetailsOpponentModel {
     )
 }
 
+@Serializable
 data class EventLinks(
-    @SerializedName("href") var href: String = "",
-    @SerializedName("text") var text: String = "",
+    @SerialName("href") var href: String = "",
+    @SerialName("text") var text: String = "",
 )

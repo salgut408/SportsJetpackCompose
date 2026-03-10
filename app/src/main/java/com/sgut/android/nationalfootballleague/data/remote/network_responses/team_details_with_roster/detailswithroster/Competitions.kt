@@ -1,36 +1,38 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.CompetitionsEventModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Competitions3(
 
-  @SerializedName("id")
+  @SerialName("id")
   val id: String? = null,
-  @SerializedName("date")
+  @SerialName("date")
   val date: String? = null,
-  @SerializedName("attendance")
+  @SerialName("attendance")
   val attendance: Int? = null,
-  @SerializedName("type")
+  @SerialName("type")
   val type: Type3? = Type3(),
-  @SerializedName("timeValid")
+  @SerialName("timeValid")
   val timeValid: Boolean? = null,
-  @SerializedName("neutralSite")
+  @SerialName("neutralSite")
   val neutralSite: Boolean? = null,
-  @SerializedName("boxscoreAvailable")
+  @SerialName("boxscoreAvailable")
   val boxscoreAvailable: Boolean? = null,
-  @SerializedName("ticketsAvailable")
+  @SerialName("ticketsAvailable")
   val ticketsAvailable: Boolean? = null,
-  @SerializedName("venue")
+  @SerialName("venue")
   val venue: Venue3 = Venue3(),
-  @SerializedName("competitors")
+  @SerialName("competitors")
   val competitors: List<Competitors3> = listOf(),
-//  @SerializedName("notes")
+//  @SerialName("notes")
 //  val notes: List<String> = listOf(),
-  @SerializedName("tickets")
+  @SerialName("tickets")
   val tickets: List<Tickets3> = listOf(),
-  @SerializedName("status")
+  @SerialName("status")
   val status: Status3? = Status3(),
   )
 fun Competitions3.asDomain(): CompetitionsEventModel {

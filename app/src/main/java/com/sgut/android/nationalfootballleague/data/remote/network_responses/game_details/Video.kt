@@ -1,35 +1,37 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Video(
 
-  @SerializedName("source")
+  @SerialName("source")
   val source: String = "",
-  @SerializedName("id")
+  @SerialName("id")
   val id: Int? = null,
-  @SerializedName("guid")
+  @SerialName("guid")
   val guid: String? = null,
-  @SerializedName("headline")
+  @SerialName("headline")
   val headline: String? = null,
-  @SerializedName("caption")
+  @SerialName("caption")
   val caption: String? = null,
-  @SerializedName("description")
+  @SerialName("description")
   val description: String? = null,
 
 
-  @SerializedName("duration")
+  @SerialName("duration")
   val duration: Int? = null,
-  @SerializedName("posterImages")
+  @SerialName("posterImages")
   val posterImages: PosterImages? = PosterImages(),
-  @SerializedName("images")
+  @SerialName("images")
   val images: List<GameDetailsImages> = listOf(),
-  @SerializedName("thumbnail")
+  @SerialName("thumbnail")
   val thumbnail: String? = null,
-  @SerializedName("links")
+  @SerialName("links")
   val links: GameDetailsLinks? = GameDetailsLinks(),
-  @SerializedName("title")
+  @SerialName("title")
   val title: String? = null,
 
   )

@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.soccer
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LinkX(
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("isExternal")
+    @SerialName("isExternal")
     val isExternal: Boolean = false,
-    @SerializedName("isHidden")
+    @SerialName("isHidden")
     val isHidden: Boolean = false,
-    @SerializedName("isPremium")
+    @SerialName("isPremium")
     val isPremium: Boolean = false,
-    @SerializedName("rel")
+    @SerialName("rel")
     val rel: List<String> = listOf(),
-    @SerializedName("text")
+    @SerialName("text")
     val text: String = ""
 )

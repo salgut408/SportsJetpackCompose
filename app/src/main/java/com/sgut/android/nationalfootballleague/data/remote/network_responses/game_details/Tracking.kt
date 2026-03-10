@@ -1,14 +1,16 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Tracking (
 
-  @SerializedName("sportName"    ) var sportName    : String? = null,
-  @SerializedName("leagueName"   ) var leagueName   : String? = null,
-  @SerializedName("coverageType" ) var coverageType : String? = null,
-  @SerializedName("trackingName" ) var trackingName : String? = null,
-  @SerializedName("trackingId"   ) var trackingId   : String? = null
+  @SerialName("sportName"    ) var sportName    : String? = null,
+  @SerialName("leagueName"   ) var leagueName   : String? = null,
+  @SerialName("coverageType" ) var coverageType : String? = null,
+  @SerialName("trackingName" ) var trackingName : String? = null,
+  @SerialName("trackingId"   ) var trackingId   : String? = null
 
 )

@@ -1,9 +1,9 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common
 
-import com.google.gson.annotations.SerializedName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm.AthleteGolf
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm.TeamComm
-import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball.*
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 abstract class CompetitorData {
     abstract val homeAway: HomeAway
@@ -13,63 +13,65 @@ abstract class CompetitorData {
     abstract val uid: String
     abstract val winner: Boolean
 
+    @Serializable
     enum class HomeAway {
-        @SerializedName("home")
+        @SerialName("home")
         HOME,
-        @SerializedName("away")
+        @SerialName("away")
         AWAY,
     }
 }
 
+@Serializable
 data class DefaultCompetitor(
-    @SerializedName("homeAway")
+    @SerialName("homeAway")
     override val homeAway: HomeAway = HomeAway.HOME,
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("score")
+    @SerialName("score")
     override val score: String = "",
-    @SerializedName("team")
+    @SerialName("team")
     override val team: TeamComm = TeamComm(),
-    @SerializedName("uid")
+    @SerialName("uid")
     override val uid: String = "",
-    @SerializedName("winner")
+    @SerialName("winner")
     override val winner: Boolean = false
+) : CompetitorData()
 
-): CompetitorData()
-
+@Serializable
 data class SingleCompetitor(
-    @SerializedName("homeAway")
+    @SerialName("homeAway")
     override val homeAway: HomeAway = HomeAway.HOME,
-    @SerializedName("id")
+    @SerialName("id")
     override val id: String = "",
-    @SerializedName("score")
+    @SerialName("score")
     override val score: String = "",
-    @SerializedName("team")
-    override val team: TeamComm=TeamComm(),
-    @SerializedName("uid")
-    override val uid: String = "",
-    @SerializedName("winner")
-    override val winner: Boolean = false,
-    @SerializedName("athlete")
-val athlete: AthleteGolf = AthleteGolf(),
-): CompetitorData()
-
-
-data class BaseballCompetitor(
-    @SerializedName("errors")
-    val errors: Int = 0,
-    @SerializedName("hits")
-    val hits: Int = 0,
-    @SerializedName("homeAway")
-   override val homeAway: HomeAway = HomeAway.HOME,
-    @SerializedName("id")
-    override val id: String = "",
-    @SerializedName("score")
-    override val score: String = "",
-    @SerializedName("team")
+    @SerialName("team")
     override val team: TeamComm = TeamComm(),
-    @SerializedName("uid")
+    @SerialName("uid")
     override val uid: String = "",
-    @SerializedName("winner")
+    @SerialName("winner")
+    override val winner: Boolean = false,
+    @SerialName("athlete")
+    val athlete: AthleteGolf = AthleteGolf()
+) : CompetitorData()
+
+@Serializable
+data class BaseballCompetitor(
+    @SerialName("errors")
+    val errors: Int = 0,
+    @SerialName("hits")
+    val hits: Int = 0,
+    @SerialName("homeAway")
+    override val homeAway: HomeAway = HomeAway.HOME,
+    @SerialName("id")
+    override val id: String = "",
+    @SerialName("score")
+    override val score: String = "",
+    @SerialName("team")
+    override val team: TeamComm = TeamComm(),
+    @SerialName("uid")
+    override val uid: String = "",
+    @SerialName("winner")
     override val winner: Boolean = false
-): CompetitorData()
+) : CompetitorData()

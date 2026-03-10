@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.football.nfl
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Web(
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("short")
+    @SerialName("short")
     val short: Short = Short()
 )

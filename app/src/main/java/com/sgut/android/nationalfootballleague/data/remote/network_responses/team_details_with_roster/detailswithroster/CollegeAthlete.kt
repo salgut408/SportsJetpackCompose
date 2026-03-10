@@ -1,6 +1,6 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 
 
 //data class CollegeAthlete (

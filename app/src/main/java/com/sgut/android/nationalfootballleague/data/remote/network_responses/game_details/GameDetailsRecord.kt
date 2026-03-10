@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsRecordModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsRecord(
 
-  @SerializedName("type")
+  @SerialName("type")
   val type: String? = null,
-  @SerializedName("summary")
+  @SerialName("summary")
   val summary: String? = null,
-  @SerializedName("displayValue")
+  @SerialName("displayValue")
   val displayValue: String? = null,
 
   )

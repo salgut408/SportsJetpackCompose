@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.soccer
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class HomeTeamOdds(
-    @SerializedName("favorite")
+    @SerialName("favorite")
     val favorite: Boolean = false,
-    @SerializedName("moneyLine")
+    @SerialName("moneyLine")
     val moneyLine: Int = 0,
-    @SerializedName("spreadOdds")
+    @SerialName("spreadOdds")
     val spreadOdds: Double = 0.0,
-    @SerializedName("team")
+    @SerialName("team")
     val team: TeamXXX = TeamXXX(),
-    @SerializedName("underdog")
+    @SerialName("underdog")
     val underdog: Boolean = false
 )

@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsMarket (
 
-  @SerializedName("id"   ) var id   : String? = null,
-  @SerializedName("type" ) var type : String? = null
+  @SerialName("id"   ) var id   : String? = null,
+  @SerialName("type" ) var type : String? = null
 
 )

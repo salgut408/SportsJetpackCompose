@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.hockey
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Address(
-    @SerializedName("city")
+    @SerialName("city")
     val city: String = "",
-    @SerializedName("country")
+    @SerialName("country")
     val country: String = "",
-    @SerializedName("state")
+    @SerialName("state")
     val state: String = ""
 )

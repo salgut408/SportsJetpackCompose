@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.perf)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -86,9 +87,11 @@ dependencies {
 
     // Network
     implementation libs.retrofit
-    implementation libs.retrofit.gson
+    implementation libs.retrofit.gson        // kept for GenNetworkFlow error parsing — remove in Phase 6
     implementation libs.okhttp.logging
-    implementation libs.gson
+    implementation libs.gson                 // kept for GenNetworkFlow error parsing — remove in Phase 6
+    implementation libs.kotlinx.serialization.json
+    implementation libs.retrofit.kotlinx.serialization
 
     // Image loading (Coil 3)
     implementation libs.coil.compose

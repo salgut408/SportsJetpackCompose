@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.LinescoreTennisModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Linescore(
-    @SerializedName("tiebreak")
+    @SerialName("tiebreak")
     val tiebreak: Int = 0,
-    @SerializedName("value")
+    @SerialName("value")
     val value: Double = 0.0,
-    @SerializedName("winner")
+    @SerialName("winner")
     val winner: Boolean = false
 )
 

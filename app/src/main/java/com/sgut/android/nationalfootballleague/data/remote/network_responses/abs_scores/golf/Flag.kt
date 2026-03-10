@@ -1,13 +1,14 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.golf
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class Flag(
-    @SerializedName("alt")
+    @SerialName("alt")
     val alt: String = "",
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("rel")
+    @SerialName("rel")
     val rel: List<String> = listOf()
 )

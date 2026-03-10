@@ -1,14 +1,16 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GeoBroadcastsScoreboard (
 
-  @SerializedName("type"   ) var type   : TypeScoreboard?   = TypeScoreboard(),
-  @SerializedName("market" ) var market : MarketScoreboard? = MarketScoreboard(),
-  @SerializedName("media"  ) var media  : MediaScoreboard?  = MediaScoreboard(),
-  @SerializedName("lang"   ) var lang   : String? = null,
-  @SerializedName("region" ) var region : String? = null
+  @SerialName("type"   ) var type   : TypeScoreboard?   = TypeScoreboard(),
+  @SerialName("market" ) var market : MarketScoreboard? = MarketScoreboard(),
+  @SerialName("media"  ) var media  : MediaScoreboard?  = MediaScoreboard(),
+  @SerialName("lang"   ) var lang   : String? = null,
+  @SerialName("region" ) var region : String? = null
 
 )

@@ -1,23 +1,25 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class FeaturedAthlete(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("athlete")
+    @SerialName("athlete")
     val athlete: AthleteXXX = AthleteXXX(),
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("playerId")
+    @SerialName("playerId")
     val playerId: Int = 0,
-    @SerializedName("shortDisplayName")
+    @SerialName("shortDisplayName")
     val shortDisplayName: String = "",
-    @SerializedName("statistics")
+    @SerialName("statistics")
     val statistics: List<StatisticX> = listOf(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: TeamX = TeamX()
 )

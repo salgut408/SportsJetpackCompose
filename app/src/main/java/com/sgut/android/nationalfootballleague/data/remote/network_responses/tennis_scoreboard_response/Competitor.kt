@@ -1,33 +1,36 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.CompetitorTennisModel
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
+@Serializable
 data class Competitor(
-    @SerializedName("athlete")
+    @SerialName("athlete")
     val athlete: Athlete = Athlete(),
-    @SerializedName("curatedRank")
+    @SerialName("curatedRank")
     val curatedRank: CuratedRank = CuratedRank(),
-    @SerializedName("homeAway")
+    @SerialName("homeAway")
     val homeAway: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("linescores")
+    @SerialName("linescores")
     val linescores: List<Linescore> = listOf(),
-    @SerializedName("order")
+    @SerialName("order")
     val order: Int = 0,
-    @SerializedName("possession")
+    @SerialName("possession")
     val possession: Boolean = false,
-    @SerializedName("roster")
+    @SerialName("roster")
     val roster: Roster = Roster(),
-    @SerializedName("statistics")
+    @Transient
     val statistics: List<Any> = listOf(),
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = "",
-    @SerializedName("winner")
+    @SerialName("winner")
     val winner: Boolean = false
 )
 

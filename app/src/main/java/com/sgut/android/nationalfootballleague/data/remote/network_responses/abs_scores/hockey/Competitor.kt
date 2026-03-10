@@ -1,23 +1,26 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.hockey
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
+@Serializable
 data class Competitor(
-    @SerializedName("homeAway")
+    @SerialName("homeAway")
     val homeAway: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("order")
+    @SerialName("order")
     val order: Int = 0,
-    @SerializedName("score")
+    @SerialName("score")
     val score: String = "",
-    @SerializedName("statistics")
+    @Transient
     val statistics: List<Any> = listOf(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: Team = Team(),
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = ""
 )

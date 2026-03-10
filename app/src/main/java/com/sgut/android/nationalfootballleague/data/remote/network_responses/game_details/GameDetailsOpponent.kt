@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsOpponent (
 
-  @SerializedName("id"           ) var id           : String?          = null,
-  @SerializedName("uid"          ) var uid          : String?          = null,
-  @SerializedName("displayName"  ) var displayName  : String?          = null,
-  @SerializedName("abbreviation" ) var abbreviation : String?          = null,
-  @SerializedName("links"        ) var links        : ArrayList<GameDetailsLinks> = arrayListOf(),
-  @SerializedName("logo"         ) var logo         : String?          = null
+  @SerialName("id"           ) var id           : String?          = null,
+  @SerialName("uid"          ) var uid          : String?          = null,
+  @SerialName("displayName"  ) var displayName  : String?          = null,
+  @SerialName("abbreviation" ) var abbreviation : String?          = null,
+  @SerialName("links"        ) var links        : ArrayList<GameDetailsLinks> = arrayListOf(),
+  @SerialName("logo"         ) var logo         : String?          = null
 
 )

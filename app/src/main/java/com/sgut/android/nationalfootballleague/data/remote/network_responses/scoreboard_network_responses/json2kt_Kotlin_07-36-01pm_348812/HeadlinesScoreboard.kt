@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardHeadlineModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class HeadlinesScoreboard(
 
-  @SerializedName("description")
+  @SerialName("description")
   val description: String? = null,
-  @SerializedName("type")
+  @SerialName("type")
   val type: String? = null,
-  @SerializedName("shortLinkText")
+  @SerialName("shortLinkText")
   val shortLinkText: String? = null,
 
   )

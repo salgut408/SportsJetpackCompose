@@ -1,10 +1,12 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class BirthPlace(
-  @SerializedName("city") var city: String? = null,
-  @SerializedName("state") var state: String? = null,
-  @SerializedName("country") var country: String? = null,
+  @SerialName("city") var city: String? = null,
+  @SerialName("state") var state: String? = null,
+  @SerialName("country") var country: String? = null,
   )

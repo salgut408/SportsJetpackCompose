@@ -1,59 +1,61 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Athlete(
-    @SerializedName("active")
+    @SerialName("active")
     val active: Boolean = false,
-    @SerializedName("age")
+    @SerialName("age")
     val age: Int = 0,
-    @SerializedName("college")
+    @SerialName("college")
     val college: College = College(),
-    @SerializedName("debutYear")
+    @SerialName("debutYear")
     val debutYear: Int = 0,
-    @SerializedName("displayBatsThrows")
+    @SerialName("displayBatsThrows")
     val displayBatsThrows: String = "",
-    @SerializedName("displayBirthPlace")
+    @SerialName("displayBirthPlace")
     val displayBirthPlace: String = "",
-    @SerializedName("displayDOB")
+    @SerialName("displayDOB")
     val displayDOB: String = "",
-    @SerializedName("displayDraft")
+    @SerialName("displayDraft")
     val displayDraft: String = "",
-    @SerializedName("displayExperience")
+    @SerialName("displayExperience")
     val displayExperience: String = "",
-    @SerializedName("displayHeight")
+    @SerialName("displayHeight")
     val displayHeight: String = "",
-    @SerializedName("displayJersey")
+    @SerialName("displayJersey")
     val displayJersey: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("displayWeight")
+    @SerialName("displayWeight")
     val displayWeight: String = "",
-    @SerializedName("firstName")
+    @SerialName("firstName")
     val firstName: String = "",
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String = "",
-    @SerializedName("guid")
+    @SerialName("guid")
     val guid: String = "",
-    @SerializedName("headshot")
+    @SerialName("headshot")
     val headshot: Headshot = Headshot(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("jersey")
+    @SerialName("jersey")
     val jersey: String = "",
-    @SerializedName("lastName")
+    @SerialName("lastName")
     val lastName: String = "",
-    @SerializedName("position")
+    @SerialName("position")
     val position: Position = Position(),
-    @SerializedName("statsSummary")
+    @SerialName("statsSummary")
     val statsSummary: StatsSummary = StatsSummary(),
-    @SerializedName("status")
+    @SerialName("status")
     val status: Status = Status(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: Team = Team(),
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = ""
 )

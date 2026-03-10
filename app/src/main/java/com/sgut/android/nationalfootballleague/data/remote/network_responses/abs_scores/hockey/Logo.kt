@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.hockey
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Logo(
-    @SerializedName("alt")
+    @SerialName("alt")
     val alt: String = "",
-    @SerializedName("height")
+    @SerialName("height")
     val height: Int = 0,
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("lastUpdated")
+    @SerialName("lastUpdated")
     val lastUpdated: String = "",
-    @SerializedName("rel")
+    @SerialName("rel")
     val rel: List<String> = listOf(),
-    @SerializedName("width")
+    @SerialName("width")
     val width: Int = 0
 )

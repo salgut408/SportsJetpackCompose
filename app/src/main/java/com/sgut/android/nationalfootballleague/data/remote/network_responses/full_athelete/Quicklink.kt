@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Quicklink(
-    @SerializedName("items")
+    @SerialName("items")
     val items: List<ItemX> = listOf(),
-    @SerializedName("text")
+    @SerialName("text")
     val text: String = "",
-    @SerializedName("title")
+    @SerialName("title")
     val title: String = ""
 )

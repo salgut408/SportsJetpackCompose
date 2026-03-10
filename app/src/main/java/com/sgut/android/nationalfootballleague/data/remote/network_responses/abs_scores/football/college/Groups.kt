@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.football.college
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Groups(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("isConference")
+    @SerialName("isConference")
     val isConference: Boolean = false,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("shortName")
+    @SerialName("shortName")
     val shortName: String = ""
 )

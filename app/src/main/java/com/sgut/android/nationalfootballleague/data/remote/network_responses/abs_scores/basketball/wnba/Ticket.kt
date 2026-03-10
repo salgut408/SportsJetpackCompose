@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.basketball.wnba
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Ticket(
-    @SerializedName("links")
+    @SerialName("links")
     val links: List<LinkXX> = listOf(),
-    @SerializedName("numberAvailable")
+    @SerialName("numberAvailable")
     val numberAvailable: Int = 0,
-    @SerializedName("summary")
+    @SerialName("summary")
     val summary: String = ""
 )

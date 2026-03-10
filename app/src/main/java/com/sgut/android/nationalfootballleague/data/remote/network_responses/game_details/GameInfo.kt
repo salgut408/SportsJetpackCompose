@@ -1,31 +1,34 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameInfoModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.OfficialModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.OfficialsPositionModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameInfo (
 
-  @SerializedName("venue"   )
+  @SerialName("venue"   )
   val venue   : GameDetailsVenue   = GameDetailsVenue(),
-  @SerializedName("weather" )
+  @SerialName("weather" )
   val weather : Weather = Weather(),
-  @SerializedName("attendance" )
+  @SerialName("attendance" )
 val attendance : Int = 0,
-  @SerializedName("officials")
+  @SerialName("officials")
   val officials: List<Official> = listOf(),
 
   )
 
 
+@Serializable
 data class Official(
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String? = "",
-  @SerializedName("order")
+  @SerialName("order")
   val order: Int? = 0,
-  @SerializedName("position")
+  @SerialName("position")
   val position: OfficialsPosition = OfficialsPosition()
 )
 
@@ -41,12 +44,13 @@ fun Official.asDomain(): OfficialModel {
 
 
 
+@Serializable
 data class OfficialsPosition(
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String? = "",
-  @SerializedName("id")
+  @SerialName("id")
   val id: String? = "",
-  @SerializedName("name")
+  @SerialName("name")
   val name: String? = ""
 )
 

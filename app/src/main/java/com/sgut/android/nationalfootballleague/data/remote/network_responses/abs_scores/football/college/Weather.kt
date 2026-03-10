@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.football.college
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Weather(
-    @SerializedName("conditionId")
+    @SerialName("conditionId")
     val conditionId: String = "",
-    @SerializedName("displayValue")
+    @SerialName("displayValue")
     val displayValue: String = "",
-    @SerializedName("highTemperature")
+    @SerialName("highTemperature")
     val highTemperature: Int = 0,
-    @SerializedName("temperature")
+    @SerialName("temperature")
     val temperature: Int = 0
 )

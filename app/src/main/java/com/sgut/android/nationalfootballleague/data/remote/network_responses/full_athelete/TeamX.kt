@@ -1,33 +1,35 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TeamX(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("alternateColor")
+    @SerialName("alternateColor")
     val alternateColor: String = "",
-    @SerializedName("alternateLocation")
+    @SerialName("alternateLocation")
     val alternateLocation: String = "",
-    @SerializedName("color")
+    @SerialName("color")
     val color: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("links")
+    @SerialName("links")
     val links: List<LinkXX> = listOf(),
-    @SerializedName("location")
+    @SerialName("location")
     val location: String = "",
-    @SerializedName("logo")
+    @SerialName("logo")
     val logo: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("shortDisplayName")
+    @SerialName("shortDisplayName")
     val shortDisplayName: String = "",
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = ""
 )

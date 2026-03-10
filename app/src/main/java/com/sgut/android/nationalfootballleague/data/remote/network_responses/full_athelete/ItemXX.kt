@@ -1,32 +1,34 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ItemXX(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("hasGroups")
+    @SerialName("hasGroups")
     val hasGroups: Boolean = false,
-    @SerializedName("hasLegs")
+    @SerialName("hasLegs")
     val hasLegs: Boolean = false,
-    @SerializedName("hasStandings")
+    @SerialName("hasStandings")
     val hasStandings: Boolean = false,
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: Int = 0,
-    @SerializedName("week")
+    @SerialName("week")
     val week: Week = Week(),
 
-    @SerializedName("year")
+    @SerialName("year")
     val year: Int = 0
 )

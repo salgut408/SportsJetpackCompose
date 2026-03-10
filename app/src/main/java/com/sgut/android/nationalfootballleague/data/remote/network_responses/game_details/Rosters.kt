@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.*
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.RosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.RostersModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Rosters(
-    @SerializedName("homeAway") val homeAway: String = "",
-    @SerializedName("winner") val winner: Boolean = false,
-    @SerializedName("team") val team: Team = Team(),
-    @SerializedName("roster") val roster: List<Roster> = arrayListOf(),
+    @SerialName("homeAway") val homeAway: String = "",
+    @SerialName("winner") val winner: Boolean = false,
+    @SerialName("team") val team: Team = Team(),
+    @SerialName("roster") val roster: List<Roster> = arrayListOf(),
 )
 
 fun Rosters.asDomain(): RostersModel {
@@ -21,24 +23,25 @@ fun Rosters.asDomain(): RostersModel {
     )
 }
 
+@Serializable
 data class Roster(
-    @SerializedName("active")
+    @SerialName("active")
     val active: Boolean = false,
-    @SerializedName("starter")
+    @SerialName("starter")
     val starter: Boolean = false,
-    @SerializedName("athlete")
+    @SerialName("athlete")
     val athlete: GameDetailsAthlete = GameDetailsAthlete(),
-    @SerializedName("position")
+    @SerialName("position")
     val position: GameDetailsPosition = GameDetailsPosition(),
-    @SerializedName("batOrder")
+    @SerialName("batOrder")
     val batOrder: Int = 0,
-//    @SerializedName("subbedIn")
+//    @SerialName("subbedIn")
 //    val subbedIn: Boolean = false,
-//    @SerializedName("subbedOut")
+//    @SerialName("subbedOut")
 //    val subbedOut: Boolean = false,
-    @SerializedName("stats")
+    @SerialName("stats")
     val stats: List<GameDetailsStats> = listOf(),
-    @SerializedName("jersey")
+    @SerialName("jersey")
     var jersey: String = "",
 
     )

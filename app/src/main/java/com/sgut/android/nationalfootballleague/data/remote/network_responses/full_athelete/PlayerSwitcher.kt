@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class PlayerSwitcher(
-    @SerializedName("athletes")
+    @SerialName("athletes")
     val athletes: List<AthleteX> = listOf(),
-    @SerializedName("filters")
+    @SerialName("filters")
     val filters: List<Filter> = listOf(),
-    @SerializedName("links")
+    @SerialName("links")
     val links: List<LinkXX> = listOf(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: TeamX = TeamX()
 )

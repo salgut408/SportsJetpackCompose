@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.TypeTennisModelX
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TypeX(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String = "",
-    @SerializedName("text")
+    @SerialName("text")
     val text: String = ""
 )
 

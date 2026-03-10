@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Links(
-    @SerializedName("api")
+    @SerialName("api")
     val api: Api = Api(),
-    @SerializedName("mobile")
+    @SerialName("mobile")
     val mobile: Mobile = Mobile(),
-    @SerializedName("source")
+    @SerialName("source")
     val source: SourceX = SourceX(),
-    @SerializedName("web")
+    @SerialName("web")
     val web: Web = Web()
 )

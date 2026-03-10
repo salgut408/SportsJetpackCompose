@@ -1,17 +1,18 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.comm
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class VenueComm(
-    @SerializedName("address")
+    @SerialName("address")
     val address: AddressComm = AddressComm(),
-    @SerializedName("capacity")
+    @SerialName("capacity")
     val capacity: Int = 0,
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("indoor")
+    @SerialName("indoor")
     val indoor: Boolean = false
 )

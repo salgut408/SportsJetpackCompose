@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.golf
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Status(
-    @SerializedName("period")
+    @SerialName("period")
     val period: Int = 0,
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeX = TypeX()
 )

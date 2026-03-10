@@ -1,26 +1,28 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.TicketsModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Tickets3(
 
-  @SerializedName("id")
+  @SerialName("id")
   val id: String? = null,
-  @SerializedName("summary")
+  @SerialName("summary")
   val summary: String? = null,
-  @SerializedName("description")
+  @SerialName("description")
   val description: String? = null,
-  @SerializedName("maxPrice")
+  @SerialName("maxPrice")
   val maxPrice: Double? = null,
-  @SerializedName("startingPrice")
+  @SerialName("startingPrice")
   val startingPrice: Double? = null,
-  @SerializedName("numberAvailable")
+  @SerialName("numberAvailable")
   val numberAvailable: Int? = null,
-  @SerializedName("totalPostings")
+  @SerialName("totalPostings")
   val totalPostings: Int? = null,
-  @SerializedName("links")
+  @SerialName("links")
   val links: List<Links3> = listOf(),
 
   )

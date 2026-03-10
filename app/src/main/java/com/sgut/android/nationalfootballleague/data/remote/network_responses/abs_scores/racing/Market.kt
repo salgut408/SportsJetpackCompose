@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.racing
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Market(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = ""
 )
