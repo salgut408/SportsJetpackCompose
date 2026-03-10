@@ -194,7 +194,13 @@ object AppModule {
     @Singleton
     @Provides
     fun provideOkhttpClient(): OkHttpClient =
-        OkHttpClient.Builder().build()
+        OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request()
+                Timber.d("SAL_GUT ENDPOINT - ${request.url}")
+                chain.proceed(request)
+            }
+            .build()
 
     @Singleton
     @Provides

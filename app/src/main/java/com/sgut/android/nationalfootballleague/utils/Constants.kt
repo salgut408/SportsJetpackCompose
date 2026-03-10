@@ -48,17 +48,17 @@ class Constants {
 
         val LIST_OF_LEAGUE_PAIRS = listOf(
             Pair(BASEBALL to MLB, R.string.MLB_league),
-            Pair(BASKETBALL to NCAA_BASKETBALL, R.string.NCAA_mens_basketball),
-            Pair(SOCCER to FRA, R.string.fra),
-            Pair(TENNIS to ATP, R.string.atp),
             Pair(FOOTBALL to NFL, R.string.NFL_League),
             Pair(HOCKEY to NHL, R.string.NHL_league),
-            Pair(BASEBALL to WBC, R.string.WBC_league),
             Pair(BASKETBALL to NBA, R.string.NBA_league),
             Pair(BASKETBALL to WNBA, R.string.WNBA_league),
-            Pair(SOCCER to CHAMPIONS, R.string.champions),
             Pair(FOOTBALL to NCAA_FOOTBALL, R.string.NCAA_football),
             Pair(BASEBALL to NCAA_BASEBALL, R.string.NCAA_baseball),
+            Pair(BASKETBALL to NCAA_BASKETBALL, R.string.NCAA_mens_basketball),
+            Pair(TENNIS to ATP, R.string.atp),
+            Pair(BASEBALL to WBC, R.string.WBC_league),
+            Pair(SOCCER to FRA, R.string.fra),
+            Pair(SOCCER to CHAMPIONS, R.string.champions),
             Pair(SOCCER to MLS, R.string.MLS_league),
             Pair(SOCCER to FIFA, R.string.world_cup),
             Pair(SOCCER to LA_LIGA, R.string.la_liga),
@@ -67,7 +67,5 @@ class Constants {
             Pair(FOOTBALL to XFL, R.string.XFL_League),
             Pair(RACING to F1, R.string.F1_RACING),
         )
-
-
     }
 }
