@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -18,26 +20,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
-import com.sgut.android.nationalfootballleague.*
+import com.sgut.android.nationalfootballleague.StatusState
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.ScoreboardData
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.TennisScoreboard
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.SituationScoreboard
 import com.sgut.android.nationalfootballleague.di.TopAppBarWithLogo
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
-import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.*
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.DefaultScoreboardEventModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitionModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitorsModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardRecordModel
 import com.sgut.android.nationalfootballleague.ui.commoncomps.CardHeaderText
 import com.sgut.android.nationalfootballleague.ui.commoncomps.EIGHT
 import com.sgut.android.nationalfootballleague.ui.commoncomps.LeagueSelectionRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.*
-
-import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeListViewModel
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.BasicImage
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.DefaultCard
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SpacerDp
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.TeamLogoScoreboardImageLoader
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.NewsRow
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
-import com.sgut.android.nationalfootballleague.utils.*
+import com.sgut.android.nationalfootballleague.utils.Constants
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.TENNIS
+import com.sgut.android.nationalfootballleague.utils.formatTo
+import com.sgut.android.nationalfootballleague.utils.toDate
 import timber.log.Timber
 
 
@@ -63,17 +70,13 @@ fun ScoreboardScreen(
         scoreboardViewModel.loadGenericScoreboard(selectionUiSport, selectionUiLeague)
     }
 
-    Timber.d("sportAll : $selectionUiSport")
-
-//    scoreboardViewModel.loadGenericScoreboard(homeViewModelSport, homeViewModelLeague)
+    Timber.d("SAL_GUT sportAll : $selectionUiSport")
 
     val newUiState by scoreboardViewModel.scoreboardModelState.collectAsStateWithLifecycle()
     val news = newUiState.currentArticles
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val sport = newUiState.currentSport // TODO MAYBE CHECK IF THIS WORKS
     val league = newUiState.currentLeague
-
-    val tennis by scoreboardViewModel.tennis.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -195,35 +198,35 @@ fun Scoreboard(
 //        }
 //    }
 
-//@Composable
-//fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
-//        scoreboardData?.events?.map { eventData ->
-//            eventData.competitions?.map { competition ->
-//                Text(text = competition.startDate)
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.SpaceBetween
-//                ) {
-//                    Timber.d("SAL_WTF ${competition.competitors.firstOrNull()?.team?.name }")
-//
-//                    Text(text = competition.competitors.firstOrNull()?.team?.name ?: "null")
-//                    Text(text = competition.competitors.getOrNull(1)?.team?.name ?: "null")
-//                }
-//            }
-//        }
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.SpaceEvenly
-//        ) {
-//            Text(text = scoreboardData?.league?.firstOrNull()?.name ?: "")
-//            Text(text = scoreboardData?.day?.date ?: "")
-//            Text(text = scoreboardData?.events?.firstOrNull()?.name ?: "")
-//
-//        }
-//}
-
 @Composable
 fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
+        scoreboardData?.events?.map { eventData ->
+            eventData.competitions?.map { competition ->
+                Text(text = competition.startDate)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Timber.d("SAL_WTF ${competition.competitors.firstOrNull()?.team?.name }")
+
+                    Text(text = competition.competitors.firstOrNull()?.team?.name ?: "null")
+                    Text(text = competition.competitors.getOrNull(1)?.team?.name ?: "null")
+                }
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Text(text = scoreboardData?.league?.firstOrNull()?.name ?: "")
+            Text(text = scoreboardData?.day?.date ?: "")
+            Text(text = scoreboardData?.events?.firstOrNull()?.name ?: "")
+
+        }
+}
+
+@Composable
+fun TennisScoreboardHeader_OLD(scoreboardData: ScoreboardData?) {
     val tennisScoreboard = scoreboardData as? TennisScoreboard
 
     Text(text = tennisScoreboard?.events?.getOrNull(0)?.groupings .toString())
@@ -308,7 +311,7 @@ fun TeamComponent(team: ScoreboardCompetitorsModel, modifier: Modifier) {
                 listOf(color, Color.White)
             )
         )
-        .fillMaxWidth(3f)) {
+        .fillMaxWidth(0.1f)) {
 
 
         Row(
@@ -386,7 +389,7 @@ fun TeamComponent2(
                         listOf(color1, color2)
                     )
                 )
-                .fillMaxWidth(3f)) {
+                .fillMaxWidth(0.3f)) {
 
             Surface(color = Color.LightGray.copy(alpha = 0.3f), modifier = modifier.fillMaxSize()) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {

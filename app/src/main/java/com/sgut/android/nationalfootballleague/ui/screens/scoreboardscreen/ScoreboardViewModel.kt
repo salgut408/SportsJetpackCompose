@@ -61,7 +61,7 @@ class ScoreboardViewModel @Inject constructor(
         try {
             fetchAbstractScoreboard(sport, league)
 //            _tennis.emit(scoreboardRepository.getTennisScoreBoard(TENNIS, ATP))
-            _tennis.emit(scoreboardRepository.getTennisScoreBoard(TENNIS, ATP)) // this is just chekcing
+//            _tennis.emit(scoreboardRepository.getTennisScoreBoard(TENNIS, ATP)) // this is just chekcing
 
             val news = getArticles(sport, league)
             val currentScoreboardModelUiState = getScores(sport, league)

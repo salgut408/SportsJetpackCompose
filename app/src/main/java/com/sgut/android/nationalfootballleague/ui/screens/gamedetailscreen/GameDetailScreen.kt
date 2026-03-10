@@ -1033,7 +1033,7 @@ fun CompetitorHeader(competitor: GameDetailsCompetitorModel) {
         horizontalArrangement = Arrangement.SpaceBetween) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             BasicImage(
-                imgUrl = competitor.team?.logos?.first()?.href ?: "",
+                imgUrl = competitor.team?.logos?.firstOrNull()?.href ?: "",
                 contentDescription = competitor.team?.name,
                 elevation = 0.dp,
                 backgroundColor = Color.Transparent,
@@ -1042,7 +1042,7 @@ fun CompetitorHeader(competitor: GameDetailsCompetitorModel) {
                 modifier = Modifier.size(40.dp)
             )
             Text(text = competitor.team?.abbreviation ?: "")
-            Text(text = competitor.record.first().summary)
+            Text(text = competitor.record.firstOrNull()?.summary ?: "")
         }
         Text(text = competitor.score.toString(), style = MaterialTheme.typography.displaySmall)
     }

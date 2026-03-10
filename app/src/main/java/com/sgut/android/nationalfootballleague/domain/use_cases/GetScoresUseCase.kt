@@ -23,7 +23,7 @@ class GetScoresUseCase @Inject constructor(
                 )
             }
             return@withContext scoreboardRepository.getGeneralScoreboard(sport = sport, league = league). also {
-                Timber.d("GetScoresUseCase SUCCESS : $it")
+                Timber.d("SAL_GUT GetScoresUseCase SUCCESS : ${it.league}")
             }
         }
 }

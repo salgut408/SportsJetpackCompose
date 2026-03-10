@@ -28,12 +28,13 @@ class ScoreboardRepositoryImpl @Inject constructor(
         league: String,
     ): BasicScoreboardModel =
         try {
+            Timber.d("SAL_GUT getScoreboard BasicScoreboardModel")
             withContext(ioDispatcher) {
                 val response = sportsApi.getGeneralScoreboard(sport, league)
                 if (response.isSuccessful) {
                     return@withContext response.body()?.asDomain()!!
                 } else {
-                    Timber.e("getScoreboard-FAIL, ${response.toString()}")
+                    Timber.e("SAL_GUT getScoreboard-FAIL, ${response.toString()}")
                     BasicScoreboardModel()
                 }
             }
@@ -50,11 +51,13 @@ class ScoreboardRepositoryImpl @Inject constructor(
         limit: String,
     ): BasicScoreboardModel =
         withContext(ioDispatcher) {
+            Timber.d("SAL_GUT getScoreboard CollegeBasketballScoreboard")
+
             val response = sportsApi.getCollegeBasketballScoreboard(sport, league, limit)
             if (response.isSuccessful) {
                 return@withContext response.body()?.asDomain()!!
             } else {
-                Timber.e("scrbrdRepmarch-FAIL, ${response.errorBody().toString()}")
+                Timber.e("Scoreboard Repo-FAIL, ${response.errorBody().toString()}")
                 BasicScoreboardModel()
             }
         }
@@ -65,6 +68,8 @@ class ScoreboardRepositoryImpl @Inject constructor(
         league: String,
     ): BaseballScoreBoardNetwork =
         withContext(ioDispatcher) {
+            Timber.d("SAL_GUT getScoreboard BaseballScoreboard")
+
             val response = sportsApi.getBaseballScoreboard(sport, league)
             if (response.isSuccessful) {
                 return@withContext response.body() ?: BaseballScoreBoardNetwork()
@@ -75,13 +80,14 @@ class ScoreboardRepositoryImpl @Inject constructor(
     override suspend fun getTennisScoreBoard(sport: String, league: String): TennisScoreboardModel =
         try {
             withContext(ioDispatcher) {
+                Timber.d("SAL_GUT getScoreboard TennisScoreboard")
+
                 val tennis = sportsApi.getTennisScoreboard(sport, league).body()?.asDomain()!!
-                tennis.printToLog("TENNIS REPO")
                 return@withContext tennis
             }
         }
         catch (e: Exception) {
-            Timber.e("REPO-TENNIS, ${e.stackTraceToString()}")
+            Timber.e("SAL_GUT REPO-TENNIS, ${e.stackTraceToString()}")
             TennisScoreboardModel()
         }
 
@@ -89,7 +95,7 @@ class ScoreboardRepositoryImpl @Inject constructor(
         return withContext(ioDispatcher) {
             try {
                 val scores = sportsApi.getAbstractScoreboard(sport, league).body()
-//                Timber.d("SAL_GUT GET ABSTRACT SCORE REPO SCORES: $scores")
+                Timber.d("SAL_GUT GET ABSTRACT SCORE REPO SCORES League: ${scores?.events?.firstOrNull()}")
                 scores ?: DefaultScoreboardData()
             } catch (e: Exception) {
                 Timber.e("ABSTRACT ERROR ${e.stackTraceToString()}")
@@ -105,6 +111,8 @@ class ScoreboardRepositoryImpl @Inject constructor(
         date: String,
     ): BasicScoreboardModel =
         withContext(ioDispatcher) {
+            Timber.d("SAL_GUT getScoreboard GeneralScoreboardByDate")
+
             val result = sportsApi.getGeneralScoreboardWithDate(sport, league, date)
             if (result.isSuccessful) {
                 return@withContext result.body()?.asDomain()!!
