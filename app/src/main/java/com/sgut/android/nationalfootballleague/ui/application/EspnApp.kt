@@ -22,17 +22,13 @@ fun EspnApp(
     modifier: Modifier = Modifier,
     ) {
 
-
     val appState = rememberAppState()
     val backStackEntry by appState.navController.currentBackStackEntryAsState()
     val currentScreen = backStackEntry?.destination?.route ?: NavigationScreens.MainScreenTeamsList.route
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-
-
     Scaffold(
         bottomBar = {}
-
     ) { innerPadding ->
         Navigation(appState, padding = innerPadding)
     }

@@ -69,12 +69,12 @@ internal fun ColorScheme.fromToken(value: ColorSchemeKeyTokens): Color {
         ColorSchemeKeyTokens.OnError -> onError
     }
 }
-
+// NEON SCHEME
 val LightColorScheme = ColorScheme(
     background = Color(0xFF0F0F1A),        // Deep navy base for contrast
     onBackground = Color(0xFFE0E0FF),      // Soft neon blue-white
 
-    surface = Color(0xFF1A1A2E),           // Slightly raised dark surface
+    surface = Color(0xFF212139),           // Slightly raised dark surface
     onSurface = Color(0xFFCCF0FF),         // Soft cyan glow text
 
     primaryAccent = Color(0xFF00FFE0),     // Neon cyan
@@ -115,53 +115,6 @@ val DarkColorScheme = ColorScheme(
     error = Color(0xFFFF3366),             // Bright neon red
     onError = Color(0xFF2A0005),
 )
-
-// PASTELSCHEME
-//val LightColorScheme = ColorScheme(
-//    background = Color(0xFFFDF6F0),         // Soft peach-white
-//    onBackground = Color(0xFF3D3D3D),       // Gentle charcoal
-//
-//    surface = Color(0xFFF5F7FA),            // Pale bluish gray
-//    onSurface = Color(0xFF3D3D3D),
-//
-//    primaryAccent = Color(0xFFAEC6CF),      // Pastel blue-gray
-//    onPrimaryAccent = Color(0xFF1E1E1E),
-//
-//    secondaryAccent = Color(0xFFF4B6C2),    // Pastel pink
-//    onSecondaryAccent = Color(0xFF1E1E1E),
-//
-//    success = Color(0xFFB6E2D3),            // Mint green pastel
-//    onSuccess = Color(0xFF1E2F29),
-//
-//    warn = Color(0xFFFFD6A5),               // Soft apricot
-//    onWarn = Color(0xFF332A19),
-//
-//    error = Color(0xFFF7A1A1),              // Light coral pink
-//    onError = Color(0xFF331919),
-//)
-//
-//val DarkColorScheme = ColorScheme(
-//    background = Color(0xFF1E1E2F),         // Desaturated navy
-//    onBackground = Color(0xFFECECEC),       // Soft light gray
-//
-//    surface = Color(0xFF2C2C3A),            // Slightly lighter navy
-//    onSurface = Color(0xFFDCDCDC),
-//
-//    primaryAccent = Color(0xFFAEC6CF),      // Matches light scheme
-//    onPrimaryAccent = Color(0xFF1A1A1A),
-//
-//    secondaryAccent = Color(0xFFF4B6C2),    // Matches light scheme
-//    onSecondaryAccent = Color(0xFF1A1A1A),
-//
-//    success = Color(0xFF9FD8CB),            // Muted mint green
-//    onSuccess = Color(0xFF11241F),
-//
-//    warn = Color(0xFFFFCBA4),               // Soft orange-pink
-//    onWarn = Color(0xFF2C1C12),
-//
-//    error = Color(0xFFF4A6A6),              // Pastel red
-//    onError = Color(0xFF2C1212),
-//)
 
 val LocalColorScheme = staticCompositionLocalOf { LightColorScheme }
 

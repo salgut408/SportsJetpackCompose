@@ -49,6 +49,13 @@ import com.sgut.android.nationalfootballleague.utils.formatTo
 import com.sgut.android.nationalfootballleague.utils.toDate
 import java.util.*
 import kotlin.math.nextUp
+import timber.log.Timber
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Path
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.window.Dialog
+import java.text.NumberFormat
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,6 +77,11 @@ fun GameDetailsScreen(
 
     val eventName = gameDetailViewModel.returnTeamNamesForTopBar()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    val competition = gameDetailUiState.currentGameUiState?.header?.competitions?.firstOrNull()
+    LaunchedEffect(competition) {
+        Timber.d("SAL_GUT periodPrefix=${competition?.status?.periodPrefix?.name} competitionId=${competition?.id}")
+    }
 
 
     SportScaffold(
@@ -122,11 +134,6 @@ fun GameDetailsScreen(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
 
-                SpacerDp(modifier = modifier, height = EIGHT)
-                Text(text = gameDetailUiState.currentGameUiState?.header?.competitions?.firstOrNull()?.status?.periodPrefix?.name
-                    ?: "l")
-                Text(text = gameDetailUiState.currentGameUiState?.header?.competitions?.firstOrNull()?.id
-                    ?: "l")
                 SpacerDp(modifier = modifier, height = EIGHT)
 
                 when (gameDetailUiState.currentSport) {
@@ -233,40 +240,6 @@ fun GameDetailsScreen(
                 )
 
                 SpacerDp(modifier = modifier, height = EIGHT)
-
-                Header2(
-                    modifier = modifier,
-                    headerModel = gameDetailUiState.currentGameUiState?.header ?: HeaderModel(),
-                    middle = {
-                        when (gameDetailUiState.currentGameUiState?.header?.competitions?.firstOrNull()?.status?.type?.statusState) {
-                            StatusState.PRE -> {
-                                Column() {
-                                    Text(
-                                        text = gameDetailUiState.currentGameUiState?.header?.competitions?.firstOrNull()?.date?.toDate()
-                                            ?.formatTo("K:mm aa") ?: "",
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Text(text = gameDetailUiState.currentGameUiState?.pickcenter?.firstOrNull()?.details
-                                        ?: "")
-                                }
-                            }
-                            StatusState.IN -> {
-                                Text(text = gameDetailUiState.currentGameUiState?.header?.competitions?.firstOrNull()?.status?.type?.description
-                                    ?: "")
-
-                            }
-                            StatusState.POST -> {
-                                Text(text = gameDetailUiState.currentGameUiState?.header?.competitions?.firstOrNull()?.status?.type?.description
-                                    ?: "")
-
-                            }
-                            else -> {}
-                        }
-                    },
-                )
-
-                SpacerDp(modifier = modifier, height = EIGHT)
-
 
                 TeamStatCard3(
                     modifier = modifier,
@@ -478,39 +451,42 @@ fun WeightedRows(
     modifier: Modifier,
     header: GameDetailsModel,
 ) {
+    val competition = header.header?.competitions?.firstOrNull() ?: return
+    val competitors = competition.competitors
+    if (competitors.isEmpty()) return
 
     DefaultCard(modifier = modifier) {
-        Row(modifier = modifier.fillMaxWidth(),
+        CardHeaderText(text = "Team Records")
+        NormalDivider()
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            header.header?.competitions?.map { competitions ->
-                Text(text = competitions.status?.type?.description ?: "")
-
-                competitions.competitors.map { competitors ->
-                    competitors.team?.record?.map { teamRecord ->
-                        Column() {
-                            Text(text = teamRecord.type)
-                            Text(text = teamRecord.displayValue)
-                            Text(text = teamRecord.summary)
-                        }
+            competitors.forEach { competitor ->
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        GenericImageLoader(
+                            obj = competitor.team?.logos?.getOrNull(0)?.href ?: "",
+                            modifier = Modifier.size(28.dp)
+                        )
+                        Text(
+                            text = competitor.team?.abbreviation ?: "",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
-                    Box() {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start
-                        ) {
-                            Text(
-                                text = competitors.team?.abbreviation ?: "",
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                            SpacerDp(modifier = modifier, width = SIXTEEN)
-                            GenericImageLoader(
-                                obj = competitors.team?.logos?.getOrNull(0)?.href ?: "",
-                                modifier = Modifier.width(20.dp)
-                            )
-                        }
+                    competitor.team?.record?.firstOrNull()?.let { record ->
+                        Text(
+                            text = record.summary,
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
                     }
                 }
             }
@@ -600,47 +576,49 @@ fun SeasonLeaders(
     modifier: Modifier,
     leaders: List<GameDetailsLeadersModel>,
 ) {
-    DefaultCard(
-        modifier = modifier,
-        content = {
-            CardHeaderText(text = "Season Leaders")
-            NormalDivider()
+    if (leaders.isEmpty()) return
+    DefaultCard(modifier = modifier) {
+        CardHeaderText(text = "Season Leaders")
+        NormalDivider()
+        leaders.forEach { teamLeaders ->
+            // Team header
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                leaders.map { gameDetailsLeaders ->
-                    Row() {
-                        Column(
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-
-                                ) {
-                                GenericImageLoader(
-                                    obj = gameDetailsLeaders.team.logo,
-                                    modifier = Modifier.size(50.dp)
-                                )
-                                Text(text = gameDetailsLeaders.team.abbreviation,
-                                    fontWeight = FontWeight.Bold)
-                            }
-
-                            gameDetailsLeaders.leaders.map { gameDetailsLeaders ->
-                                Text(text = gameDetailsLeaders.displayName,
-                                    fontWeight = FontWeight.Bold)
-                                Column() {
-                                    Row() {
-                                        gameDetailsLeaders.leadersAthlete.map { leaderAthlete ->
-                                            SeasonLeadersPlayer(athlete = leaderAthlete)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                GenericImageLoader(
+                    obj = teamLeaders.team.logo,
+                    modifier = Modifier.size(32.dp)
+                )
+                Text(
+                    text = teamLeaders.team.abbreviation,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            teamLeaders.leaders.forEach { category ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp, top = 4.dp),
+                ) {
+                    Text(
+                        text = category.displayName.uppercase(),
+                        fontSize = 9.sp,
+                        color = Color.Gray,
+                        letterSpacing = 0.6.sp
+                    )
                 }
+                category.leadersAthlete.forEach { athlete ->
+                    SeasonLeadersPlayer(athlete = athlete)
+                }
+                NormalDivider()
             }
         }
-    )
+    }
 }
 
 @Composable
@@ -709,38 +687,76 @@ fun Leads(
     leaders: List<GameLeadersModel>,
     teamInt: Int,
 ) {
-    val teamInfo = leaders.getOrNull(teamInt)
-    if (leaders.isEmpty()) {
-        Text(text = "")
-    } else {
-        leaders.map {
+    if (leaders.isEmpty()) return
+    Column {
+        leaders.forEach { category ->
+            val topAthlete = category.leadersAthlete.firstOrNull() ?: return@forEach
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text(text = it.displayName)
-                Text(text = it.leadersAthlete.first().athlete.displayName)
-
+                EnlargeableAthleteImage(
+                    imageUrl = topAthlete.athlete.headshot?.href ?: "",
+                    contentDescription = topAthlete.athlete.displayName,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .border(1.dp, Color.LightGray, CircleShape)
+                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = category.displayName.uppercase(),
+                        fontSize = 9.sp,
+                        color = Color.Gray,
+                        letterSpacing = 0.6.sp
+                    )
+                    Text(
+                        text = topAthlete.athlete.displayName,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = topAthlete.athlete.position?.abbreviation ?: "",
+                        fontSize = 11.sp,
+                        color = Color.Gray
+                    )
+                }
+                Text(
+                    text = topAthlete.displayValue,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
-
-
+            Divider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
         }
     }
-
 }
 
 
 @Composable
 fun BoxScoreTeamStats(boxscore: BoxScoreModel, modifier: Modifier) {
+    if (boxscore.statistics.isEmpty()) return
     DefaultCard(modifier = modifier) {
-        CardHeaderText(text = "TeamStats")
+        CardHeaderText(text = "Team Stats")
+        NormalDivider()
         boxscore.statistics.map { stats ->
-            Text(text = boxscore.toString())
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = stats.name, fontSize = 13.sp)
+                Text(text = stats.displayValue, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+            }
         }
-
-
     }
-
 }
 
 @Composable
@@ -771,23 +787,40 @@ fun BoxScore(boxscorePlayer: BoxscorePlayerModel) {
 @Composable
 fun SeasonLeaderPlayerItem(athlete: AthleteLeaders) {
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
-        GenericImageLoader(
-            obj = athlete.athlete.headshot?.href ?: "",
+        EnlargeableAthleteImage(
+            imageUrl = athlete.athlete.headshot?.href ?: "",
+            contentDescription = athlete.athlete.shortName ?: "",
             modifier = Modifier
-                .size(40.dp)
+                .size(52.dp)
                 .clip(CircleShape)
-                .background(Color.White)
-
-                .border(width = 1.dp, color = Color.LightGray)
+                .border(width = 1.dp, color = Color.LightGray, shape = CircleShape)
         )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column() {
-            Text(text = athlete.athlete.shortName ?: "")
-            Text(text = athlete.displayValue)
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = athlete.athlete.shortName ?: "",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = athlete.athlete.position?.abbreviation ?: "",
+                fontSize = 11.sp,
+                color = Color.Gray
+            )
         }
-
+        Text(
+            text = athlete.displayValue,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }
 
@@ -816,10 +849,29 @@ fun NewVidList(
 
 @Composable
 fun DisplayLabels(list: List<GameDetailsStatisticModel>) {
-    Column() {
-        list.map {
-            Text(text = it.name, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
-            Text(text = it.displayValue, fontSize = 10.sp)
+    Column(modifier = Modifier.padding(top = 4.dp)) {
+        list.forEach { stat ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stat.name.uppercase(),
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Gray,
+                    letterSpacing = 0.6.sp
+                )
+                Text(
+                    text = stat.displayValue,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Divider(color = Color.LightGray.copy(alpha = 0.4f), thickness = 0.5.dp)
         }
     }
 }
@@ -830,49 +882,95 @@ fun TeamStatCard3(
     modifier: Modifier,
     boxscore: BoxScoreModel,
 ) {
+    if (boxscore.teams.isEmpty()) return
+    val team0 = boxscore.teams.getOrNull(0)
+    val team1 = boxscore.teams.getOrNull(1)
+    val stats0 = team0?.statistics ?: emptyList()
+    val stats1 = team1?.statistics ?: emptyList()
+
     DefaultCard(modifier = modifier) {
-        CardHeaderText(text = "TeamComm Stats")
+        CardHeaderText(text = "Team Stats")
+        NormalDivider()
+
+        // Team header row
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
-            Row() {
-                boxscore.statistics.map {
-                    Column() {
-                        Text(text = it.name)
-                        Text(text = it.displayValue)
-                    }
-                }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                GenericImageLoader(
+                    obj = team0?.team?.logos?.firstOrNull()?.href ?: "",
+                    modifier = Modifier.size(28.dp)
+                )
+                Text(
+                    text = team0?.team?.abbreviation ?: "",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
-
-            boxscore.teams.map {
-                Column(
-                    modifier = modifier
-                ) {
-                    Text(text = it.team?.abbreviation ?: "",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold)
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column() {
-                            it.statistics.map { txt ->
-                                Text(text = txt.name)
-                                Text(text = txt.displayValue)
-                            }
-                            DisplayLabels(list = it.statistics)
-                        }
-                    }
-                }
-
+            Text(
+                text = "STAT",
+                fontSize = 9.sp,
+                color = Color.Gray,
+                letterSpacing = 1.sp
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = team1?.team?.abbreviation ?: "",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                GenericImageLoader(
+                    obj = team1?.team?.logos?.firstOrNull()?.href ?: "",
+                    modifier = Modifier.size(28.dp)
+                )
             }
         }
+        NormalDivider()
 
-
+        // Stat comparison rows
+        stats0.forEachIndexed { index, stat ->
+            val stat1 = stats1.getOrNull(index)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 7.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stat.displayValue,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = stat.name.uppercase(),
+                    fontSize = 9.sp,
+                    color = Color.Gray,
+                    letterSpacing = 0.5.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1.5f)
+                )
+                Text(
+                    text = stat1?.displayValue ?: "",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            Divider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
+        }
     }
 }
 
@@ -880,40 +978,40 @@ fun TeamStatCard3(
 @Composable
 fun SeasonLeadersPlayer(athlete: AthleteLeaderModel) {
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
-
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier
-            .padding(start = 8.dp, end = 8.dp)
-
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
-        Column() {
+        EnlargeableAthleteImage(
+            imageUrl = athlete.athlete.headshot?.href ?: "",
+            contentDescription = athlete.athlete.displayName,
+            modifier = Modifier
+                .size(56.dp)
+                .clip(CircleShape)
+                .border(1.dp, Color.LightGray, CircleShape)
+        )
+        Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = athlete.athlete.shortName,
+                text = athlete.athlete.displayName,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = athlete.displayValue,
-                fontSize = 9.sp,
-                color = Color.Gray,
-                lineHeight = 10.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Visible,
-                modifier = Modifier.width(90.dp)
+                text = athlete.athlete.position?.abbreviation ?: "",
+                fontSize = 11.sp,
+                color = Color.Gray
             )
         }
-        Column() {
-            GenericImageLoader(
-                obj = athlete.athlete.headshot?.href ?: "",
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Color.White)
-                    .align(Alignment.End)
-
-            )
-        }
+        Text(
+            text = athlete.displayValue,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }
 
@@ -928,48 +1026,175 @@ fun RightToLeftLayout(
 
 @Composable
 fun ProbablesList(list: List<GameDetailsCompetitorModel>, modifier: Modifier) {
-    DefaultCard(modifier = Modifier) {
-        CardHeaderText(text = "Probables")
+    val home = list.getOrNull(0) ?: return
+    val away = list.getOrNull(1) ?: return
+    val homeColor = home.team?.color?.let { HexToJetpackColor2.getColor(it) } ?: Color.DarkGray
+    val awayColor = away.team?.color?.let { HexToJetpackColor2.getColor(it) } ?: Color.Gray
+    val homeProbable = home.probables.getOrNull(0)
+    val awayProbable = away.probables.getOrNull(0)
+
+    DefaultCard(modifier = modifier) {
+        CardHeaderText(text = "Probable Starters")
         NormalDivider()
-        Spacer(modifier = modifier.height(16.dp))
-        PitcherMatchUp(competitor = list.first(), modifier = modifier)
-        RightToLeftLayout {
-            PitcherMatchUp(competitor = list.last(), modifier = modifier)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(170.dp)
+        ) {
+            // Diagonal split background
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val diagStart = size.width * 0.44f
+                val diagEnd   = size.width * 0.56f
+
+                val leftPath = Path().apply {
+                    moveTo(0f, 0f)
+                    lineTo(diagEnd, 0f)
+                    lineTo(diagStart, size.height)
+                    lineTo(0f, size.height)
+                    close()
+                }
+                drawPath(leftPath, homeColor)
+
+                val rightPath = Path().apply {
+                    moveTo(diagEnd, 0f)
+                    lineTo(size.width, 0f)
+                    lineTo(size.width, size.height)
+                    lineTo(diagStart, size.height)
+                    close()
+                }
+                drawPath(rightPath, awayColor)
+            }
+
+            // Content row over the diagonal background
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Home side
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    EnlargeableAthleteImage(
+                        imageUrl = homeProbable?.athlete?.headshot?.href ?: "",
+                        contentDescription = homeProbable?.athlete?.displayName,
+                        modifier = Modifier.size(64.dp).clip(CircleShape)
+                            .border(2.dp, Color.White, CircleShape)
+                    )
+                    Text(
+                        text = home.team?.abbreviation ?: "",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Black,
+                        color = Color.White
+                    )
+                    Text(
+                        text = homeProbable?.athlete?.displayName ?: "TBD",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White.copy(alpha = 0.9f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.widthIn(max = 120.dp)
+                    )
+                }
+
+                // VS badge
+                Text(
+                    text = "VS",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Black,
+                    color = Color.White,
+                    style = TextStyle(
+                        shadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.6f),
+                            offset = Offset(1f, 1f),
+                            blurRadius = 4f
+                        )
+                    )
+                )
+
+                // Away side
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    EnlargeableAthleteImage(
+                        imageUrl = awayProbable?.athlete?.headshot?.href ?: "",
+                        contentDescription = awayProbable?.athlete?.displayName,
+                        modifier = Modifier
+                            .size(64.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, Color.White, CircleShape)
+                    )
+                    Text(
+                        text = away.team?.abbreviation ?: "",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Black,
+                        color = Color.White,
+                        textAlign = TextAlign.End
+                    )
+                    Text(
+                        text = awayProbable?.athlete?.displayName ?: "TBD",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White.copy(alpha = 0.9f),
+                        textAlign = TextAlign.End,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.widthIn(max = 120.dp)
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
 fun PitcherMatchUp(competitor: GameDetailsCompetitorModel, modifier: Modifier) {
-    val color = competitor.team?.color?.let { HexToJetpackColor2.getColor(it) }
-    if (color != null) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth(1f)
-                .background(color),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+    val teamColor = competitor.team?.color?.let { HexToJetpackColor2.getColor(it) } ?: return
+    val probable = competitor.probables.getOrNull(0)
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(teamColor)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
             Text(
                 text = competitor.team.abbreviation,
-                fontSize = 80.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Black,
+                color = Color.White.copy(alpha = 0.9f)
             )
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                GenericImageLoader(obj = competitor.probables.getOrNull(0)?.athlete?.headshot?.href ?: "",
-                    modifier = modifier.fillMaxWidth())
-                Text(text = competitor.probables.getOrNull(0)?.athlete?.displayName ?: "TBD",
-                    fontSize = 15.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold)
-            }
+            Text(
+                text = "SP",
+                fontSize = 11.sp,
+                color = Color.White.copy(alpha = 0.6f),
+                letterSpacing = 1.sp
+            )
+            Text(
+                text = probable?.athlete?.displayName ?: "TBD",
+                fontSize = 14.sp,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
+            )
         }
+        BasicImage(
+            imgUrl = probable?.athlete?.headshot?.href ?: "",
+            contentDescription = probable?.athlete?.displayName,
+            elevation = 0.dp,
+            backgroundColor = Color.Transparent,
+            borderWidth = 0.dp,
+            borderColor = Color.Transparent,
+            modifier = Modifier.size(72.dp).clip(CircleShape)
+        )
     }
-
-
 }
 
 @Composable
@@ -1030,7 +1255,8 @@ fun DetailCol(
 fun CompetitorHeader(competitor: GameDetailsCompetitorModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween) {
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             BasicImage(
                 imgUrl = competitor.team?.logos?.firstOrNull()?.href ?: "",
@@ -1039,12 +1265,24 @@ fun CompetitorHeader(competitor: GameDetailsCompetitorModel) {
                 backgroundColor = Color.Transparent,
                 borderWidth = 0.dp,
                 borderColor = Color.Transparent,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(44.dp)
             )
-            Text(text = competitor.team?.abbreviation ?: "")
-            Text(text = competitor.record.firstOrNull()?.summary ?: "")
+            Text(
+                text = competitor.team?.abbreviation ?: "",
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = competitor.record.firstOrNull()?.summary ?: "",
+                fontSize = 11.sp,
+                color = Color.Gray
+            )
         }
-        Text(text = competitor.score.toString(), style = MaterialTheme.typography.displaySmall)
+        Text(
+            text = competitor.score.toString(),
+            style = MaterialTheme.typography.displaySmall,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
@@ -1160,35 +1398,73 @@ fun InjuryColumn(
     modifier: Modifier,
     injuries: GameDetailsInjuriesListModel,
 ) {
-    Column() {
-
-        injuries.injuries.map {
+    Column {
+        injuries.injuries.forEach { injury ->
             Row(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 8.dp, end = 8.dp),
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                AthleteNameAndPosition(athlete = it.athlete, modifier = modifier)
-                Text(text = it.status, textAlign = TextAlign.Right)
+                AthleteNameAndPosition(athlete = injury.athlete, modifier = modifier)
+                val statusColor = when (injury.status.lowercase()) {
+                    "out" -> Color(0xFFD32F2F)
+                    "doubtful" -> Color(0xFFE64A19)
+                    "questionable" -> Color(0xFFF57C00)
+                    "probable" -> Color(0xFF388E3C)
+                    else -> Color.Gray
+                }
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = statusColor.copy(alpha = 0.12f),
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                        .padding(horizontal = 8.dp, vertical = 3.dp)
+                ) {
+                    Text(
+                        text = injury.status,
+                        color = statusColor,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
+            Divider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
         }
     }
-
 }
 
 
 @Composable
 fun AthleteNameAndPosition(athlete: GameDetailsAthleteDetailsModel, modifier: Modifier) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        GenericImageLoader(obj = athlete.headshot?.href ?: "", modifier = modifier.size(40.dp))
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Text(text = athlete.displayName)
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(text = athlete.position?.abbreviation ?: "", color = Color.Blue)
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        EnlargeableAthleteImage(
+            imageUrl = athlete.headshot?.href ?: "",
+            contentDescription = athlete.displayName,
+            modifier = Modifier
+                .size(44.dp)
+                .clip(CircleShape)
+                .border(1.dp, Color.LightGray, CircleShape)
+        )
+        Column {
+            Text(
+                text = athlete.displayName,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = "#${athlete.jersey}  ${athlete.position?.abbreviation ?: ""}",
+                fontSize = 11.sp,
+                color = Color.Gray
+            )
+        }
     }
 }
 
@@ -1208,69 +1484,384 @@ fun BaseballSituation(
     gameDetailSituation: SituationModel,
     competition: GameDetailsCompetitionModel,
     teamMap: Map<String, GameDetailsAthleteDetailsModel>,
-//    onPlayerId: (String) -> GameDetailsAthleteDetailsModel
 ) {
+    val isEndOfInning = competition.status?.periodPrefix == InningPrefix.END
+    val inningDetail = competition.status?.type?.gameTimeDetail ?: ""
+    val onFirst = gameDetailSituation.onFirst?.playerId != null
+    val onSecond = gameDetailSituation.onSecond?.playerId != null
+    val onThird = gameDetailSituation.onThird?.playerId != null
 
-//    TOP/MIDDLE/BOTTOM/END are Competition status types
     DefaultCard(modifier = modifier.fillMaxWidth()) {
-        CardHeaderText(text = "Current Situation")
-        InningText(competition = competition)
-        Divider()
-        OutsBallsStrikes(gameDetailSituation = gameDetailSituation, modifier = modifier)
 
-
-        Divider()
-
-        if (
-            competition.status?.periodPrefix == InningPrefix.END) {
-            Text(text = "Due up", fontWeight = FontWeight.Bold)
-
-            gameDetailSituation.dueUp.map {
-                teamMap[it.playerId]?.let { it1 -> Player(player = it1) }
+        // Header: inning info + outs
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "CURRENT SITUATION",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    letterSpacing = 1.5.sp
+                )
+                Text(
+                    text = inningDetail,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Black,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
-            Spacer(modifier = Modifier.width(20.dp))
+            // Outs indicator
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = "OUTS",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    letterSpacing = 1.5.sp
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    repeat(3) { idx ->
+                        val filled = idx < gameDetailSituation.outs
+                        Canvas(modifier = Modifier.size(14.dp)) {
+                            drawCircle(
+                                color = if (filled) Color(0xFFE53935) else Color(0xFFBDBDBD),
+                                radius = size.minDimension / 2f
+                            )
+                        }
+                    }
+                }
+            }
+        }
 
-        } else {
+        HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
 
+        // Count row: Balls + Strikes
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(32.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Balls
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(
+                    text = "B",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF43A047),
+                    letterSpacing = 1.sp
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    repeat(4) { idx ->
+                        val filled = idx < gameDetailSituation.balls
+                        Canvas(modifier = Modifier.size(13.dp)) {
+                            drawCircle(
+                                color = if (filled) Color(0xFF43A047) else Color(0xFFBDBDBD),
+                                radius = size.minDimension / 2f
+                            )
+                        }
+                    }
+                }
+            }
+            // Strikes
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(
+                    text = "S",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFFF9A825),
+                    letterSpacing = 1.sp
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    repeat(3) { idx ->
+                        val filled = idx < gameDetailSituation.strikes
+                        Canvas(modifier = Modifier.size(13.dp)) {
+                            drawCircle(
+                                color = if (filled) Color(0xFFF9A825) else Color(0xFFBDBDBD),
+                                radius = size.minDimension / 2f
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
+
+        // Baseball diamond + batter/pitcher section
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Batter or Due Up column
+            if (isEndOfInning) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "DUE UP",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        letterSpacing = 1.5.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        gameDetailSituation.dueUp.take(3).forEach { dueUpItem ->
+                            val player = teamMap[dueUpItem.playerId]
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                EnlargeableAthleteImage(
+                                    imageUrl = player?.headshot?.href ?: "",
+                                    contentDescription = player?.displayName,
+                                    modifier = Modifier
+                                        .size(52.dp)
+                                        .clip(CircleShape)
+                                        .border(2.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.3f), CircleShape)
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = player?.shortName ?: "TBD",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Text(
+                                    text = dueUpItem.batOrder,
+                                    fontSize = 9.sp,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Batter
+                val batter = teamMap[gameDetailSituation.batter?.playerId?.toString()]
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "AT BAT",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF43A047),
+                        letterSpacing = 1.5.sp
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    EnlargeableAthleteImage(
+                        imageUrl = batter?.headshot?.href ?: "",
+                        contentDescription = batter?.displayName,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, Color(0xFF43A047), CircleShape)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = batter?.shortName ?: "—",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = batter?.position?.abbreviation ?: "",
+                        fontSize = 10.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                }
+            }
+
+            // Baseball Diamond (canvas)
+            BaseballDiamond(
+                onFirst = onFirst,
+                onSecond = onSecond,
+                onThird = onThird,
+                modifier = Modifier.size(110.dp)
+            )
+
+            // Pitcher
+            if (!isEndOfInning) {
+                val pitcher = teamMap[gameDetailSituation.pitcher?.playerId?.toString()]
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "PITCHING",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFE53935),
+                        letterSpacing = 1.5.sp
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    EnlargeableAthleteImage(
+                        imageUrl = pitcher?.headshot?.href ?: "",
+                        contentDescription = pitcher?.displayName,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, Color(0xFFE53935), CircleShape)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = pitcher?.shortName ?: "—",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        text = pitcher?.position?.abbreviation ?: "",
+                        fontSize = 10.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+                }
+            } else {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
+
+        // Runners on base labels
+        if (!isEndOfInning && (onFirst || onSecond || onThird)) {
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
             Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.Top
             ) {
-                Player(
-                    player = teamMap[gameDetailSituation.batter?.playerId.toString()]
-                        ?: GameDetailsAthleteDetailsModel())
-
-                Text(text = "Vs", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-
-                Player(player = teamMap[gameDetailSituation.pitcher?.playerId.toString()]
-                    ?: GameDetailsAthleteDetailsModel())
+                listOf(
+                    Triple("1ST", gameDetailSituation.onFirst?.playerId, onFirst),
+                    Triple("2ND", gameDetailSituation.onSecond?.playerId, onSecond),
+                    Triple("3RD", gameDetailSituation.onThird?.playerId, onThird)
+                ).filter { it.third }.forEach { (label, playerId, _) ->
+                    val runner = teamMap[playerId.toString()]
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(28.dp)
+                                .background(Color(0xFFF9A825), RoundedCornerShape(4.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = label,
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Black,
+                                color = Color.White
+                            )
+                        }
+                        EnlargeableAthleteImage(
+                            imageUrl = runner?.headshot?.href ?: "",
+                            contentDescription = runner?.displayName,
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clip(CircleShape)
+                                .border(1.dp, Color(0xFFF9A825), CircleShape)
+                        )
+                        Text(
+                            text = runner?.shortName ?: "Runner",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
             }
         }
-        NormalDivider()
 
-        Text(text = "On First", fontWeight = FontWeight.Bold)
-        Row() {
-            teamMap[gameDetailSituation.onFirst?.playerId.toString()]?.let { Player(player = it) }
+        // Last play
+        val lastPlayText = gameDetailSituation.lastPlay?.text
+        if (!lastPlayText.isNullOrBlank()) {
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
+            Text(
+                text = lastPlayText,
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
+            )
         }
-        Text(text = "On Second", fontWeight = FontWeight.Bold)
-        Row() {
-            teamMap[gameDetailSituation.onSecond?.playerId.toString()]?.let { Player(player = it) }
-        }
-        Text(text = "On Third", fontWeight = FontWeight.Bold)
-        Row() {
-            teamMap[gameDetailSituation.onThird?.playerId.toString()]?.let { Player(player = it) }
-        }
+    }
+}
 
-        Text(text = "Due up", fontWeight = FontWeight.Bold)
+@Composable
+fun BaseballDiamond(
+    onFirst: Boolean,
+    onSecond: Boolean,
+    onThird: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val baseColor = Color(0xFFF9A825)
+    val emptyColor = Color(0xFFBDBDBD)
+    val homeColor = Color(0xFF757575)
 
+    Canvas(modifier = modifier) {
+        val w = size.width
+        val h = size.height
+        val cx = w / 2f
+        val cy = h / 2f
 
-        gameDetailSituation.dueUp.map {
-            Row {
-                teamMap[it.playerId]?.let { it1 -> Player(player = it1) }
+        // Diamond corners: home=bottom, first=right, second=top, third=left
+        val homeX = cx; val homeY = h * 0.85f
+        val firstX = w * 0.85f; val firstY = cy
+        val secondX = cx; val secondY = h * 0.15f
+        val thirdX = w * 0.15f; val thirdY = cy
 
+        val baseSizeRatio = 0.10f
+        val bw = w * baseSizeRatio
+        val bh = h * baseSizeRatio
+
+        fun drawDiamond(centerX: Float, centerY: Float, filled: Boolean) {
+            val p = Path().apply {
+                moveTo(centerX, centerY - bh)
+                lineTo(centerX + bw, centerY)
+                lineTo(centerX, centerY + bh)
+                lineTo(centerX - bw, centerY)
+                close()
             }
+            drawPath(p, color = if (filled) baseColor else emptyColor)
         }
+
+        // Draw baselines
+        val lineColor = emptyColor.copy(alpha = 0.4f)
+        drawLine(lineColor, Offset(homeX, homeY), Offset(firstX, firstY), strokeWidth = 2f)
+        drawLine(lineColor, Offset(firstX, firstY), Offset(secondX, secondY), strokeWidth = 2f)
+        drawLine(lineColor, Offset(secondX, secondY), Offset(thirdX, thirdY), strokeWidth = 2f)
+        drawLine(lineColor, Offset(thirdX, thirdY), Offset(homeX, homeY), strokeWidth = 2f)
+
+        // Draw bases
+        drawDiamond(secondX, secondY, onSecond)
+        drawDiamond(firstX, firstY, onFirst)
+        drawDiamond(thirdX, thirdY, onThird)
+
+        // Home plate
+        val hp = Path().apply {
+            moveTo(homeX, homeY - bh * 0.8f)
+            lineTo(homeX + bw * 0.8f, homeY)
+            lineTo(homeX + bw * 0.5f, homeY + bh * 0.6f)
+            lineTo(homeX - bw * 0.5f, homeY + bh * 0.6f)
+            lineTo(homeX - bw * 0.8f, homeY)
+            close()
+        }
+        drawPath(hp, color = homeColor)
     }
 }
 
@@ -1303,6 +1894,53 @@ fun Tracker(tracking: String, count: Int, modifier: Modifier) {
 }
 
 @Composable
+fun EnlargeableAthleteImage(
+    imageUrl: String,
+    contentDescription: String?,
+    modifier: Modifier = Modifier,
+) {
+    var enlarged by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = modifier.pointerInput(Unit) {
+            detectTapGestures(onLongPress = { enlarged = true })
+        }
+    ) {
+        GenericImageLoader(obj = imageUrl, modifier = Modifier.fillMaxSize())
+    }
+
+    if (enlarged) {
+        Dialog(onDismissRequest = { enlarged = false }) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(MaterialTheme.colorScheme.surface)
+                    .clickable { enlarged = false }
+                    .padding(bottom = 16.dp)
+            ) {
+                GenericImageLoader(
+                    obj = imageUrl,
+                    modifier = Modifier
+                        .size(280.dp)
+                        .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                )
+                contentDescription?.takeIf { it.isNotEmpty() }?.let {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = it,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(horizontal = 20.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun Player(player: GameDetailsAthleteDetailsModel) {
     Box(modifier = Modifier.wrapContentSize()) {
         Column(
@@ -1310,14 +1948,13 @@ fun Player(player: GameDetailsAthleteDetailsModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            BasicImage(
-                imgUrl = player.headshot?.href ?: "",
+            EnlargeableAthleteImage(
+                imageUrl = player.headshot?.href ?: "",
                 contentDescription = player.displayName,
-                elevation = 2.dp,
-                backgroundColor = Color.White,
-                borderWidth = 1.dp,
-                borderColor = Color.Black,
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, Color.LightGray, CircleShape)
             )
 
             Text(text = player.shortName, fontSize = 10.sp)
@@ -1669,21 +2306,26 @@ fun PickCenterList(
 
         NormalDivider()
 
-        list.map { pickCenter ->
+        list.forEach { pickCenter ->
             Row(
-                modifier = modifier.fillMaxWidth(1f),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top
             ) {
-                Text(text = pickCenter.provider.name)
-                Column(modifier = modifier) {
-
-                    Text(text = "Favorite: ${pickCenter.details}")
-                    Text(text = "O/U ${pickCenter.overUnder.toString()}")
-                    Text(text = "Spread ${pickCenter.spread}")
-
+                Text(
+                    text = pickCenter.provider.name,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 13.sp
+                )
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(text = pickCenter.details, fontSize = 12.sp)
+                    Text(text = "O/U  ${pickCenter.overUnder}", fontSize = 12.sp)
+                    Text(text = "Spread  ${pickCenter.spread}", fontSize = 12.sp)
                 }
             }
+            NormalDivider()
         }
     }
 }
@@ -1694,56 +2336,206 @@ fun GameInformation(
     modifier: Modifier,
     gameDetailModel: GameDetailsModel,
 ) {
-    DefaultCard(
-        modifier = modifier
-    ) {
-        CardHeaderText(text = "Game Information")
-        NormalDivider()
+    val info = gameDetailModel.gameInfo
+    val venue = info.venue
+    val weather = info.weather
+    val numFormat = NumberFormat.getNumberInstance()
 
-        GameInfoCardVenueImage(gameDetailModel = gameDetailModel, modifier = modifier)
+    DefaultCard(modifier = modifier) {
 
-        LongGameTimeDetail(gameDetailModel = gameDetailModel)
-
-        Row(
-            modifier = modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            AddressComp(
-                city = gameDetailModel.gameInfo.venue.address.city,
-                state = gameDetailModel.gameInfo.venue.address.city
-            )
-            Text(
-                text = gameDetailModel.gameInfo?.weather?.temperature ?: "",
-                fontWeight = FontWeight.Bold
-            )
-        }
-        Divider()
-        Row(
-            modifier = modifier
+        // Hero venue image with gradient overlay + weather badge
+        Box(
+            modifier = Modifier
                 .fillMaxWidth()
+                .height(210.dp)
         ) {
-            Text(text = "CAPACITY: ", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            if (venue.images.isNotEmpty()) {
+                GenericImageLoader(
+                    obj = venue.images.first().href ?: "",
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            // bottom gradient for venue text legibility
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.82f))
+                        )
+                    )
+            )
+            // top gradient for weather badge legibility
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colorStops = arrayOf(
+                                0f to Color.Black.copy(alpha = 0.35f),
+                                0.4f to Color.Transparent
+                            )
+                        )
+                    )
+            )
 
-            Text(text = gameDetailModel.gameInfo?.venue?.capacity.toString(), fontSize = 12.sp)
+            // Weather badge — top right
+            if (weather.temperature.isNotBlank() || weather.conditionId.isNotBlank()) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    if (weather.temperature.isNotBlank()) {
+                        Text(
+                            text = "${weather.temperature}°F",
+                            color = Color.White,
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    if (weather.conditionId.isNotBlank()) {
+                        Text(
+                            text = weather.conditionId,
+                            color = Color.White.copy(alpha = 0.85f),
+                            fontSize = 11.sp
+                        )
+                    }
+                    if (weather.highTemperature > 0 || weather.lowTemperature > 0) {
+                        Text(
+                            text = "H:${weather.highTemperature}°  L:${weather.lowTemperature}°",
+                            color = Color.White.copy(alpha = 0.7f),
+                            fontSize = 10.sp
+                        )
+                    }
+                    if (weather.gust > 0 || weather.precipitation > 0) {
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            if (weather.gust > 0) {
+                                Text(
+                                    text = "\uD83C\uDF2C ${weather.gust}mph",
+                                    color = Color.White.copy(alpha = 0.7f),
+                                    fontSize = 10.sp
+                                )
+                            }
+                            if (weather.precipitation > 0) {
+                                Text(
+                                    text = "\uD83C\uDF27 ${weather.precipitation}%",
+                                    color = Color.White.copy(alpha = 0.7f),
+                                    fontSize = 10.sp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
 
+            // Venue name + location — bottom left
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(14.dp)
+            ) {
+                Text(
+                    text = venue.fullName,
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "${venue.address.city}, ${venue.address.state}",
+                    color = Color.White.copy(alpha = 0.75f),
+                    fontSize = 12.sp
+                )
+            }
         }
 
-        NormalDivider()
+        // Venue stats row
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            horizontalArrangement = Arrangement.spacedBy(28.dp)
+        ) {
+            if (venue.capacity > 0) {
+                Column {
+                    Text(
+                        text = "CAPACITY",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        letterSpacing = 1.sp
+                    )
+                    Text(
+                        text = numFormat.format(venue.capacity),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+            Column {
+                Text(
+                    text = "SURFACE",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    letterSpacing = 1.sp
+                )
+                Text(
+                    text = if (venue.grass) "Grass" else "Turf",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            if (info.attendance > 0) {
+                Column {
+                    Text(
+                        text = "ATTENDANCE",
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        letterSpacing = 1.sp
+                    )
+                    Text(
+                        text = numFormat.format(info.attendance),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+        }
 
-        Column() {
-
-            if (gameDetailModel.gameInfo.officials.isNotEmpty()) {
-                Text(text = "Officials", fontSize = 20.sp)
-            } else Text(text = "")
-
-            gameDetailModel.gameInfo.officials.map { official ->
-                Row(
-                    modifier = modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(text = official.displayName ?: "", fontWeight = FontWeight.Bold)
-                    Text(text = official.position.displayName ?: "")
+        // Officials section
+        if (info.officials.isNotEmpty()) {
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f))
+            Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+                Text(
+                    text = "OFFICIALS",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    letterSpacing = 1.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                info.officials.forEach { official ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 3.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = official.displayName ?: "",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            text = official.position.displayName ?: "",
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        )
+                    }
                 }
             }
         }
@@ -1957,38 +2749,60 @@ fun TabsLastFiveGames(
 
 @Composable
 fun LastFiveGameRow(lastEvents: GameDetailsEventModel) {
+    val resultColor = when (lastEvents.gameResult.uppercase()) {
+        "W" -> Color(0xFF2E7D32)
+        "L" -> Color(0xFFC62828)
+        else -> Color.Gray
+    }
     Row(
         modifier = Modifier
-            .fillMaxWidth(1f)
-            .background(Color.LightGray),
-        horizontalArrangement = Arrangement.SpaceEvenly,
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        Text(text = lastEvents.gameDate.toDate()?.formatTo("MM-dd-yyyy") ?: "", fontSize = 10.sp)
-        Spacer(modifier = Modifier.width(8.dp))
-
+        Text(
+            text = lastEvents.gameDate.toDate()?.formatTo("MMM d") ?: "",
+            fontSize = 11.sp,
+            color = Color.Gray,
+            modifier = Modifier.width(40.dp)
+        )
         Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = lastEvents.atVs,
-                fontSize = 16.sp
-            )
-            GenericImageLoader(obj = lastEvents.opponent.logo, modifier = Modifier.size(30.dp))
+            Text(text = lastEvents.atVs, fontSize = 11.sp, color = Color.Gray)
+            GenericImageLoader(obj = lastEvents.opponent.logo, modifier = Modifier.size(26.dp))
             Text(
                 text = lastEvents.opponent.abbreviation,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Start)
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold
+            )
         }
-        Spacer(modifier = Modifier.width(8.dp))
         Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = lastEvents.gameResult, fontSize = 12.sp, textAlign = TextAlign.Start)
-            Text(text = lastEvents.score, fontSize = 12.sp, textAlign = TextAlign.Start)
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = resultColor.copy(alpha = 0.12f),
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(horizontal = 7.dp, vertical = 2.dp)
+            ) {
+                Text(
+                    text = lastEvents.gameResult.uppercase(),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = resultColor
+                )
+            }
+            Text(
+                text = lastEvents.score,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
 }
@@ -2018,7 +2832,10 @@ fun LastFiveGames2(
             Text(text = "OPP")
             Text(text = "RESULT")
         }
-        team1Info?.lastEvents?.map { LastFiveGameRow(lastEvents = it) }
+        team1Info?.lastEvents?.forEach { event ->
+            LastFiveGameRow(lastEvents = event)
+            NormalDivider()
+        }
 
     }
 
@@ -2051,7 +2868,8 @@ fun GameInfoCardVenueImage(
                 Text(
                     text = gameDetailModel.gameInfo?.venue?.fullName ?: "",
                     style = TextStyle(
-                        fontSize = 50.sp,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
                         shadow = Shadow(
                             color = Color.Black,
                             offset = offset,

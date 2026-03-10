@@ -11,10 +11,6 @@ class EspnAppState(
     private val resources: Resources,
     coroutineScope: CoroutineScope,
 ) {
-    init {
-
-    }
-
     fun popUp() {
         navController.popBackStack()
     }
@@ -38,8 +34,6 @@ class EspnAppState(
             }
         }
     }
-
-
 }
 
 

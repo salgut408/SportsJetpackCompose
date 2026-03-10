@@ -3,6 +3,8 @@ package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -75,7 +77,7 @@ fun HeadingSection(modifier: Modifier = Modifier, title: String, subtitle: Strin
     ) {
         Text(text = title, style = MaterialTheme.typography.headlineSmall.copy(fontSize = 14.sp))
         Text(text = subtitle, style = MaterialTheme.typography.titleSmall)
-        Divider()
+        HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
         content()
     }
 }

@@ -2,6 +2,7 @@ package com.sgut.android.nationalfootballleague.di
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
@@ -22,18 +23,16 @@ fun GameDetailsTopBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-
-
-    ) {
+) {
     CenterAlignedTopAppBar(
         title = {
-                Text(text = eventName, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                },
+            Text(text = eventName, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        },
         navigationIcon = {
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
-                        imageVector = Icons.Filled.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = ""
                     )
                 }
@@ -69,18 +68,23 @@ fun TopAppBarWithLogo(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-
-                Text(text = title,  fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge)
-                GenericImageLoader(obj = logo, modifier = modifier
-                    .size(80.dp)
-                    .padding(8.dp))
+                Text(
+                    text = title,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                GenericImageLoader(
+                    obj = logo, modifier = modifier
+                        .size(80.dp)
+                        .padding(8.dp)
+                )
             }
         },
         navigationIcon = {
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
-                        imageVector = Icons.Filled.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = ""
                     )
                 }
@@ -105,7 +109,7 @@ fun ToolBar2(
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
-                        imageVector = Icons.Filled.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = ""
                     )
                 }
@@ -114,7 +118,6 @@ fun ToolBar2(
         scrollBehavior = scrollBehavior,
     )
 }
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -141,8 +144,8 @@ fun BottomSportBar() {
     NavigationBar() {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
-                icon = {Icon(Icons.Filled.Favorite, contentDescription = item)},
-                label = { Text(text = item)},
+                icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
+                label = { Text(text = item) },
                 selected = selectedItem == index,
                 onClick = { selectedItem = index }
             )
