@@ -100,7 +100,7 @@ fun ScoreboardScreen(
                     leagues = Constants.LIST_OF_LEAGUE_PAIRS,
                     padding = innerPadding,
                     onLeagueSelected = { sport, league ->
-                        Timber.d("SAL_GUT SOMETHING SELECTED SPORT: $sport LEAGUE: $league")
+//                        Timber.d("SAL_GUT SOMETHING SELECTED SPORT: $sport LEAGUE: $league")
                         if (sport == TENNIS) {
                             // TODO FIX bc first we call setDifferentSport so it can be null and show tennis
                             selectionViewModel.setDifferentSport(sport, league)

@@ -39,7 +39,7 @@ class SelectionViewModel @Inject constructor(
             try {
                 val sportModel = fullTeamsListRepository.getSport(sport, league)
                 loadNews(sport, league)
-                Timber.d("SAL_GUT sportModel  $sportModel")
+//                Timber.d("SAL_GUT sportModel  $sportModel")
                 _selectionFullSportUiState.update {
                     it.copy(
                         id = sportModel.id,

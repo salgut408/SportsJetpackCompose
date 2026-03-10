@@ -89,7 +89,7 @@ class ScoreboardRepositoryImpl @Inject constructor(
         return withContext(ioDispatcher) {
             try {
                 val scores = sportsApi.getAbstractScoreboard(sport, league).body()
-                Timber.d("SAL_GUT GET ABSTRACT SCORE REPO SCORES: $scores")
+//                Timber.d("SAL_GUT GET ABSTRACT SCORE REPO SCORES: $scores")
                 scores ?: DefaultScoreboardData()
             } catch (e: Exception) {
                 Timber.e("ABSTRACT ERROR ${e.stackTraceToString()}")
