@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,16 +39,10 @@ class GameDetailViewModel @Inject constructor(
 
 
     init {
-//        make2DArray()
         val evens = Array(3) {3}
         println(evens)
     }
 
-    fun make2DArray(){
-
-//        evens.printToLog("EVENs")
-
-    }
 
     fun getPlayerFromId(id: String): GameDetailsAthleteDetailsModel {
         return map.value[id] ?: GameDetailsAthleteDetailsModel()
@@ -72,6 +67,9 @@ class GameDetailViewModel @Inject constructor(
             _map.update {
                 it + playersMap(sport, league, teams)
             }
+
+            Timber.d("SAL_GUT newGameDeetUiState: ${newGameDeetUiState.toString()}")
+//            Timber.d("SAL_GUT newGameDeetUiState: ${newGameDeetUiState.}")
 
 
             newGameDeetUiState.boxscore?.teams?.forEach { i ->

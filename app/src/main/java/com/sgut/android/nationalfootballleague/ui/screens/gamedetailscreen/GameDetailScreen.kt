@@ -292,7 +292,227 @@ fun BaseballSpecific(
         else -> {}
     }
 
+    if (gameDetailsModel.rosters.isNotEmpty()) {
+        SpacerDp(modifier = modifier, height = EIGHT)
+        BaseballRosterCard(modifier = modifier, rosters = gameDetailsModel.rosters)
+    }
 
+}
+
+// Baseball-specific stat abbreviations to display in dropdown
+private val BASEBALL_BATTING_STATS = setOf("AB", "H", "RBI", "SB", "BB", "SO", "HR", "AVG", "OBP", "SLG", "OPS", "R", "2B", "3B")
+private val BASEBALL_PITCHING_STATS = setOf("IP", "H", "R", "ER", "BB", "SO", "HR", "ERA", "PC-ST", "BF")
+
+@Composable
+fun BaseballRosterCard(
+    modifier: Modifier = Modifier,
+    rosters: List<RostersModel>,
+) {
+    var selectedTab by remember { mutableStateOf(0) }
+
+    DefaultCard(modifier = modifier.fillMaxWidth()) {
+        Column {
+            // Team tabs
+            TabRow(selectedTabIndex = selectedTab) {
+                rosters.forEachIndexed { index, rosterEntry ->
+                    Tab(
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
+                        text = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                GenericImageLoader(
+                                    obj = rosterEntry.team.logos,
+                                    modifier = Modifier
+                                        .size(24.dp)
+                                        .clip(CircleShape)
+                                )
+                                Text(
+                                    text = rosterEntry.team.abbreviation,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 13.sp
+                                )
+                            }
+                        }
+                    )
+                }
+            }
+
+            // Roster list for selected team
+            rosters.getOrNull(selectedTab)?.let { rosterEntry ->
+                // Header row
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "#",
+                        modifier = Modifier.width(28.dp),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                    Text(
+                        text = "PLAYER",
+                        modifier = Modifier.weight(1f),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+                    Text(
+                        text = "POS",
+                        modifier = Modifier.width(40.dp),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        textAlign = TextAlign.End
+                    )
+                }
+                HorizontalDivider()
+
+                rosterEntry.roster
+                    .sortedBy { it.batOrder.takeIf { o -> o > 0 } ?: Int.MAX_VALUE }
+                    .forEach { player ->
+                        BaseballRosterPlayerRow(player = player)
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    }
+            }
+        }
+    }
+}
+
+@Composable
+fun BaseballRosterPlayerRow(
+    player: RosterModel,
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    val battingStats = player.stats.filter { it.abbreviation in BASEBALL_BATTING_STATS }
+    val pitchingStats = player.stats.filter { it.abbreviation in BASEBALL_PITCHING_STATS }
+    val displayStats = battingStats.ifEmpty { pitchingStats }
+    val hasStats = displayStats.isNotEmpty()
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(enabled = hasStats) { expanded = !expanded }
+            .animateContentSize(animationSpec = tween(200))
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Bat order badge
+            Text(
+                text = if (player.batOrder > 0) player.batOrder.toString() else "",
+                modifier = Modifier.width(28.dp),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            )
+
+            // Headshot
+            GenericImageLoader(
+                obj = player.athlete.headshot?.href ?: "",
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            // Name + position
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = player.athlete.displayName,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = player.position.displayName,
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f)
+                )
+            }
+
+            // Position abbreviation + expand indicator
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = player.position.abbreviation,
+                    modifier = Modifier.width(32.dp),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.End
+                )
+                if (hasStats) {
+                    Text(
+                        text = if (expanded) "▴" else "▾",
+                        modifier = Modifier.padding(start = 6.dp),
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                    )
+                }
+            }
+        }
+
+        // Expanded stats
+        if (expanded && hasStats) {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f)
+            ) {
+                Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
+                    Text(
+                        text = if (battingStats.isNotEmpty()) "BATTING STATS" else "PITCHING STATS",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        letterSpacing = 1.sp,
+                        modifier = Modifier.padding(bottom = 6.dp)
+                    )
+                    // Stats in a wrapping row grid
+                    val chunked = displayStats.chunked(3)
+                    chunked.forEach { rowStats ->
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            rowStats.forEach { stat ->
+                                Column(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(vertical = 4.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        text = stat.displayValue,
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = stat.abbreviation,
+                                        fontSize = 10.sp,
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
+                                        letterSpacing = 0.5.sp
+                                    )
+                                }
+                            }
+                            // Fill remaining columns if row is not full
+                            repeat(3 - rowStats.size) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
