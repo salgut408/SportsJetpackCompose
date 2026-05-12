@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TypeX(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String? = "",
-    @SerializedName("alternativeText")
+    @SerialName("alternativeText")
     val alternativeText: String? = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = "",
-    @SerializedName("text")
+    @SerialName("text")
     val text: String? = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: String? = ""
 )

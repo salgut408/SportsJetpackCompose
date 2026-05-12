@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Week(
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("number")
+    @SerialName("number")
     val number: Int = 0,
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = "",
-    @SerializedName("text")
+    @SerialName("text")
     val text: String = ""
 )

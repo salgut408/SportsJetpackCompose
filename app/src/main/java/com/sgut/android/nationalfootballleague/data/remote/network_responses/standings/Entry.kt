@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.standings
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.standings_models.EntryModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Entry(
-    @SerializedName("stats")
+    @SerialName("stats")
     val stats: List<Stat> = listOf(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: Team = Team()
 )
 

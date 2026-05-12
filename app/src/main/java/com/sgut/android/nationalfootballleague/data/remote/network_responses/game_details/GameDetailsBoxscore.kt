@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.*
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsBoxscore(
-  @SerializedName("teams")
+  @SerialName("teams")
   val teams: List<GameDetailsTeams> = listOf(),
-  @SerializedName("players")
+  @SerialName("players")
   val players: List<Players> = listOf(),
-  @SerializedName("statistics")
+  @SerialName("statistics")
   val statistics: List<GameDetailsStatistics> = listOf(),
   )
 
@@ -22,10 +24,11 @@ fun GameDetailsBoxscore.asDomain(): BoxScoreModel {
 }
 
 
+@Serializable
 data class Players(
-  @SerializedName("team")
+  @SerialName("team")
   val team: GameDetailsTeam? = GameDetailsTeam(),
-  @SerializedName("statistics")
+  @SerialName("statistics")
   val statistics: List<Statistics> = listOf(),
 )
 
@@ -36,21 +39,22 @@ fun Players.asDomain(): BoxscorePlayerModel {
   )
 }
 
+@Serializable
 data class Statistics(
 
-  @SerializedName("name")
+  @SerialName("name")
   val name: String? = null,
-  @SerializedName("keys")
+  @SerialName("keys")
   val keys: List<String> = listOf(),
-  @SerializedName("text")
+  @SerialName("text")
   val text: String? = null,
-  @SerializedName("labels")
+  @SerialName("labels")
   val labels: List<String> = listOf(),
-  @SerializedName("descriptions")
+  @SerialName("descriptions")
   val descriptions: List<String> = listOf(),
-  @SerializedName("athletes")
+  @SerialName("athletes")
   val athletes: List<GameDetailsAthletes> = listOf(),
-  @SerializedName("totals")
+  @SerialName("totals")
   val totals: List<String> = listOf(),
 
   )
@@ -66,11 +70,12 @@ fun Statistics.asDomain(): BoxscorePlayerStatisticModel {
   )
 }
 
+@Serializable
 data class GameDetailsAthletes(
 
-  @SerializedName("athlete")
+  @SerialName("athlete")
   val athlete: GameDetailsAthlete? = GameDetailsAthlete(),
-  @SerializedName("stats")
+  @SerialName("stats")
   val stats: List<String> = listOf(),
   )
 

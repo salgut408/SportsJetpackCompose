@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.RecordItemModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Items3 (
-  @SerializedName("type"    ) val type    : String?          = null,
-  @SerializedName("summary" ) val summary : String?          = null,
-  @SerializedName("stats"   ) val stats   : List<Stats3?> = listOf()
+  @SerialName("type"    ) val type    : String?          = null,
+  @SerialName("summary" ) val summary : String?          = null,
+  @SerialName("stats"   ) val stats   : List<Stats3?> = listOf()
 )
 
 fun Items3.asRecordItemModel(): RecordItemModel {

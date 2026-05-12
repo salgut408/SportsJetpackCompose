@@ -1,21 +1,23 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NetworkAthleteResponse(
-    @SerializedName("athlete")
+    @SerialName("athlete")
     val athlete: Athlete = Athlete(),
-    @SerializedName("league")
+    @SerialName("league")
     val league: League = League(),
-    @SerializedName("playerSwitcher")
+    @SerialName("playerSwitcher")
     val playerSwitcher: PlayerSwitcher = PlayerSwitcher(),
-    @SerializedName("quicklinks")
+    @SerialName("quicklinks")
     val quicklinks: List<Quicklink> = listOf(),
-    @SerializedName("season")
+    @SerialName("season")
     val season: SeasonXX = SeasonXX(),
-    @SerializedName("standings")
+    @SerialName("standings")
     val standings: StandingsXX = StandingsXX(),
-    @SerializedName("ticketsInfo")
+    @SerialName("ticketsInfo")
     val ticketsInfo: TicketsInfo = TicketsInfo()
 )

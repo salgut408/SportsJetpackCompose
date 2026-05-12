@@ -50,22 +50,6 @@ fun Standings(
 
             }
         }
-
-//        Row {
-//            standings.standingsUiState.children.map { child ->
-//                Children(child = child, modifier = modifier)
-//                Spacer(modifier = modifier.width(THIRTYSIX.dp))
-//                NormalDivider(
-//                    color = Color.Black,
-//                    modifier = modifier
-//                        .fillMaxHeight(1f)
-//                        .width(1.dp)
-//                )
-//                Spacer(modifier = modifier.width(EIGHT.dp))
-//
-//            }
-//        }
-//        Text(text = standings.standingsUiState.children.toString() )
     }
 }
 
@@ -76,7 +60,7 @@ fun TeamComp(team: TeamModel, modifier: Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(text = team.abbreviation, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-        GenericImageLoader(obj = team.logos.first().href, modifier = modifier.size(30.dp))
+        GenericImageLoader(obj = team.logos.firstOrNull()?.href ?: "", modifier = modifier.size(30.dp))
     }
 
 }
@@ -85,7 +69,8 @@ fun TeamComp(team: TeamModel, modifier: Modifier) {
 fun Children(child: ChildrenModel, modifier: Modifier) {
 
     Column (horizontalAlignment = Alignment.End){
-        Text(text = child.name, fontWeight = FontWeight.Bold, fontSize = 10.sp)
+        Text(text = child.abbreviation, fontWeight = FontWeight.Bold, fontSize = 10.sp)
+        Text(text = child.standings.displayName, fontWeight = FontWeight.Bold, fontSize = 10.sp)
         Standings(standings = child.standings, modifier)
     }
 }

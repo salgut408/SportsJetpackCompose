@@ -1,0 +1,19 @@
+package com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.baseball
+
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class LeaderXX(
+    @SerialName("abbreviation")
+    val abbreviation: String = "",
+    @SerialName("displayName")
+    val displayName: String = "",
+    @SerialName("leaders")
+    val leaders: List<LeaderXXX> = listOf(),
+    @SerialName("name")
+    val name: String = "",
+    @SerialName("shortDisplayName")
+    val shortDisplayName: String = ""
+)

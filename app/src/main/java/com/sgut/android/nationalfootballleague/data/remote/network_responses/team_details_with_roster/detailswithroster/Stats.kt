@@ -1,12 +1,14 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.StatsItemModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Stats3(
-  @SerializedName("name") var name: String? = null,
-  @SerializedName("value") var value: Float? = null,
+  @SerialName("name") var name: String? = null,
+  @SerialName("value") var value: Float? = null,
   )
 
 fun Stats3.asStatsItemModel() : StatsItemModel {

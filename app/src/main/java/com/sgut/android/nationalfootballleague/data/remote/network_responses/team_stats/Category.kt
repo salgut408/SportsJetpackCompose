@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_stats
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_stats_models.CategoryModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Category(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("stats")
+    @SerialName("stats")
     val stats: List<Stat> = listOf()
 )
 

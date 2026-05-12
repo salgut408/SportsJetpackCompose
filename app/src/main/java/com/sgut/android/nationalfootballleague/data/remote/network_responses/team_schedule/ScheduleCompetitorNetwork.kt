@@ -1,25 +1,27 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule.ScheduleCompetitorModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScheduleCompetitorNetwork(
-    @SerializedName("homeAway")
+    @SerialName("homeAway")
     val homeAway: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("order")
+    @SerialName("order")
     val order: Int = 0,
-    @SerializedName("record")
+    @SerialName("record")
     val record: List<ScheduleRecordNetwork>? = listOf(),
-    @SerializedName("score")
+    @SerialName("score")
     val score: ScheduleScoreNetwork? = ScheduleScoreNetwork(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: ScheduleTeamNetwork = ScheduleTeamNetwork(),
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("winner")
+    @SerialName("winner")
     val winner: Boolean? = false
 )
 

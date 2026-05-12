@@ -2,7 +2,6 @@ package com.sgut.android.nationalfootballleague
 
 import android.content.res.Resources
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -23,19 +22,13 @@ fun EspnApp(
     modifier: Modifier = Modifier,
     ) {
 
-
     val appState = rememberAppState()
     val backStackEntry by appState.navController.currentBackStackEntryAsState()
-    val currentScreen =
-        backStackEntry?.destination?.route ?: NavigationScreens.MainScreenTeamsList.route
-    val scaffoldState = rememberScaffoldState()
+    val currentScreen = backStackEntry?.destination?.route ?: NavigationScreens.MainScreenTeamsList.route
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
-
 
     Scaffold(
         bottomBar = {}
-
     ) { innerPadding ->
         Navigation(appState, padding = innerPadding)
     }

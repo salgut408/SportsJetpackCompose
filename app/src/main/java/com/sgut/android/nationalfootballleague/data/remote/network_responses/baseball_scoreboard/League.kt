@@ -1,34 +1,36 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class League(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String? = "",
 //    TODO FIX THIS
-//    @SerializedName("calendar")
+//    @SerialName("calendar")
 //    val calendar: List<String>? = listOf(),
-    @SerializedName("calendarEndDate")
+    @SerialName("calendarEndDate")
     val calendarEndDate: String? = "",
-    @SerializedName("calendarIsWhitelist")
+    @SerialName("calendarIsWhitelist")
     val calendarIsWhitelist: Boolean? = false,
-    @SerializedName("calendarStartDate")
+    @SerialName("calendarStartDate")
     val calendarStartDate: String? = "",
-    @SerializedName("calendarType")
+    @SerialName("calendarType")
     val calendarType: String? = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = "",
-    @SerializedName("logos")
+    @SerialName("logos")
     val logos: List<Logo>? = listOf(),
-    @SerializedName("midsizeName")
+    @SerialName("midsizeName")
     val midsizeName: String? = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = "",
-    @SerializedName("season")
+    @SerialName("season")
     val season: SeasonX? = SeasonX(),
-    @SerializedName("slug")
+    @SerialName("slug")
     val slug: String? = "",
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = ""
 )

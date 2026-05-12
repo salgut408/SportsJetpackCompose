@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule.ScheduleAddressModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScheduleAddressNetwork(
-    @SerializedName("city")
+    @SerialName("city")
     val city: String = "",
-    @SerializedName("state")
+    @SerialName("state")
     val state: String = "",
-    @SerializedName("zipCode")
+    @SerialName("zipCode")
     val zipCode: String = ""
 )
 

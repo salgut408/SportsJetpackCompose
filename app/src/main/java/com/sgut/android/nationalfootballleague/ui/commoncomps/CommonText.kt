@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
 
 @Composable
 fun CardHeaderText(text: String) {
@@ -17,6 +18,6 @@ fun CardHeaderText(text: String) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        Text(text = text, style = MaterialTheme.typography.titleMedium)
+        Text(text = text, style = Theme.typography.titleL)
     }
 }

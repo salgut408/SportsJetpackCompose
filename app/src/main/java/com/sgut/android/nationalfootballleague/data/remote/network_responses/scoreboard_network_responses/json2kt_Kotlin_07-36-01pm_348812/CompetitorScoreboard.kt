@@ -1,70 +1,75 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitorsModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class CompetitorScoreboard(
-  @SerializedName("id")
+  @SerialName("id")
   val id: String? = null,
-  @SerializedName("uid")
+  @SerialName("uid")
   val uid: String? = null,
-  @SerializedName("type")
+  @SerialName("type")
   val type: String? = null,
-  @SerializedName("linescores")
+  @SerialName("linescores")
   val linescores: List<Linescore>? = listOf(),
-  @SerializedName("order")
+  @SerialName("order")
   val order: Int? = null,
-  @SerializedName("homeAway")
+  @SerialName("homeAway")
   val homeAway: String? = null,
-  @SerializedName("winner")
+  @SerialName("winner")
   val winner: Boolean? = null,
-  @SerializedName("form")
+  @SerialName("form")
   val form: String? = null,
-  @SerializedName("score")
+  @SerialName("score")
   val score: String? = null,
-  @SerializedName("records")
+  @SerialName("records")
   val records: List<RecordsScoreboard> = listOf(),
-  @SerializedName("team")
+  @SerialName("team")
   val team: TeamScoreboard = TeamScoreboard(),
-  @SerializedName("statistics")
+  @SerialName("statistics")
   val statistics: List<StatisticsScoreboard> = listOf(),
-  @SerializedName("leaders")
+  @SerialName("leaders")
   val leaders: List<GameDetailsLeaders4> = listOf(),
 
 //  TODO Fix probables w Probable v probableS
-//  @SerializedName("probables")
+//  @SerialName("probables")
 //  val probables: List<Probables> = listOf(),
 
   )
 
+@Serializable
 data class Linescore(
-  @SerializedName("value")
+  @SerialName("value")
   val value: Double? = 0.0
 )
 
+@Serializable
 data class Probable(
-  @SerializedName("name")
+  @SerialName("name")
   val name: String? = "",
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String? = "",
-  @SerializedName("abbreviation")
+  @SerialName("abbreviation")
   val abbreviation: String? = "",
-  @SerializedName("playerId")
+  @SerialName("playerId")
   val playerId: String? = "",
-  @SerializedName("athlete")
+  @SerialName("athlete")
   val athlete: ProbableAthlete? = null
 
 )
 
+@Serializable
 data class ProbableAthlete(
-  @SerializedName("id")
+  @SerialName("id")
   val id: String? = "",
-  @SerializedName("fullName")
+  @SerialName("fullName")
   val fullName: String? = "",
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String? = "",
-  @SerializedName("shortName")
+  @SerialName("shortName")
   val shortName: String? = "",
 )
 

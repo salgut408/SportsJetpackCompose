@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -18,24 +20,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.sgut.android.nationalfootballleague.*
-import com.sgut.android.nationalfootballleague.R
+import com.sgut.android.nationalfootballleague.StatusState
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.ScoreboardData
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.TennisScoreboard
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.SituationScoreboard
 import com.sgut.android.nationalfootballleague.di.TopAppBarWithLogo
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
-import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.*
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.DefaultScoreboardEventModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitionModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitorsModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardRecordModel
 import com.sgut.android.nationalfootballleague.ui.commoncomps.CardHeaderText
 import com.sgut.android.nationalfootballleague.ui.commoncomps.EIGHT
+import com.sgut.android.nationalfootballleague.ui.commoncomps.LeagueSelectionRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.*
-import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.BasicImage
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.DefaultCard
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SpacerDp
+import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.TeamLogoScoreboardImageLoader
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.NewsRow
+import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
-import com.sgut.android.nationalfootballleague.utils.*
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.FOOTBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.XFL
-import java.util.*
+import com.sgut.android.nationalfootballleague.utils.Constants
+import com.sgut.android.nationalfootballleague.utils.Constants.Companion.TENNIS
+import com.sgut.android.nationalfootballleague.utils.formatTo
+import com.sgut.android.nationalfootballleague.utils.toDate
+import timber.log.Timber
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,282 +57,70 @@ fun ScoreboardScreen(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     scoreboardViewModel: ScoreboardViewModel = hiltViewModel(),
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
+    selectionViewModel: SelectionViewModel
 ) {
 
-//    TODO this causes the switch when clicking different sport on scoreboard screen
-    scoreboardViewModel.loadGenericScoreboard(sport, league)
+    val selectionUiState by selectionViewModel.selectionUiFullSportState.collectAsStateWithLifecycle()
+    val selectionUiSport = selectionUiState.slug
+    val selectionUiLeague = selectionUiState.league.slug
 
+//    TODO this causes the switch when clicking different sport on scoreboard screen figure out what to do with selection viewmodel when selected tennis and errors bc tennis is different
+    if (selectionUiLeague.isNotBlank()) {
+        scoreboardViewModel.loadGenericScoreboard(selectionUiSport, selectionUiLeague)
+    }
+
+    Timber.d("SAL_GUT sportAll : $selectionUiSport")
 
     val newUiState by scoreboardViewModel.scoreboardModelState.collectAsStateWithLifecycle()
     val news = newUiState.currentArticles
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    val sport = newUiState.currentSport
+    val sport = newUiState.currentSport // TODO MAYBE CHECK IF THIS WORKS
     val league = newUiState.currentLeague
-
-    val tennis by scoreboardViewModel.tennis.collectAsStateWithLifecycle()
-
-
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-
         topBar = {
-
             TopAppBarWithLogo(
                 title = newUiState.defaultScoreboardModelUiState.league.abbreviation ?: "",
-                logo = newUiState.defaultScoreboardModelUiState.league.logos.getOrNull(0)?.href
-                    ?: "",
+                logo = newUiState.abstractScoreData?.league?.firstOrNull()?.logos?.firstOrNull()?.href ?: newUiState.defaultScoreboardModelUiState.league.logos.getOrNull(0)?.href ?: "",
                 canNavigateBack = canNavigateBack,
                 navigateUp = navigateUp,
                 scrollBehavior = scrollBehavior
             )
-
         },
         content = { innerPadding ->
             Column(
                 modifier = modifier
                     .verticalScroll(rememberScrollState())
-                    .padding(innerPadding)
+//                    .padding(innerPadding)
                     .background(MaterialTheme.colorScheme.background),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center
             ) {
 
-
-                Text(text = tennis.league.name)
-//                val tennisImg = tennis.league.logos.getOrNull(0)?.href ?: ""
-//                GenericImageLoader(obj = tennisImg, modifier = Modifier)
-//                tennis.events.map { events ->
-//                    events.groupings.map { grouping ->
-//                        Text(text = grouping.grouping.displayName)
-//
-//                        grouping.competitions.map { competitions ->
-//                            competitions.competitors.map { competitors ->
-//
-//                                Text(text = competitors.athlete.displayName)
-//                                GenericImageLoader(obj = competitors.athlete.flag.href,
-//                                    modifier = Modifier.size(100.dp))
-//                            }
-//                        }
-//
-//                    }
-//                }
-
-
-                LazyRow(
-                    contentPadding = PaddingValues(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                ) {
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASEBALL,
-                                Constants.MLB)
-                        }) {
-                            Text(stringResource(R.string.MLB_league),
-                                style = MaterialTheme.typography.labelSmall)
+                LeagueSelectionRow(
+                    leagues = Constants.LIST_OF_LEAGUE_PAIRS,
+                    padding = innerPadding,
+                    onLeagueSelected = { sport, league ->
+//                        Timber.d("SAL_GUT SOMETHING SELECTED SPORT: $sport LEAGUE: $league")
+                        if (sport == TENNIS) {
+                            // TODO FIX bc first we call setDifferentSport so it can be null and show tennis
+                            selectionViewModel.setDifferentSport(sport, league)
+                            scoreboardViewModel.fetchAbstractScoreboard(sport, league)
+                        } else {
+                            selectionViewModel.setDifferentSport(sport, league)
                         }
                     }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASKETBALL,
-                                Constants.NCAA_BASKETBALL)
-                        }) {
-                            Text(stringResource(R.string.NCAA_mens_basketball),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASEBALL,
-                                Constants.MLB)
-                        }) {
-                            Text(text = " WILLd",
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.SOCCER,
-                                Constants.FRA)
-                        }) {
-                            Text(stringResource(R.string.fra),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.TENNIS,
-                                Constants.ATP)
-                        }) {
-                            Text(stringResource(R.string.atp),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASKETBALL,
-                                Constants.NCAA_BASKETBALL)
-                        }) {
-                            Text(stringResource(R.string.NCAA_mens_basketball),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(
-                            onClick = {
-                                scoreboardViewModel.loadGenericScoreboard(Constants.FOOTBALL,
-                                    Constants.NFL)
-                            }
-                        ) {
-                            Text(text = stringResource(R.string.NFL_League),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.HOCKEY,
-                                Constants.NHL)
-                        }) {
-                            Text(stringResource(R.string.NHL_league),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASEBALL,
-                                Constants.WBC)
-                        }) {
-                            Text(stringResource(R.string.WBC_league),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASKETBALL,
-                                Constants.NBA)
-                        }) {
-                            Text(stringResource(R.string.NBA_league),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASKETBALL,
-                                Constants.WNBA)
-                        }) {
-                            Text(stringResource(R.string.WNBA_league),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.SOCCER,
-                                Constants.CHAMPIONS)
-                        }) {
-                            Text(stringResource(R.string.champions),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.FOOTBALL,
-                                Constants.NCAA_FOOTBALL)
-                        }) {
-                            Text(stringResource(R.string.NCAA_football),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.BASEBALL,
-                                Constants.NCAA_BASEBALL)
-                        }) {
-                            Text(stringResource(R.string.NCAA_baseball),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.SOCCER,
-                                Constants.MLS)
-                        }) {
-                            Text(stringResource(R.string.MLS_league),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.SOCCER,
-                                Constants.FIFA)
-                        }) {
-                            Text(stringResource(R.string.world_cup),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.SOCCER,
-                                Constants.LA_LIGA)
-                        }) {
-                            Text(stringResource(R.string.la_liga),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.SOCCER,
-                                Constants.EPL)
-                        }) {
-                            Text(stringResource(R.string.premier_league),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(Constants.SOCCER,
-                                Constants.UEFA)
-                        }) {
-                            Text(stringResource(R.string.euro_soccer),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            scoreboardViewModel.loadGenericScoreboard(FOOTBALL,
-                                XFL)
-                        }) {
-                            Text(stringResource(R.string.XFL_League),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-                }
+                )
 
                 Scoreboard(
                     events = newUiState.defaultScoreboardModelUiState.events,
                     modifier = modifier,
                     sport = sport,
                     league = league,
-                    navController = navController
+                    onNavigateToGame = onNavigateToGame,
+                    scoreboardData = newUiState.abstractScoreData
                 )
 
 
@@ -352,28 +150,121 @@ fun Scoreboard(
     events: List<DefaultScoreboardEventModel>,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
     modifier: Modifier,
-
-    ) {
-    DefaultCard(modifier = modifier
-    ) {
+    scoreboardData: ScoreboardData?
+) {
+    DefaultCard(modifier = modifier) {
         CardHeaderText(text = "Scoreboard")
         NormalDivider()
         events.map { event ->
-
-            NewEventMatchup(
-                event = event,
-                modifier = modifier,
-                sport = sport,
-                league = league,
-                navController = navController
-            )
+            if (event.competitions.isEmpty()) {
+                TennisScoreboardHeader(scoreboardData)
+            } else {
+                NewEventMatchup(
+                    event = event,
+                    modifier = modifier,
+                    sport = sport,
+                    league = league,
+                    onNavigateToGame = onNavigateToGame,
+                )
+            }
             NormalDivider()
-
         }
     }
 }
+
+//@Composable // TODO FIX THIS
+//fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
+//    Row(
+//        modifier = Modifier.fillMaxWidth(),
+//        horizontalArrangement = Arrangement.SpaceEvenly
+//    ) {
+//        Text(text = scoreboardData?.league?.firstOrNull()?.name ?: "")
+//        Text(text = scoreboardData?.day?.date ?: "")
+//        Text(text = scoreboardData?.events?.firstOrNull()?.name ?: "")
+//    }
+//    Column (
+//        modifier = Modifier.fillMaxWidth(),
+//    ) {
+//        scoreboardData?.events?.map { eventData ->
+//            eventData.competitions?.map { competitions ->
+//                Text(text = competitions.startDate)
+//                Row {
+//                    Text(text = competitions.competitors.firstOrNull()?.team?.name ?: "null")
+//                    Text(text = competitions.competitors.firstOrNull()?.team?.name ?: "null")
+//                }
+//            }
+//        }
+//    }
+
+@Composable
+fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
+        scoreboardData?.events?.map { eventData ->
+            eventData.competitions?.map { competition ->
+                Text(text = competition.startDate)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Timber.d("SAL_WTF ${competition.competitors.firstOrNull()?.team?.name }")
+
+                    Text(text = competition.competitors.firstOrNull()?.team?.name ?: "null")
+                    Text(text = competition.competitors.getOrNull(1)?.team?.name ?: "null")
+                }
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Text(text = scoreboardData?.league?.firstOrNull()?.name ?: "")
+            Text(text = scoreboardData?.day?.date ?: "")
+            Text(text = scoreboardData?.events?.firstOrNull()?.name ?: "")
+
+        }
+}
+
+@Composable
+fun TennisScoreboardHeader_OLD(scoreboardData: ScoreboardData?) {
+    val tennisScoreboard = scoreboardData as? TennisScoreboard
+
+    Text(text = tennisScoreboard?.events?.getOrNull(0)?.groupings .toString())
+    tennisScoreboard?.events?.forEach { eventData ->
+        eventData.groupings.forEach { groupingData ->
+            groupingData.grouping.displayName
+            Text(text = groupingData.grouping.displayName, fontWeight = FontWeight.Bold)
+            groupingData.competitions.forEach { competitionsData ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                Text(text = competitionsData.competitors.getOrNull(0)?.athlete?.shortName ?: "")
+                    Text(text = competitionsData.startDate ?: "")
+                    Text(text = competitionsData.competitors.getOrNull(1)?.athlete?.shortName ?: "")
+
+                }
+            }
+        }
+    }
+}
+
+
+
+//@Composable
+//fun TennisScoreboardHeader(scoreboardData: ScoreboardData?) {
+//    Row(
+//        modifier = Modifier.fillMaxWidth(),
+//        horizontalArrangement = Arrangement.SpaceEvenly
+//    ) {
+//        Text(text = scoreboardData?.league?.firstOrNull()?.name ?: "")
+//        Text(text = scoreboardData?.day?.date ?: "")
+//        Text(text = scoreboardData?.events?.firstOrNull()?.name ?: "")
+//    }
+//}
+
+
+
 
 
 @Composable
@@ -382,7 +273,7 @@ fun TeamsMatchUpListFromEvents(
     modifier: Modifier,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
 ) {
     DefaultCard(modifier = modifier) {
         CardHeaderText(text = "Scores")
@@ -391,7 +282,7 @@ fun TeamsMatchUpListFromEvents(
                 TeamComponent2(
                     compScoreboard = competition,
                     modifier = modifier,
-                    navController = navController,
+                    onNavigateToGame = onNavigateToGame,
                     sport = sport,
                     league = league,
                 )
@@ -415,10 +306,12 @@ fun TeamComponent(team: ScoreboardCompetitorsModel, modifier: Modifier) {
 
     Box(modifier = modifier
         .padding(8.dp)
-        .background(Brush.horizontalGradient(
-            listOf(color, Color.White)
-        ))
-        .fillMaxWidth(3f)) {
+        .background(
+            Brush.horizontalGradient(
+                listOf(color, Color.White)
+            )
+        )
+        .fillMaxWidth(0.1f)) {
 
 
         Row(
@@ -469,11 +362,10 @@ fun TeamComponent(team: ScoreboardCompetitorsModel, modifier: Modifier) {
 fun TeamComponent2(
     compScoreboard: ScoreboardCompetitionModel,
     modifier: Modifier,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
     sport: String,
     league: String,
-
-    ) {
+) {
     val team1 = compScoreboard.competitors.first().team
     val team2 = compScoreboard.competitors.last().team
     val color1 = HexToJetpackColor2.getColor(team1.color)
@@ -488,11 +380,7 @@ fun TeamComponent2(
     DefaultCard(
         modifier = modifier
             .fillMaxSize()
-            .clickable {
-                navController.navigate(NavigationScreens.GameDetailScreen.withArgs(sport,
-                    league,
-                    compScoreboard.id))
-            }) {
+            .clickable { onNavigateToGame(sport, league, compScoreboard.id) }) {
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -501,7 +389,7 @@ fun TeamComponent2(
                         listOf(color1, color2)
                     )
                 )
-                .fillMaxWidth(3f)) {
+                .fillMaxWidth(0.3f)) {
 
             Surface(color = Color.LightGray.copy(alpha = 0.3f), modifier = modifier.fillMaxSize()) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -640,7 +528,7 @@ fun CompetitorRowPre(competitor: ScoreboardCompetitorsModel, modifier: Modifier)
 
 @Composable
 fun CompetitorRow(
-    competitor: ScoreboardCompetitorsModel,
+    competitor: ScoreboardCompetitorsModel?,
     modifier: Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -654,8 +542,8 @@ fun CompetitorRow(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             BasicImage(
-                imgUrl = competitor.team.logo,
-                contentDescription = competitor.team.name,
+                imgUrl = competitor?.team?.logo ?: "",
+                contentDescription = competitor?.team?.name ?: "",
                 elevation = 0.dp,
                 backgroundColor = Color.Transparent,
                 borderWidth = 0.dp,
@@ -665,8 +553,8 @@ fun CompetitorRow(
                     .size(30.dp)
             )
             Spacer(modifier = modifier.width(8.dp))
-            Text(text = competitor.team.shortDisplayName,
-                fontWeight = if (competitor.winner) FontWeight.Bold else FontWeight.Normal,
+            Text(text = competitor?.team?.shortDisplayName ?: "",
+                fontWeight = if (competitor?.winner == true) FontWeight.Bold else FontWeight.Normal,
                 fontSize = 16.sp)
         }
 
@@ -686,50 +574,46 @@ fun CompetitorRow(
 fun NewEventMatchup(
     event: DefaultScoreboardEventModel,
     modifier: Modifier,
-    navController: NavController,
+    onNavigateToGame: (sport: String, league: String, event: String) -> Unit,
     sport: String,
     league: String,
 ) {
     Column() {
-        Box(modifier = modifier.clickable {
-            navController.navigate(
-                NavigationScreens.GameDetailScreen.withArgs(sport, league, event.id)
-            )
-        }) {
+        Box(modifier = modifier.clickable { onNavigateToGame(sport, league, event.id) }) {
             Column() {
                 // leaders
 //                Text(text = event.competitions.first().competitors.first().leaders.toString())
-                Text(text = event.competitions.first().id.toString())
+                Text(text = event.competitions.firstOrNull()?.id.toString())
                 if (sport.equals("baseball") && event.status.type?.state == StatusState.IN) {
                     CompetitionSituation(
-                        event.competitions.first().situation,
+                        event.competitions.firstOrNull()?.situation,
                         modifier = modifier
                     )
                 }
                 CompetitorRow(
-                    competitor = event.competitions.first().competitors.last(),
-                    modifier = modifier,
-                    content = {
-                        Text(
-                            text = if (event.status.type?.state == StatusState.PRE) event.competitions.first().competitors.last().records.getOrNull(
-                                0)?.summary ?: ""
-                            else event.competitions.first().competitors.last().score)
-                    }
-                )
+                    competitor = event.competitions.firstOrNull()?.competitors?.lastOrNull(),
+                    modifier = modifier
+                ) {
+                    Text(
+                        text = (if (event.status.type?.state == StatusState.PRE) event.competitions.firstOrNull()?.competitors?.last()?.records?.getOrNull(
+                            0
+                        )?.summary ?: ""
+                        else event.competitions.firstOrNull()?.competitors?.last()?.score).toString()
+                    )
+                }
 
 
                 CompetitorRow(
-                    competitor = event.competitions.first().competitors.first(),
-                    modifier = modifier,
-                    content = {
-                        Text(
-                            text = if (event.status.type?.state == StatusState.PRE) event.competitions.first().competitors.first().records.getOrNull(
-                                0)?.summary ?: ""
-                            else event.competitions.first().competitors.first().score)
-                    }
-                )
+                    competitor = event.competitions.firstOrNull()?.competitors?.firstOrNull(),
+                    modifier = modifier
+                ) {
+                    Text(
+                        text = (if (event.status.type?.state == StatusState.PRE) event.competitions.firstOrNull()?.competitors?.firstOrNull()?.records?.getOrNull(0
+                        )?.summary ?: ""
+                        else event.competitions.firstOrNull()?.competitors?.firstOrNull()?.score ?: ""))
+                }
             }
-            Text(text = event.competitions.first().status?.type?.shortDetail ?: "",
+            Text(text = event.competitions.firstOrNull()?.status?.type?.shortDetail ?: "",
                 modifier = modifier.align(
                     Alignment.TopCenter),
                 fontWeight = FontWeight.Bold)
@@ -741,9 +625,9 @@ fun NewEventMatchup(
 
 
 @Composable
-fun CompetitionSituation(situation: SituationScoreboard, modifier: Modifier) {
+fun CompetitionSituation(situation: SituationScoreboard?, modifier: Modifier) {
 
-    Text(text = "Balls: ${situation.balls.toString()} Strikes: ${situation.strikes.toString()} Outs: ${situation.outs.toString()}")
+    Text(text = "Balls: ${situation?.balls.toString()} Strikes: ${situation?.strikes.toString()} Outs: ${situation?.outs.toString()}")
 
 }
 

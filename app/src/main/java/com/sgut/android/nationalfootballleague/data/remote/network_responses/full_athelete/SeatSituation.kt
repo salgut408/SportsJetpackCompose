@@ -1,33 +1,35 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SeatSituation(
-    @SerializedName("currentTeamName")
+    @SerialName("currentTeamName")
     val currentTeamName: String = "",
-    @SerializedName("date")
+    @SerialName("date")
     val date: String = "",
-    @SerializedName("dateDay")
+    @SerialName("dateDay")
     val dateDay: String = "",
-    @SerializedName("dateShort")
+    @SerialName("dateShort")
     val dateShort: String = "",
-    @SerializedName("eventLink")
+    @SerialName("eventLink")
     val eventLink: String = "",
-    @SerializedName("genericLink")
+    @SerialName("genericLink")
     val genericLink: String = "",
-    @SerializedName("homeAway")
+    @SerialName("homeAway")
     val homeAway: String = "",
-    @SerializedName("neutralSite")
+    @SerialName("neutralSite")
     val neutralSite: Boolean = false,
-    @SerializedName("opponentTeamName")
+    @SerialName("opponentTeamName")
     val opponentTeamName: String = "",
-    @SerializedName("summary")
+    @SerialName("summary")
     val summary: String = "",
-    @SerializedName("teamLink")
+    @SerialName("teamLink")
     val teamLink: String = "",
-    @SerializedName("venueLink")
+    @SerialName("venueLink")
     val venueLink: String = "",
-    @SerializedName("venueName")
+    @SerialName("venueName")
     val venueName: String = ""
 )

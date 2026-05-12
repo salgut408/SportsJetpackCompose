@@ -1,32 +1,34 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailWithRosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailsFranchiseModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Team3 (
 
-  @SerializedName("id"               ) var id               : String              = "",
-  @SerializedName("uid"              ) var uid              : String             = "",
-  @SerializedName("slug"             ) var slug             : String              = "",
-  @SerializedName("location"         ) var location         : String              = "",
-  @SerializedName("name"             ) var name             : String              = "",
-  @SerializedName("nickname"         ) var nickname         : String              = "",
-  @SerializedName("abbreviation"     ) var abbreviation     : String              = "",
-  @SerializedName("displayName"      ) var displayName      : String              = "",
-  @SerializedName("shortDisplayName" ) var shortDisplayName : String              = "",
-  @SerializedName("color"            ) var color            : String              = "",
-  @SerializedName("alternateColor"   ) var alternateColor   : String              = "FFFF",
-  @SerializedName("isActive"         ) var isActive         : Boolean?             = null,
-  @SerializedName("logos"            ) var logos            : List<Logos3>     = listOf(),
-  @SerializedName("record"           ) var record           : Record3?              = Record3(),
-  @SerializedName("athletes"         ) var athletes         : List<Athletes>  = listOf(),
-  @SerializedName("groups"           ) var groups           : Groups3?              = Groups3(),
-  @SerializedName("links"            ) var links            : List<Links3>     = listOf(),
-  @SerializedName("franchise"        ) var franchise        : Franchise3?           = Franchise3(),
-  @SerializedName("nextEvent"        ) var nextEvent        : List<NextEvent3> = listOf(),
-  @SerializedName("standingSummary"  ) var standingSummary  : String              = ""
+  @SerialName("id"               ) var id               : String              = "",
+  @SerialName("uid"              ) var uid              : String             = "",
+  @SerialName("slug"             ) var slug             : String              = "",
+  @SerialName("location"         ) var location         : String              = "",
+  @SerialName("name"             ) var name             : String              = "",
+  @SerialName("nickname"         ) var nickname         : String              = "",
+  @SerialName("abbreviation"     ) var abbreviation     : String              = "",
+  @SerialName("displayName"      ) var displayName      : String              = "",
+  @SerialName("shortDisplayName" ) var shortDisplayName : String              = "",
+  @SerialName("color"            ) var color            : String              = "",
+  @SerialName("alternateColor"   ) var alternateColor   : String              = "FFFF",
+  @SerialName("isActive"         ) var isActive         : Boolean?             = null,
+  @SerialName("logos"            ) var logos            : List<Logos3>     = listOf(),
+  @SerialName("record"           ) var record           : Record3?              = Record3(),
+  @SerialName("athletes"         ) var athletes         : List<Athletes>  = listOf(),
+  @SerialName("groups"           ) var groups           : Groups3?              = Groups3(),
+  @SerialName("links"            ) var links            : List<Links3>     = listOf(),
+  @SerialName("franchise"        ) var franchise        : Franchise3?           = Franchise3(),
+  @SerialName("nextEvent"        ) var nextEvent        : List<NextEvent3> = listOf(),
+  @SerialName("standingSummary"  ) var standingSummary  : String              = ""
 
 )
 

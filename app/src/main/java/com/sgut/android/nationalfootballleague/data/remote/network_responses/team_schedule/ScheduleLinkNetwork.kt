@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScheduleLinkNetwork(
-    @SerializedName("href")
+    @SerialName("href")
     val href: String = "",
-    @SerializedName("rel")
+    @SerialName("rel")
     val rel: List<String> = listOf(),
-    @SerializedName("text")
+    @SerialName("text")
     val text: String = ""
 )

@@ -1,29 +1,32 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsStatusModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsStatus(
 
-  @SerializedName("type")
+  @SerialName("type")
   val type: GameDetailsType? = GameDetailsType(),
-  @SerializedName("periodPrefix")
+  @SerialName("periodPrefix")
   val periodPrefix: InningPrefix? =InningPrefix.PRE,
   )
 
+@Serializable
 enum class InningPrefix {
-  @SerializedName("Mid")
+  @SerialName("Mid")
   MID,
-  @SerializedName("Top")
+  @SerialName("Top")
   TOP,
-  @SerializedName("Pre")
+  @SerialName("Pre")
   PRE,
-  @SerializedName("Bottom")
+  @SerialName("Bottom")
   BOTTOM,
-  @SerializedName("End")
+  @SerialName("End")
   END,
-  @SerializedName("Start")
+  @SerialName("Start")
   START
 }
 

@@ -1,9 +1,11 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AlternativePlay(
-    @SerializedName("\$ref")
+    @SerialName("\$ref")
     val ref: String? = ""
 )

@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class ArticleSelf (
 
-  @SerializedName("href" )
+  @SerialName("href" )
   val href : String? = null
 
 )

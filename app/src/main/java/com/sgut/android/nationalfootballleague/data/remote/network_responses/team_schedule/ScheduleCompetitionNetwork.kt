@@ -1,37 +1,39 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule.ScheduleCompetitionModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScheduleCompetitionNetwork(
-    @SerializedName("attendance")
+    @SerialName("attendance")
     val attendance: Int = 0,
-    @SerializedName("boxscoreAvailable")
+    @SerialName("boxscoreAvailable")
     val boxscoreAvailable: Boolean = false,
-//    @SerializedName("broadcasts")
+//    @SerialName("broadcasts")
 //    val broadcasts: List<Any> = listOf(),
-    @SerializedName("competitors")
+    @SerialName("competitors")
     val competitors: List<ScheduleCompetitorNetwork> = listOf(),
-    @SerializedName("date")
+    @SerialName("date")
     val date: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("neutralSite")
+    @SerialName("neutralSite")
     val neutralSite: Boolean = false,
-//    @SerializedName("notes")
+//    @SerialName("notes")
 //    val notes: List<Any> = listOf(),
-    @SerializedName("status")
+    @SerialName("status")
     val status: ScheduleStatusNetwork = ScheduleStatusNetwork(),
-    @SerializedName("tickets")
+    @SerialName("tickets")
     val tickets: List<ScheduleTicketNetwork>? = listOf(),
-    @SerializedName("ticketsAvailable")
+    @SerialName("ticketsAvailable")
     val ticketsAvailable: Boolean = false,
-    @SerializedName("timeValid")
+    @SerialName("timeValid")
     val timeValid: Boolean = false,
-    @SerializedName("type")
+    @SerialName("type")
     val type: ScheduleTypeNetworkX = ScheduleTypeNetworkX(),
-    @SerializedName("venue")
+    @SerialName("venue")
     val venue: ScheduleVenueNetwork = ScheduleVenueNetwork()
 )
 

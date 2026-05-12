@@ -1,6 +1,7 @@
 package com.sgut.android.nationalfootballleague.data.remote.api
 
 import com.sgut.android.nationalfootballleague.*
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.ScoreboardData
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard.BaseballScoreBoardNetwork
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete.NetworkAthleteResponse
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.standings.StandingsNetworkResponse
@@ -17,9 +18,9 @@ interface SportsApi {
     @GET("site/v2/sports/{sport}/{league}/news")
     suspend fun getArticles(
         @Path("sport")
-        sport: String? = null,
+        sport: String = "",
         @Path("league")
-        league: String? = null,
+        league: String = "",
     ): Response<NetworkArticleResponse>
 
     @GET("site/v2/sports/{sport}/{league}/scoreboard")
@@ -144,11 +145,22 @@ interface SportsApi {
         league: String? = null,
     ): Response<TennisScoresNetwork>
 
+    @GET("site/v2/sports/{sport}/{league}/scoreboard")
+    suspend fun getAbstractScoreboard(
+        @Path("sport")
+        sport: String? = null,
+        @Path("league")
+        league: String? = null,
+    ): Response<ScoreboardData> // Abstraction
+
+
+
 //    TODO get standings - has type Parameters 0 = overall, 1 = wildcard, 2 = Expanded Standings, 3 = "Vs. Division Standings", 4 = Monthly Standings
 
 //    TODO add player info
 //    https://site.web.api.espn.com/apis/common/v3/sports/:sport/:league_abbrev/athletes/:athlete_id
 //    https://site.web.api.espn.com/apis/common/v3/sports/baseball/mlb/athletes/36928
+
 //    player stats
 //    http://www.espn.com/mlb/player/stats/_/id/36928/austin-hays",
 

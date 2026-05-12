@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.PredictorModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Predictor(
 
-  @SerializedName("header")
+  @SerialName("header")
   val header: String? = null,
-  @SerializedName("homeTeam")
+  @SerialName("homeTeam")
   val homeTeam: GameDetailsHomeTeam? = GameDetailsHomeTeam(),
-  @SerializedName("awayTeam")
+  @SerialName("awayTeam")
   val awayTeam: GameDetailsAwayTeam? = GameDetailsAwayTeam(),
 
   )

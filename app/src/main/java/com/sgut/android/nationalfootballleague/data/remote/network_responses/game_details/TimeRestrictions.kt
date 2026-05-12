@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class TimeRestrictions (
 
-  @SerializedName("embargoDate"    ) var embargoDate    : String? = null,
-  @SerializedName("expirationDate" ) var expirationDate : String? = null
+  @SerialName("embargoDate"    ) var embargoDate    : String? = null,
+  @SerialName("expirationDate" ) var expirationDate : String? = null
 
 )

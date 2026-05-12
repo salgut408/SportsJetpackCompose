@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.SeasonTennisModelX
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SeasonX(
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeXXXX = TypeXXXX(),
-    @SerializedName("year")
+    @SerialName("year")
     val year: Int = 0
 )
 

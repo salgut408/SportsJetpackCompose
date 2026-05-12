@@ -1,30 +1,32 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomianModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Articles(
 
-    @SerializedName("dataSourceIdentifier")
+    @SerialName("dataSourceIdentifier")
     val dataSourceIdentifier: String? ="",
-    @SerializedName("images")
+    @SerialName("images")
     val images: List<ArticleImages> = listOf(),
-    @SerializedName("description")
+    @SerialName("description")
     val description: String? = "",
-    @SerializedName("published")
+    @SerialName("published")
     val published: String? = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: String? = "",
-    @SerializedName("premium")
+    @SerialName("premium")
     val premium: Boolean? = false,
-    @SerializedName("links")
+    @SerialName("links")
     val links: ArticleLinks? = ArticleLinks(),
-    @SerializedName("lastModified")
+    @SerialName("lastModified")
     val lastModified: String? = "",
-    @SerializedName("headline")
+    @SerialName("headline")
     val headline: String? = "",
-    @SerializedName("byline")
+    @SerialName("byline")
     val byline: String? = "",
 
     )

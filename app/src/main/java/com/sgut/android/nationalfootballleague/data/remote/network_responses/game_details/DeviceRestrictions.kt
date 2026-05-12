@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class DeviceRestrictions (
 
-  @SerializedName("type"    ) var type    : String?           = null,
-  @SerializedName("devices" ) var devices : ArrayList<String> = arrayListOf()
+  @SerialName("type"    ) var type    : String?           = null,
+  @SerialName("devices" ) var devices : ArrayList<String> = arrayListOf()
 
 )

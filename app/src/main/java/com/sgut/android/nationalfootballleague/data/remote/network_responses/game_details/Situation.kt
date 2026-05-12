@@ -1,57 +1,61 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.*
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Situation(
 
-    @SerializedName("lastPlay")
+    @SerialName("lastPlay")
     val lastPlay: LastPlay? = LastPlay(),
-    @SerializedName("balls")
+    @SerialName("balls")
     val balls: Int? = null,
-    @SerializedName("strikes")
+    @SerialName("strikes")
     val strikes: Int? = null,
-    @SerializedName("outs")
+    @SerialName("outs")
     val outs: Int? = null,
-    @SerializedName("pitcher")
+    @SerialName("pitcher")
     val pitcher: Pitcher? = Pitcher(),
-    @SerializedName("batter")
+    @SerialName("batter")
     val batter: Batter? = Batter(),
-    @SerializedName("dueUp")
+    @SerialName("dueUp")
     val dueUp: List<DueUpItem> = listOf(),
-    @SerializedName("onSecond")
+    @SerialName("onSecond")
     val onSecond: OnSecond? = OnSecond(),
-    @SerializedName("onFirst")
+    @SerialName("onFirst")
     val onFirst: OnFirst? = OnFirst(),
-    @SerializedName("onThird")
+    @SerialName("onThird")
     val onThird: OnThird? = OnThird(),
 )
 
+@Serializable
 data class SituationScoreboard(
 
-    @SerializedName("lastPlay")
+    @SerialName("lastPlay")
     val lastPlay: LastPlay? = LastPlay(),
-    @SerializedName("balls")
+    @SerialName("balls")
     val balls: Int? = null,
-    @SerializedName("strikes")
+    @SerialName("strikes")
     val strikes: Int? = null,
-    @SerializedName("outs")
+    @SerialName("outs")
     val outs: Int? = null,
-    @SerializedName("pitcher")
+    @SerialName("pitcher")
     val pitcher: Pitcher? = Pitcher(),
-    @SerializedName("batter")
+    @SerialName("batter")
     val batter: Batter? = Batter(),
-    @SerializedName("dueUp")
+    @SerialName("dueUp")
     val dueUp: List<DueUpItem> = listOf(),
-    @SerializedName("onSecond")
+    @SerialName("onSecond")
     val onSecond: Boolean? = false,
-    @SerializedName("onFirst")
+    @SerialName("onFirst")
     val onFirst: Boolean = false,
-    @SerializedName("onThird")
+    @SerialName("onThird")
     val onThird: Boolean? = false,
 )
 
+@Serializable
 data class OnThird(
     val playerId: Int? = null,
 
@@ -63,10 +67,12 @@ fun OnThird.asDomain(): OnThirdModel {
     )
 }
 
+@Serializable
 data class OnSecond(
     val playerId: Int? = null,
 )
 
+@Serializable
 data class OnFirst(
     val playerId: Int? = null,
 )
@@ -82,10 +88,11 @@ fun OnSecond.asDomain(): OnSecondModel {
     )
 }
 
+@Serializable
 data class DueUpItem(
-    @SerializedName("playerId")
+    @SerialName("playerId")
     val playerId: String = "",
-    @SerializedName("batOrder")
+    @SerialName("batOrder")
     val batOrder: String = "",
 
     )
@@ -111,9 +118,10 @@ fun Situation.asDomain(): SituationModel {
     )
 }
 
+@Serializable
 data class LastPlay(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
     val text: String = ""
 
@@ -126,8 +134,9 @@ fun LastPlay.asDomain(): LastPlayModel {
     )
 }
 
+@Serializable
 data class Pitcher(
-    @SerializedName("playerId")
+    @SerialName("playerId")
     val playerId: Int? = null,
 )
 
@@ -137,8 +146,9 @@ fun Pitcher.asDomain(): PitcherModel {
     )
 }
 
+@Serializable
 data class Batter(
-    @SerializedName("playerId")
+    @SerialName("playerId")
     val playerId: Int? = null,
 
     )

@@ -1,38 +1,40 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class HeadlinesNetworkResponse(
 
-    @SerializedName("dataSourceIdentifier")
+    @SerialName("dataSourceIdentifier")
     val dataSourceIdentifier: String = "",
-    @SerializedName("keywords")
+    @SerialName("keywords")
     val keywords: ArrayList<String> = arrayListOf(),
-    @SerializedName("description")
+    @SerialName("description")
     val description: String = "",
-    @SerializedName("source")
+    @SerialName("source")
     val source: String = "",
-    @SerializedName("video")
+    @SerialName("video")
     val video: ArrayList<Video> = arrayListOf(),
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = "",
-    @SerializedName("title")
+    @SerialName("title")
     val title: String = "",
-    @SerializedName("links")
+    @SerialName("links")
     val links: Links? = Links(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int = 0,
-    @SerializedName("headline")
+    @SerialName("headline")
     val headline: String = "",
-    @SerializedName("originallyPosted")
+    @SerialName("originallyPosted")
     val originallyPosted: String = "",
-//    @SerializedName("images"               ) val images               : ArrayList<Images>     = arrayListOf(),
-    @SerializedName("published")
+//    @SerialName("images"               ) val images               : ArrayList<Images>     = arrayListOf(),
+    @SerialName("published")
     val published: String = "",
-    @SerializedName("lastModified")
+    @SerialName("lastModified")
     val lastModified: String = "",
-    @SerializedName("story")
+    @SerialName("story")
     val story: String = "",
 
     )

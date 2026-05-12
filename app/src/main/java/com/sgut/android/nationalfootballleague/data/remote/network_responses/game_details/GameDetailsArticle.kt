@@ -1,52 +1,54 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsArticleModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsArticle(
 
-  @SerializedName("keywords")
+  @SerialName("keywords")
   val keywords: List<String> = listOf(),
-  @SerializedName("description")
+  @SerialName("description")
   val description: String? = null,
-  @SerializedName("source")
+  @SerialName("source")
   val source: String? = null,
-  @SerializedName("video")
+  @SerialName("video")
   val video: List<Video> = listOf(),
-  @SerializedName("type")
+  @SerialName("type")
   val type: String? = null,
-  @SerializedName("nowId")
+  @SerialName("nowId")
   val nowId: String? = null,
-  @SerializedName("premium")
+  @SerialName("premium")
   val premium: Boolean? = null,
-  @SerializedName("related")
+  @SerialName("related")
   val related: List<String> = listOf(),
-  @SerializedName("allowSearch")
+  @SerialName("allowSearch")
   val allowSearch: Boolean? = null,
-  @SerializedName("links")
+  @SerialName("links")
   val links: Links? = Links(),
-  @SerializedName("id")
+  @SerialName("id")
   val id: Int? = null,
-  @SerializedName("categories")
+  @SerialName("categories")
   val categories: List<GameDetailsCategories> = listOf(),
-  @SerializedName("headline")
+  @SerialName("headline")
   val headline: String? = null,
-  @SerializedName("gameId")
+  @SerialName("gameId")
   val gameId: String? = null,
-  @SerializedName("images")
+  @SerialName("images")
   val images: List<GameDetailsImages> = listOf(),
-  @SerializedName("linkText")
+  @SerialName("linkText")
   val linkText: String? = null,
-  @SerializedName("published")
+  @SerialName("published")
   val published: String? = null,
-  @SerializedName("guid")
+  @SerialName("guid")
   val guid: String? = null,
-  @SerializedName("lastModified")
+  @SerialName("lastModified")
   val lastModified: String? = null,
-  @SerializedName("metrics")
+  @SerialName("metrics")
   val metrics: List<GameDetailsMetrics> = listOf(),
-  @SerializedName("story")
+  @SerialName("story")
   val story: String? = null,
 
   )

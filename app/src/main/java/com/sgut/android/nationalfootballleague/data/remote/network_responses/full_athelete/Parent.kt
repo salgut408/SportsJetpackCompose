@@ -1,9 +1,11 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Parent(
-    @SerializedName("leaf")
+    @SerialName("leaf")
     val leaf: Boolean = false
 )

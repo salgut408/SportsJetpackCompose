@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class HLS (
 
-  @SerializedName("href" ) var href : String? = null,
-  @SerializedName("HD"   ) var HD   : HD?     = HD()
+  @SerialName("href" ) var href : String? = null,
+  @SerialName("HD"   ) var HD   : HD?     = HD()
 
 )

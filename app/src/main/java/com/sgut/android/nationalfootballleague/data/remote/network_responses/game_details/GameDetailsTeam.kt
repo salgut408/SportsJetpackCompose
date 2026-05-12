@@ -1,36 +1,38 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsTeamInfoModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsTeam(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = null,
-    @SerializedName("location")
+    @SerialName("location")
     val location: String? = null,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("nickname")
+    @SerialName("nickname")
     val nickname: String? = null,
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String? = null,
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String? = null,
-    @SerializedName("color")
+    @SerialName("color")
     val color: String? = null,
-    @SerializedName("alternateColor")
+    @SerialName("alternateColor")
     val alternateColor: String? = null,
-    @SerializedName("logos")
+    @SerialName("logos")
     val logos: List<GameDetailsLogos> = listOf(),
-    @SerializedName("logo")
+    @SerialName("logo")
     val logo: String = "",
-    @SerializedName("links")
+    @SerialName("links")
     val links: List<GameDetailsLinks> = listOf(),
-    @SerializedName("record")
+    @SerialName("record")
     val record: List<GameDetailsRecord> = listOf(),
 
 

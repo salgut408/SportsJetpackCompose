@@ -1,17 +1,19 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class DueUp(
-    @SerializedName("athlete")
+    @SerialName("athlete")
     val athlete: AthleteXXXX? = AthleteXXXX(),
-    @SerializedName("batOrder")
+    @SerialName("batOrder")
     val batOrder: Int? = 0,
-    @SerializedName("period")
+    @SerialName("period")
     val period: Int? = 0,
-    @SerializedName("playerId")
+    @SerialName("playerId")
     val playerId: Int? = 0,
-    @SerializedName("summary")
+    @SerialName("summary")
     val summary: String? = ""
 )

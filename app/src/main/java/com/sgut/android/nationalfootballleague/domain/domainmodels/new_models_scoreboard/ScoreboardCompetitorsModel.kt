@@ -3,12 +3,10 @@ package com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_s
 import com.sgut.android.nationalfootballleague.Linescore
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameLeadersModel4
 
-interface DefaultCompetitorsInterface{
-    val id: String
-}
+
 
 data class ScoreboardCompetitorsModel(
-   override val id: String = "",
+    val id: String = "",
     val uid: String = "",
     val type: String = "",
     val order: Int = 0,
@@ -23,7 +21,7 @@ data class ScoreboardCompetitorsModel(
 
 
 //    val probables : List<ProbablesModel>
-) : DefaultCompetitorsInterface
+)
 data class LinescoreModel(
     val value: Double? = 0.0
 )

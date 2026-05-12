@@ -1,47 +1,49 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsCompetitionModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.ProbablesModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsCompetitions(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = null,
-    @SerializedName("date")
+    @SerialName("date")
     val date: String? = null,
-    @SerializedName("neutralSite")
+    @SerialName("neutralSite")
     val neutralSite: Boolean? = null,
-    @SerializedName("conferenceCompetition")
+    @SerialName("conferenceCompetition")
     val conferenceCompetition: Boolean? = null,
-    @SerializedName("boxscoreAvailable")
+    @SerialName("boxscoreAvailable")
     val boxscoreAvailable: Boolean? = null,
-    @SerializedName("commentaryAvailable")
+    @SerialName("commentaryAvailable")
     val commentaryAvailable: Boolean? = null,
-    @SerializedName("liveAvailable")
+    @SerialName("liveAvailable")
     val liveAvailable: Boolean? = null,
-    @SerializedName("onWatchESPN")
+    @SerialName("onWatchESPN")
     val onWatchESPN: Boolean? = null,
-    @SerializedName("recent")
+    @SerialName("recent")
     val recent: Boolean? = null,
-    @SerializedName("boxscoreSource")
+    @SerialName("boxscoreSource")
     val boxscoreSource: String? = null,
-    @SerializedName("playByPlaySource")
+    @SerialName("playByPlaySource")
     val playByPlaySource: String? = null,
-    @SerializedName("competitors")
+    @SerialName("competitors")
     val competitors: List<GameDetailsCompetitors> = listOf(),
-    @SerializedName("status")
+    @SerialName("status")
     val status: GameDetailsStatus? = GameDetailsStatus(),
-    @SerializedName("broadcasts")
+    @SerialName("broadcasts")
     val broadcasts: ArrayList<GameDetailsBroadcasts> = arrayListOf(),
-    @SerializedName("shotChartAvailable")
+    @SerialName("shotChartAvailable")
     val shotChartAvailable: Boolean? = null,
-    @SerializedName("timeoutsAvailable")
+    @SerialName("timeoutsAvailable")
     val timeoutsAvailable: Boolean? = null,
-    @SerializedName("possessionArrowAvailable")
+    @SerialName("possessionArrowAvailable")
     val possessionArrowAvailable: Boolean? = null,
 
 
@@ -62,19 +64,20 @@ fun GameDetailsCompetitions.asDomain(): GameDetailsCompetitionModel {
     )
 }
 
+@Serializable
 data class Probables(
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("shortDisplayName")
+    @SerialName("shortDisplayName")
     val shortDisplayName:String = "",
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("playerId")
+    @SerialName("playerId")
     val playerId: Int = 0,
-    @SerializedName("athlete")
+    @SerialName("athlete")
     val athlete: GameDetailsAthlete? = GameDetailsAthlete(),
 
     )

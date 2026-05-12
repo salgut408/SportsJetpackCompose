@@ -4,7 +4,9 @@ package com.sgut.android.nationalfootballleague.ui.screens.teamdetails
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -69,7 +71,9 @@ fun TeamDetailCard(
 
         VenueCard(
             venue = team.franchise.venue ?: VenueModel(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            teamColor = color,
+            altColor = altcolor
         )
 
         HeadingSection(
@@ -80,7 +84,7 @@ fun TeamDetailCard(
         )
 
         team.nextEvent.map { nextEvent ->
-            NextEvent(nextEvent = nextEvent, modifier = modifier)
+            NextEvent(nextEvent = nextEvent, modifier = modifier, team = team)
         }
         InjuriesBox(
             stats = team.record.recordItems.getOrNull(0)?.summary.toString(), team
@@ -106,42 +110,61 @@ object HexToJetpackColor2 {
 fun VenueCard(
     venue: VenueModel,
     modifier: Modifier,
+    teamColor: Color = Color.Black,
+    altColor: Color = Color.DarkGray,
 ) {
-
-    Box(
-        modifier = Modifier.height(200.dp)
-    ) {
-        // image ()
+    Box(modifier = modifier.height(200.dp)) {
         VenueCardImageLoader(venue)
+
+        // Bottom gradient overlay with team colors
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            contentAlignment = Alignment.TopEnd
-        ) {
-            Row() {
-                val offset = Offset(5.0f, 5.0f)
-                Text(
-                    text = venue.fullName,
-                    style = TextStyle(
-                        fontSize = 54.sp,
-                        shadow = Shadow(
-                            color = Color.Black,
-                            offset = offset,
-                            blurRadius = 3f
+                .fillMaxWidth()
+                .height(130.dp)
+                .align(Alignment.BottomCenter)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            teamColor.copy(alpha = 0.55f),
+                            teamColor.copy(alpha = 0.88f)
                         )
-                    ),
-                    textAlign = TextAlign.Right,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = Color.White
+                    )
                 )
-            }
-            Row() {
-                Text(
-                    text = venue.address?.city.toString() + " ," + venue.address?.state.toString(),
-                    style = TextStyle(color = Color.White, fontSize = 16.sp),
-                    textAlign = TextAlign.Left,
-                )
+        )
+
+        // Text content
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 14.dp, end = 14.dp, bottom = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp)
+        ) {
+            Text(
+                text = venue.fullName,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White
+            )
+            val city = venue.address?.city
+            val state = venue.address?.state
+            if (!city.isNullOrBlank()) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Surface(
+                        color = altColor.copy(alpha = 0.55f),
+                        shape = RoundedCornerShape(4.dp)
+                    ) {
+                        Text(
+                            text = if (!state.isNullOrBlank()) "$city, $state" else city,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.White,
+                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                }
             }
         }
     }

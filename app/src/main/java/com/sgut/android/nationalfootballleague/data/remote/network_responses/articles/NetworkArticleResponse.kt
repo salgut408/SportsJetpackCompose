@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class NetworkArticleResponse(
-  @SerializedName("header")
+  @SerialName("header")
   val header: String = "",
-  @SerializedName("articles")
+  @SerialName("articles")
   val articles: List<Articles> = listOf(),
   )
 

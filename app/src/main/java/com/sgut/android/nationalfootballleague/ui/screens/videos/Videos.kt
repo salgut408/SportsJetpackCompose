@@ -56,7 +56,7 @@ fun TextOne(modifier: Modifier) {
         )
         Spacer(modifier = modifier.width(8.dp))
         Text(
-            text = "Team",
+            text = "TeamComm",
             style = MaterialTheme.typography.bodyLarge
         )
     }

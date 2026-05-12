@@ -9,49 +9,46 @@ import com.sgut.android.nationalfootballleague.domain.repositories.TeamsListsRep
 import com.sgut.android.nationalfootballleague.toDomain
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
-// interatcs and gets sports id, league id
+// interacts and gets sports id, league id
+
 class TeamsListRepositoryImpl @Inject constructor(
     val sportsApi: SportsApi,
     val sportsDataBase: SportsDataBase,
     val ioDispatcher: CoroutineDispatcher
 ) : TeamsListsRepository {
+
     override suspend fun getFullSportLeagueAndTeamsList(
         sport: String,
         league: String,
     ): FullTeamsListsModel =
-
         try {
-            withContext(ioDispatcher){
-                val result = sportsApi.getTeamsListForLeague(sport, league).body()?.toDomain()!!
-                return@withContext result
+            withContext(ioDispatcher) {
+                if (sport == "tennis") {
+                    return@withContext FullTeamsListsModel()
+                }
+                return@withContext sportsApi.getTeamsListForLeague(sport, league).body()?.toDomain() ?: FullTeamsListsModel()
             }
         } catch (e: Exception) {
             FullTeamsListsModel(SportModel()).apply {
-                Log.d("team_list_repo", e.stackTraceToString())
+             Timber.e("getFullSportLeagueAndTeamsList ERROR $e")
+
             }
         }
 
 
-
     override suspend fun getSport(sport: String, league: String): SportModel {
-        val result =
-            sportsApi.getTeamsListForLeague(sport, league).body()?.sports?.get(0)?.toDomain()!!
-        return result
+        return sportsApi.getTeamsListForLeague(sport, league).body()?.sports?.get(0)?.toDomain() ?: SportModel()
     }
 
     override suspend fun getLeague(sport: String, league: String): LeagueModel {
-        val result =
-            sportsApi.getTeamsListForLeague(sport, league).body()?.sports?.get(0)?.leagues?.get(0)
-                ?.toDomain()!!
-        return result
+        return sportsApi.getTeamsListForLeague(sport, league).body()?.sports?.get(0)?.leagues?.get(0)?.toDomain() ?: LeagueModel()
     }
 
     override suspend fun getTeamsList(sport: String, league: String): List<TeamModel> {
-        val result = sportsApi.getTeamsListForLeague(sport, league)
-            .body()?.sports?.get(0)?.leagues?.get(0)?.teams?.map { it.teamSingle.asDomainModel() }!!
-        return result
+        return sportsApi.getTeamsListForLeague(sport, league).body()?.sports?.get(0)?.leagues?.get(0)?.teams?.map { it.teamSingle.asDomainModel() } ?: listOf()
     }
 
     override suspend fun storeTeamsInSportsDatabaseFullInfoTable(teams: List<TeamModel>, sport: String, league: String, leagueAbrv: String) {
@@ -59,7 +56,6 @@ class TeamsListRepositoryImpl @Inject constructor(
             sportsDataBase.getTeamsDao().addAllTeams(teams.map { it.asDbObj(sport, league, leagueAbrv) })
         }
     }
-
 
 }
 

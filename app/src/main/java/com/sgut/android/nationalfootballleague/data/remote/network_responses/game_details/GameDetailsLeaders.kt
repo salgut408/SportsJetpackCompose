@@ -1,14 +1,16 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.*
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsLeaders(
 
-  @SerializedName("team")
+  @SerialName("team")
   val team: GameDetailsTeam = GameDetailsTeam(),
-  @SerializedName("leaders")
+  @SerialName("leaders")
   val leaders: List<GameDetailsLeaders2> = listOf(),
   )
 fun GameDetailsLeaders.asDomain(): GameDetailsLeadersModel {
@@ -18,21 +20,23 @@ fun GameDetailsLeaders.asDomain(): GameDetailsLeadersModel {
   )
 }
 
+@Serializable
 data class GameDetailsLeaders2(
-  @SerializedName("name")
+  @SerialName("name")
   val name: String = "",
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String = "",
-  @SerializedName("leaders")
+  @SerialName("leaders")
   val leadersAthlete: List<AthleteLeaders> = listOf(),
   )
 
+@Serializable
 data class GameDetailsLeaders4(
-  @SerializedName("name")
+  @SerialName("name")
   val name: String = "",
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String = "",
-  @SerializedName("leaders")
+  @SerialName("leaders")
   val leadersAthlete: List<AthleteLeaders4> = listOf(),
 )
 
@@ -52,18 +56,20 @@ fun GameDetailsLeaders2.asDomain(): GameLeadersModel {
   )
 }
 
+@Serializable
 data class AthleteLeaders(
-  @SerializedName("displayValue")
+  @SerialName("displayValue")
   val displayValue: String = "",
-  @SerializedName("athlete")
+  @SerialName("athlete")
   val athlete: GameDetailsAthlete = GameDetailsAthlete(),
 
   )
 
+@Serializable
 data class AthleteLeaders4(
-  @SerializedName("displayValue")
+  @SerialName("displayValue")
   val displayValue: String = "",
-  @SerializedName("athlete")
+  @SerialName("athlete")
   val athlete: GameDetailsAthlete4 = GameDetailsAthlete4(),
 
   )

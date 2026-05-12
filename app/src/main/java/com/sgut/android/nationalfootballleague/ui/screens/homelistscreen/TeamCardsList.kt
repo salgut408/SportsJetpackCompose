@@ -2,13 +2,13 @@ package com.sgut.android.nationalfootballleague.ui.screens.homelistscreen
 
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.compose.animation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,46 +21,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.sgut.android.nationalfootballleague.R
+
 import com.sgut.android.nationalfootballleague.di.ToolBar3
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.TeamModel
 import com.sgut.android.nationalfootballleague.homelistscreen.ArticleRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.CardHeaderText
+import com.sgut.android.nationalfootballleague.ui.commoncomps.LeagueSelectionRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
 import com.sgut.android.nationalfootballleague.ui.commoncomps.SportScaffold
 import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.*
-import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
+
+import com.sgut.android.nationalfootballleague.ui.newComponents.FilledButton
+import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.standings_screen.Standings
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.ATP
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.BASEBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.BASKETBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.CHAMPIONS
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.EPL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.F1
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.FIFA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.FOOTBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.FRA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.HOCKEY
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.LA_LIGA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.MLB
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.MLS
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NBA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_BASEBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_BASKETBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_FOOTBALL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NFL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NHL
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.RACING
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.SOCCER
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.TENNIS
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.UEFA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.WBC
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.WNBA
-import com.sgut.android.nationalfootballleague.utils.Constants.Companion.XFL
+import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
+import com.sgut.android.nationalfootballleague.utils.Constants.Companion.LIST_OF_LEAGUE_PAIRS
 import com.sgut.android.nationalfootballleague.utils.basicButton
+import timber.log.Timber
 import com.sgut.android.nationalfootballleague.R.string as AppText
 
 
@@ -68,300 +47,111 @@ import com.sgut.android.nationalfootballleague.R.string as AppText
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTeamCardsListScreen(
-    navController: NavController,
-    homeListViewModel: HomeListViewModel = hiltViewModel(),
-
-    ) {
-
-    val uiState by homeListViewModel.listUiState.collectAsStateWithLifecycle()
-    val sport = uiState.fullTeamInfo?.sport?.slug
-    val league = uiState.fullTeamInfo?.sport?.league?.slug
-
-    val sportStateLeagueName = uiState.fullTeamInfo?.sport?.league?.name
-    val sportStateTeamsFullInfo = uiState.fullTeamInfo
-
-    val news = uiState.currentNews
-
+    selectionViewModel: SelectionViewModel,
+    onNavigateToScoreboard: (sport: String, league: String) -> Unit,
+    onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
+) {
+    val uiStateBySelectionVm by selectionViewModel.selectionUiFullSportState.collectAsStateWithLifecycle()
+    val news by selectionViewModel.articleList.collectAsStateWithLifecycle()
+    val isLoading by selectionViewModel.isLoading.collectAsStateWithLifecycle()
+    val errorMessage by selectionViewModel.errorMessage.collectAsStateWithLifecycle()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    
-    val errorMessage = homeListViewModel.errorMessage.collectAsStateWithLifecycle()
-    
-    if (errorMessage.value != null) {
-        showToast(message = errorMessage.value!!)
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(errorMessage) {
+        if (errorMessage != null) {
+            snackbarHostState.showSnackbar(
+                message = errorMessage!!,
+                duration = SnackbarDuration.Long
+            )
+            selectionViewModel.clearError()
+        }
     }
-
-
 
     SportScaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-
         topBar = {
             ToolBar3(
-                title = sportStateLeagueName ?: "",
+                title = uiStateBySelectionVm.league.name,
                 scrollBehavior = scrollBehavior
             )
         },
-
-
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         content = { padding ->
-            Column(
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            ) {
-                LazyRow(
-                    contentPadding = padding,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+            if (isLoading) {
+                DataLoadingComponent()
+            } else {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(BASEBALL,
-                                MLB)
-                        }) {
-                            LabelText(stringResId = R.string.MLB_league)
-
+                    LeagueSelectionRow(
+                        leagues = LIST_OF_LEAGUE_PAIRS,
+                        padding = padding,
+                        onLeagueSelected = { sport, league ->
+                            selectionViewModel.setDifferentSport(sport, league)
                         }
+                    )
+                    FilledButton(
+                        onClick = {
+                            onNavigateToScoreboard(
+                                uiStateBySelectionVm.slug,
+                                uiStateBySelectionVm.league.slug
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(text = "Scores & Games", color = Color.Black)
                     }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(BASKETBALL,
-                                NCAA_BASKETBALL)
-                        }) {
-                            Text(stringResource(R.string.NCAA_mens_basketball),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(SOCCER,
-                                FRA)
-                        }) {
-                            LabelText(stringResId = R.string.fra)
-
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = { homeListViewModel.setDifferentTeams(TENNIS, ATP) }) {
-                            Text(stringResource(R.string.atp),
-                                style = MaterialTheme.typography.labelSmall)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(
-                            onClick = {
-                                homeListViewModel.setDifferentTeams(FOOTBALL, NFL)
-                            }
-                        ) {
-                            LabelText(stringResId = R.string.NFL_League)
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(HOCKEY,
-                                NHL)
-                        }) {
-                            LabelText(stringResId = R.string.NHL_league)
-
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(BASEBALL,
-                                WBC)
-                        }) {
-                            LabelText(stringResId = R.string.WBC_league)
-
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(BASKETBALL,
-                                NBA)
-                        }) {
-                            LabelText(stringResId = R.string.NBA_league)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(BASKETBALL,
-                                WNBA)
-                        }) {
-                            LabelText(stringResId = R.string.WNBA_league)
-
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(SOCCER,
-                                CHAMPIONS)
-                        }) {
-                            LabelText(stringResId = R.string.champions)
-
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(FOOTBALL,
-                                NCAA_FOOTBALL)
-                        }) {
-                            LabelText(stringResId = R.string.NCAA_football)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(BASEBALL,
-                                NCAA_BASEBALL)
-                        }) {
-                            LabelText(stringResId = R.string.NCAA_baseball)
-
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(SOCCER,
-                                MLS)
-                        }) {
-                            LabelText(stringResId = R.string.MLS_league)
-
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(SOCCER,
-                                FIFA)
-                        }) {
-                            LabelText(stringResId = R.string.world_cup)
-
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(SOCCER,
-                                LA_LIGA)
-                        }) {
-                            LabelText(stringResId = R.string.la_liga)
-                        }
-                    }
-
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(SOCCER,
-                                EPL)
-                        }) {
-                            LabelText(stringResId = R.string.premier_league)
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(SOCCER,
-                                UEFA)
-                        }) {
-                            LabelText(stringResId = R.string.euro_soccer)
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(FOOTBALL, XFL)
-                        }) {
-                            LabelText(stringResId = R.string.XFL_League)
-
-                        }
-                    }
-                    item {
-                        OutlinedButton(onClick = {
-                            homeListViewModel.setDifferentTeams(RACING, F1)
-                        }) {
-                            LabelText(stringResId = R.string.F1_RACING)
-                        }
-                    }
-                }
-
-
-                BasicButton(
-                    text = AppText.scores_games,
-                    modifier = Modifier.basicButton(),
-                    action = {
-                        navController.navigate(
-                            NavigationScreens.ScoreboardScreen.withArgs(sport ?: "", league ?: "")
-                        )
-                    })
-
-                if (sportStateTeamsFullInfo != null) {
 
                     TeamsListCircleRow(
-                        teams = uiState.fullTeamInfo?.sport?.league?.teams ?: listOf(),
-                        sport = uiState.currentSport,
-                        league = uiState.fullTeamInfo?.sport?.league?.shortName ?: "",
-                        onTeamClick = {},
-                        navController = navController
+                        teams = uiStateBySelectionVm.league.teams,
+                        sport = uiStateBySelectionVm.slug,
+                        league = uiStateBySelectionVm.league.slug,
+                        onNavigateToTeam = onNavigateToTeam,
                     )
-
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    NewsRow(news = news ?: ArticlesListModel(),
-                        modifier = Modifier.wrapContentSize())
+                    NewsRow(news = news, modifier = Modifier.wrapContentSize())
 
                     Spacer(modifier = Modifier.height(16.dp))
-
 
                     Standings(
-                        sport = sport ?: "",
-                        league = league ?: "",
+                        sport = uiStateBySelectionVm.slug,
+                        league = uiStateBySelectionVm.league.slug,
                         type = "0"
                     )
-
                 }
             }
         },
-
-        )
+    )
 }
 
 
 @Composable
 fun TeamsListCircleRow(
     teams: List<TeamModel>,
-    onTeamClick: () -> Unit,
     modifier: Modifier = Modifier,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
 ) {
-
     DefaultCard(modifier = modifier) {
         CardHeaderText(text = league)
         NormalDivider()
-
         LazyRow(
-            modifier = modifier,
-            contentPadding = PaddingValues(8.dp)
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(teams) { team ->
                 TeamItem(
                     team = team,
-                    onTeamClick = onTeamClick,
-                    modifier = modifier,
                     sport = sport,
                     league = league,
-                    navController = navController
+                    onNavigateToTeam = onNavigateToTeam,
                 )
             }
         }
-
     }
-
-
 }
 
 @Composable
@@ -385,59 +175,72 @@ fun LabelText(@StringRes stringResId: Int) {
 @Composable
 fun TeamItem(
     team: TeamModel,
-    onTeamClick: () -> Unit,
     modifier: Modifier = Modifier,
     sport: String,
     league: String,
-    navController: NavController,
+    onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
 ) {
     val teamColor = HexToJetpackColor2.getColor(team.color)
+    val altColor = HexToJetpackColor2.getColor(team.alternateColor)
 
-    SportSurface(
-        shape = MaterialTheme.shapes.medium,
-        color = Color.LightGray
-
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .width(68.dp)
+            .clickable { onNavigateToTeam(team.abbreviation, sport, league) }
     ) {
-        Box(modifier = modifier) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .clickable {
-                        navController.navigate(
-                            NavigationScreens.DetailScreenTeam.withArgs(
-                                team.abbreviation,
-                                sport,
-                                league
-                            )
-                        )
-                    }
-                    .padding(4.dp)
-            ) {
-                BasicImage(
-                    imgUrl = team.logos,
-                    contentDescription = team.name,
-                    modifier = modifier.size(100.dp),
-                    elevation = 1.dp,
-                    backgroundColor = teamColor,
-                    borderColor = Color.Black,
-                    borderWidth = 1.dp,
-                    shape = RoundedCornerShape(8.dp)
-                )
-
-
-            }
-            ToggleFollowIconButton(
-                isFollowed = team.isFavorite,
-                onClick = { onTeamClick },
-                modifier = Modifier.align(Alignment.TopEnd)
+        Box(contentAlignment = Alignment.Center) {
+            // Colored circle background
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(teamColor, CircleShape)
             )
-
+            // Thin alt-color ring
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(Color.Transparent, CircleShape)
+                    .padding(2.dp)
+                    .background(altColor.copy(alpha = 0.35f), CircleShape)
+            )
+            // Team logo
+            BasicImage(
+                imgUrl = team.logos,
+                contentDescription = team.name,
+                modifier = Modifier
+                    .size(44.dp)
+                    .padding(2.dp),
+                elevation = 0.dp,
+                backgroundColor = Color.Transparent,
+                borderColor = Color.Transparent,
+                borderWidth = 0.dp,
+                shape = CircleShape
+            )
         }
+
+        Spacer(modifier = Modifier.height(5.dp))
+
+        Text(
+            text = team.abbreviation,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
+        Text(
+            text = team.shortDisplayName,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
     }
 }
 
 @Composable
-fun showToast(message: String) {
+fun ShowToast(message: String) {
     Toast.makeText(LocalContext.current, message, Toast.LENGTH_LONG).show()
 }
 

@@ -1,23 +1,25 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AwayTeamOdds(
-    @SerializedName("averageScore")
+    @SerialName("averageScore")
     val averageScore: Double? = 0.0,
-    @SerializedName("favorite")
+    @SerialName("favorite")
     val favorite: Boolean? = false,
-    @SerializedName("moneyLine")
+    @SerialName("moneyLine")
     val moneyLine: Int? = 0,
-    @SerializedName("spreadOdds")
+    @SerialName("spreadOdds")
     val spreadOdds: Double? = 0.0,
-    @SerializedName("spreadRecord")
+    @SerialName("spreadRecord")
     val spreadRecord: SpreadRecord? = SpreadRecord(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: TeamXXXXXX? = TeamXXXXXX(),
-    @SerializedName("underdog")
+    @SerialName("underdog")
     val underdog: Boolean? = false,
-    @SerializedName("winPercentage")
+    @SerialName("winPercentage")
     val winPercentage: Double? = 0.0
 )

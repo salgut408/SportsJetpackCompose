@@ -100,18 +100,19 @@ fun Title(
                 IntOffset(x = 0, y = offset.toInt())
             }
             .background(altcolor.copy(alpha = 0.97f))
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 12.dp)
     ) {
         Text(
             text = team.displayName,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Justify,
+            textAlign = TextAlign.Left,
             style = MaterialTheme.typography.displaySmall,
             color = color
         )
         Text(
             text = team.nickname,
-            style = MaterialTheme.typography.displaySmall,
-            color = color,
+            style = MaterialTheme.typography.headlineSmall,
+            color = color.copy(alpha = 0.75f),
             textAlign = TextAlign.Left,
         )
     }
@@ -187,6 +188,8 @@ fun Body(
     scroll: ScrollState,
 ) {
     val color = HexToJetpackColor2.getColor(team.color)
+    val altColor = HexToJetpackColor2.getColor(team.alternateColor)
+
     Column(
         modifier = Modifier
             .verticalScroll(scroll)
@@ -199,21 +202,20 @@ fun Body(
                 .height(MinTitleOffset)
         )
 
-        Column() {
+        Column {
             Spacer(Modifier.height(ImageOverlap))
             Spacer(Modifier.height(TitleHeight))
             Spacer(Modifier.height(16.dp))
             Spacer(Modifier.height(300.dp))
-
-
             Spacer(Modifier.height(16.dp))
 
             VenueCard(
                 venue = team.franchise.venue ?: VenueModel(),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                teamColor = color,
+                altColor = altColor
             )
-            Spacer(Modifier.height(16.dp))
-
+            Spacer(Modifier.height(12.dp))
 
             TabLayout(
                 team = team,
@@ -221,41 +223,29 @@ fun Body(
                 people = roster,
                 stats = stats
             )
+            Spacer(Modifier.height(12.dp))
 
-            team.nextEvent.map { nextEvent ->
-                NextEvent(nextEvent = nextEvent, modifier = Modifier)
+            team.nextEvent.forEach { nextEvent ->
+                NextEvent(nextEvent = nextEvent, modifier = Modifier.padding(horizontal = 8.dp), team = team)
+                Spacer(Modifier.height(8.dp))
             }
-            Spacer(Modifier.height(16.dp))
 
             TeamRecord(
                 record = team.record,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(horizontal = 8.dp),
+                teamColor = color
             )
+            Spacer(Modifier.height(12.dp))
 
-            PastGames(schedule = teamSchedule)
-
-            Spacer(Modifier.height(16.dp))
-
+            PastGames(schedule = teamSchedule, teamColor = color, altColor = altColor)
+            Spacer(Modifier.height(12.dp))
 
             InjuriesCard(
                 team = team,
-                modifier = Modifier
+                modifier = Modifier.padding(horizontal = 8.dp)
             )
+            Spacer(Modifier.height(12.dp))
 
-            Spacer(Modifier.height(16.dp))
-
-
-//            PeopleList(
-//                list = roster,
-//                modifier = Modifier
-//            )
-
-
-
-            Spacer(Modifier.height(16.dp))
-
-
-            //injusries box
             InjuriesBox(
                 stats = team.record.recordItems.getOrNull(0)?.summary.toString(), team
             )

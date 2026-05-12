@@ -1,21 +1,23 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.standings
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.standings_models.TypeModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Type(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String = "",
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("hasStandings")
+    @SerialName("hasStandings")
     val hasStandings: Boolean = false,
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = ""
 )
 

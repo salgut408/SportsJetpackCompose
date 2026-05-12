@@ -1,23 +1,25 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScheduleTicketNetwork(
-    @SerializedName("description")
+    @SerialName("description")
     val description: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-//    @SerializedName("links")
+//    @SerialName("links")
 //    val links: List<ScheduleLinkNetworkX> = listOf(),
-    @SerializedName("maxPrice")
+    @SerialName("maxPrice")
     val maxPrice: Double = 0.0,
-    @SerializedName("numberAvailable")
+    @SerialName("numberAvailable")
     val numberAvailable: Int = 0,
-    @SerializedName("startingPrice")
+    @SerialName("startingPrice")
     val startingPrice: Double = 0.0,
-    @SerializedName("summary")
+    @SerialName("summary")
     val summary: String = "",
-    @SerializedName("totalPostings")
+    @SerialName("totalPostings")
     val totalPostings: Int = 0
 )

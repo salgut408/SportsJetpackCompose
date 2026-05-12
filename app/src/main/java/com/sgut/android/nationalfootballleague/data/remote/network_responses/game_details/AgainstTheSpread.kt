@@ -1,14 +1,16 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.AgainstTheSpreadModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class AgainstTheSpread(
 
-  @SerializedName("team")
+  @SerialName("team")
   val team: GameDetailsTeam = GameDetailsTeam(),
-  @SerializedName("records")
+  @SerialName("records")
   val records: ArrayList<String> = arrayListOf(),
 
   )

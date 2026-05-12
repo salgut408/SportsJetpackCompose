@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScheduleScoreNetwork(
-    @SerializedName("displayValue")
+    @SerialName("displayValue")
     val displayValue: String = "",
-    @SerializedName("value")
+    @SerialName("value")
     val value: Double = 0.0
 )

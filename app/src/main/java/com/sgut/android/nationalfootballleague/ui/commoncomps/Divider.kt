@@ -1,6 +1,7 @@
 package com.sgut.android.nationalfootballleague.ui.commoncomps
 
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,10 +15,10 @@ fun NormalDivider(
     thickness: Dp = 1.dp,
     startIndent: Dp = 0.dp
 ) {
-    Divider(
+    HorizontalDivider(
         modifier = modifier,
-        color = color,
         thickness = thickness,
+        color = color
     )
 
 }

@@ -1,43 +1,45 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.tennis_scoreboard_response
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.TennisCompetitionModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Competition(
-    @SerializedName("competitors")
+    @SerialName("competitors")
     val competitors: List<Competitor> = listOf(),
-    @SerializedName("date")
+    @SerialName("date")
     val date: String = "",
-    @SerializedName("format")
+    @SerialName("format")
     val format: Format = Format(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("major")
+    @SerialName("major")
     val major: Boolean = false,
-    @SerializedName("notes")
+    @SerialName("notes")
     val notes: List<Note> = listOf(),
-    @SerializedName("recent")
+    @SerialName("recent")
     val recent: Boolean = false,
-    @SerializedName("round")
+    @SerialName("round")
     val round: Round = Round(),
-    @SerializedName("situation")
+    @SerialName("situation")
     val situation: Situation = Situation(),
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = "",
-    @SerializedName("status")
+    @SerialName("status")
     val status: Status = Status(),
-    @SerializedName("timeValid")
+    @SerialName("timeValid")
     val timeValid: Boolean = false,
-    @SerializedName("tournamentId")
+    @SerialName("tournamentId")
     val tournamentId: Int = 0,
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeX = TypeX(),
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String = "",
-    @SerializedName("venue")
+    @SerialName("venue")
     val venue: Venue = Venue(),
-    @SerializedName("wasSuspended")
+    @SerialName("wasSuspended")
     val wasSuspended: Boolean = false
 )
 

@@ -1,10 +1,12 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsApi (
 
-  @SerializedName("leagues" ) var leagues : GameDetailsLeagues? = GameDetailsLeagues()
+  @SerialName("leagues" ) var leagues : GameDetailsLeagues? = GameDetailsLeagues()
 
 )

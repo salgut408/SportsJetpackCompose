@@ -1,18 +1,20 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.*
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.BasketballCoordinateModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.BasketballPlayModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.NewsModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class News(
 
-    @SerializedName("header")
+    @SerialName("header")
     val header: String? = null,
-    @SerializedName("link")
+    @SerialName("link")
     val link: GameDetailsLink? = GameDetailsLink(),
-    @SerializedName("articles")
+    @SerialName("articles")
     val articles: List<Articles> = listOf(), // same as ArticleDomianModel
 
 )
@@ -26,33 +28,34 @@ fun News.asDomain(): NewsModel {
 }
 
 
+@Serializable
 data class NetworkPlays(
 
-    @SerializedName("id")
+    @SerialName("id")
   val id: String? = null,
-    @SerializedName("sequenceNumber")
+    @SerialName("sequenceNumber")
   val sequenceNumber: String? = null,
-    @SerializedName("text")
+    @SerialName("text")
   val text: String? = null,
-    @SerializedName("awayScore")
+    @SerialName("awayScore")
   val awayScore: Int? = null,
-    @SerializedName("homeScore")
+    @SerialName("homeScore")
   val homeScore: Int? = null,
-    @SerializedName("period")
+    @SerialName("period")
   val period: Period? = Period(),
-    @SerializedName("clock")
+    @SerialName("clock")
   val clock: Clock? = Clock(),
-    @SerializedName("scoringPlay")
+    @SerialName("scoringPlay")
   val scoringPlay: Boolean? = null,
-    @SerializedName("scoreValue")
+    @SerialName("scoreValue")
   val scoreValue: Int? = null,
-    @SerializedName("team")
+    @SerialName("team")
   val team: Team? = Team(),
-    @SerializedName("wallclock")
+    @SerialName("wallclock")
   val wallclock: String? = null,
-    @SerializedName("shootingPlay")
+    @SerialName("shootingPlay")
   val shootingPlay: Boolean? = null,
-    @SerializedName("coordinate")
+    @SerialName("coordinate")
   val coordinate: Coordinate? = Coordinate(),
 
     )
@@ -74,11 +77,12 @@ fun NetworkPlays.asDomain(): BasketballPlayModel {
 }
 
 
+@Serializable
 data class Coordinate(
 
-  @SerializedName("x")
+  @SerialName("x")
   val x: Int? = null,
-  @SerializedName("y")
+  @SerialName("y")
   val y: Int? = null,
 
   )

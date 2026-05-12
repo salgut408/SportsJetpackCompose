@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class SeasonScoreboard (
 
-  @SerializedName("year" )
+  @SerialName("year" )
   val year : Int    = 0,
-//  @SerializedName("type" )
+//  @SerialName("type" )
 //  val type : Int    = 0,
-  @SerializedName("slug" )
+  @SerialName("slug" )
   val slug : String = ""
 
 )

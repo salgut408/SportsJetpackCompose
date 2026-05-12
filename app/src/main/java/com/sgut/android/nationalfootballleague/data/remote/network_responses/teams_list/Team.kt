@@ -1,38 +1,40 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.TeamModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Team(
 
-  @SerializedName("id")
+  @SerialName("id")
   var id: String = "",
-  @SerializedName("uid")
+  @SerialName("uid")
   val uid: String = "",
-  @SerializedName("slug")
+  @SerialName("slug")
   val slug: String = "",
-  @SerializedName("abbreviation")
+  @SerialName("abbreviation")
   val abbreviation: String = "",
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String = "",
-  @SerializedName("shortDisplayName")
+  @SerialName("shortDisplayName")
   val shortDisplayName: String = "",
-  @SerializedName("name")
+  @SerialName("name")
   val name: String = "",
-  @SerializedName("nickname")
+  @SerialName("nickname")
   val nickname: String = "",
-  @SerializedName("location")
+  @SerialName("location")
   val location: String = "",
-  @SerializedName("color")
+  @SerialName("color")
   val color: String = "",
-  @SerializedName("alternateColor")
+  @SerialName("alternateColor")
   val alternateColor: String = "",
-  @SerializedName("isActive")
+  @SerialName("isActive")
   val isActive: Boolean? = null,
-  @SerializedName("isAllStar")
+  @SerialName("isAllStar")
   val isAllStar: Boolean? = null,
-  @SerializedName("logos")
+  @SerialName("logos")
   val logos: List<Logos> = listOf(),
 
 

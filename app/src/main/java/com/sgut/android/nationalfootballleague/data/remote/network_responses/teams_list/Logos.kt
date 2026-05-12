@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.LogosModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Logos (
 
-  @SerializedName("href"   ) val href   : String?           = null,
-  @SerializedName("alt"    ) val alt    : String?           = null,
-  @SerializedName("rel"    ) val rel    : List<String> = listOf(),
-  @SerializedName("width"  ) val width  : Int?              = null,
-  @SerializedName("height" ) val height : Int?              = null
+  @SerialName("href"   ) val href   : String?           = null,
+  @SerialName("alt"    ) val alt    : String?           = null,
+  @SerialName("rel"    ) val rel    : List<String> = listOf(),
+  @SerialName("width"  ) val width  : Int?              = null,
+  @SerialName("height" ) val height : Int?              = null
 
 )
 

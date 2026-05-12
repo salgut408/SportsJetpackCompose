@@ -1,34 +1,36 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.SeatSituationModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class SeatSituation(
 
-  @SerializedName("opponentTeamName")
+  @SerialName("opponentTeamName")
   val opponentTeamName: String? = null,
-  @SerializedName("currentTeamName")
+  @SerialName("currentTeamName")
   val currentTeamName: String? = null,
-  @SerializedName("venueName")
+  @SerialName("venueName")
   val venueName: String? = null,
-  @SerializedName("summary")
+  @SerialName("summary")
   val summary: String? = null,
-  @SerializedName("date")
+  @SerialName("date")
   val date: String? = null,
-  @SerializedName("dateShort")
+  @SerialName("dateShort")
   val dateShort: String? = null,
-  @SerializedName("dateDay")
+  @SerialName("dateDay")
   val dateDay: String? = null,
-  @SerializedName("homeAway")
+  @SerialName("homeAway")
   val homeAway: String? = null,
-  @SerializedName("eventLink")
+  @SerialName("eventLink")
   val eventLink: String? = null,
-  @SerializedName("venueLink")
+  @SerialName("venueLink")
   val venueLink: String? = null,
-  @SerializedName("genericLink")
+  @SerialName("genericLink")
   val genericLink: String? = null,
-  @SerializedName("teamLink")
+  @SerialName("teamLink")
   val teamLink: String? = null,
 
   )

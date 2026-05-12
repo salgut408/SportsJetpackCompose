@@ -1,39 +1,41 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.FootballPlayModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.PreviousModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.ScoringPlayModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.ScoringTypeModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Previous(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String? = null,
-    @SerializedName("team")
+    @SerialName("team")
     val team: Team? = Team(),
-    @SerializedName("start")
+    @SerialName("start")
     val start: Start? = Start(),
-    @SerializedName("end")
+    @SerialName("end")
     val end: End? = End(),
-    @SerializedName("timeElapsed")
+    @SerialName("timeElapsed")
     val timeElapsed: TimeElapsed? = TimeElapsed(),
-    @SerializedName("yards")
+    @SerialName("yards")
     val yards: Int? = null,
-    @SerializedName("isScore")
+    @SerialName("isScore")
     val isScore: Boolean? = null,
-    @SerializedName("offensivePlays")
+    @SerialName("offensivePlays")
     val offensivePlays: Int? = null,
-    @SerializedName("result")
+    @SerialName("result")
     val result: String? = null,
-    @SerializedName("shortDisplayResult")
+    @SerialName("shortDisplayResult")
     val shortDisplayResult: String? = null,
-    @SerializedName("displayResult")
+    @SerialName("displayResult")
     val displayResult: String? = null,
-    @SerializedName("plays")
+    @SerialName("plays")
     val plays: List<Plays> = listOf(),
 
     )
@@ -54,80 +56,86 @@ fun Previous.asDomain(): PreviousModel {
     )
 }
 
+@Serializable
 data class TimeElapsed(
 
-    @SerializedName("displayValue")
+    @SerialName("displayValue")
     val displayValue: String? = null,
 
     )
 
 
+@Serializable
 data class Start(
 
-    @SerializedName("period")
+    @SerialName("period")
     val period: Period? = Period(),
-    @SerializedName("clock")
+    @SerialName("clock")
     val clock: Clock? = Clock(),
-    @SerializedName("yardLine")
+    @SerialName("yardLine")
     val yardLine: Int? = null,
-    @SerializedName("text")
+    @SerialName("text")
     val text: String? = null,
 
     )
 
+@Serializable
 data class Period(
 
-    @SerializedName("type") val type: String? = null,
-    @SerializedName("number") val number: Int? = null,
+    @SerialName("type") val type: String? = null,
+    @SerialName("number") val number: Int? = null,
 
     )
 
+@Serializable
 data class Clock(
 
-    @SerializedName("displayValue") val displayValue: String? = null,
+    @SerialName("displayValue") val displayValue: String? = null,
 
     )
 
+@Serializable
 data class End(
 
-    @SerializedName("period") val period: Period? = Period(),
-    @SerializedName("clock") val clock: Clock? = Clock(),
-    @SerializedName("yardLine") val yardLine: Int? = null,
-    @SerializedName("text") val text: String? = null,
+    @SerialName("period") val period: Period? = Period(),
+    @SerialName("clock") val clock: Clock? = Clock(),
+    @SerialName("yardLine") val yardLine: Int? = null,
+    @SerialName("text") val text: String? = null,
 
     )
 
+@Serializable
 data class Plays(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("sequenceNumber")
+    @SerialName("sequenceNumber")
     val sequenceNumber: String? = null,
-    @SerializedName("type")
+    @SerialName("type")
     val type: GameDetailsType? = GameDetailsType(),
-    @SerializedName("text")
+    @SerialName("text")
     val text: String? = null,
-    @SerializedName("awayScore")
+    @SerialName("awayScore")
     val awayScore: Int? = null,
-    @SerializedName("homeScore")
+    @SerialName("homeScore")
     val homeScore: Int? = null,
-    @SerializedName("period")
+    @SerialName("period")
     val period: Period? = Period(),
-    @SerializedName("clock")
+    @SerialName("clock")
     val clock: Clock? = Clock(),
-    @SerializedName("scoringPlay")
+    @SerialName("scoringPlay")
     val scoringPlay: Boolean? = null,
-    @SerializedName("priority")
+    @SerialName("priority")
     val priority: Boolean? = null,
-    @SerializedName("modified")
+    @SerialName("modified")
     val modified: String? = null,
-    @SerializedName("wallclock")
+    @SerialName("wallclock")
     val wallclock: String? = null,
-    @SerializedName("start")
+    @SerialName("start")
     val start: Start? = Start(),
-    @SerializedName("end")
+    @SerialName("end")
     val end: End? = End(),
-    @SerializedName("statYardage")
+    @SerialName("statYardage")
     val statYardage: Int? = null,
 
     )
@@ -145,25 +153,26 @@ fun Plays.asDomain(): FootballPlayModel {
     )
 }
 
+@Serializable
 data class ScoringPlays(
 
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("type")
+    @SerialName("type")
     val type: GameDetailsType? = GameDetailsType(),
-    @SerializedName("text")
+    @SerialName("text")
     val text: String? = null,
-    @SerializedName("awayScore")
+    @SerialName("awayScore")
     val awayScore: Int? = null,
-    @SerializedName("homeScore")
+    @SerialName("homeScore")
     val homeScore: Int? = null,
-    @SerializedName("period")
+    @SerialName("period")
     val period: Period? = Period(),
-    @SerializedName("clock")
+    @SerialName("clock")
     val clock: Clock? = Clock(),
-    @SerializedName("team")
+    @SerialName("team")
     val team: GameDetailsTeam? = GameDetailsTeam(),
-    @SerializedName("scoringType")
+    @SerialName("scoringType")
     val scoringType: ScoringType? = ScoringType(),
 
     )
@@ -181,13 +190,14 @@ fun ScoringPlays.asDomain(): ScoringPlayModel {
     )
 }
 
+@Serializable
 data class ScoringType(
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String? = null,
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String? = null,
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String? = null,
 
     )

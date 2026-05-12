@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.RecordModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Record3(
-  @SerializedName("items")
+  @SerialName("items")
   val recordItems: List<Items3>? = listOf(),
   )
 

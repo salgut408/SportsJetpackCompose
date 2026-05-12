@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsInjuriesListModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.InjTeamModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.InjuriesItemModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsInjuries(
-  @SerializedName("team")
+  @SerialName("team")
   val team: InjTeam = InjTeam(),
-  @SerializedName("injuries")
+  @SerialName("injuries")
   val injuries: List<InjuriesItem> = listOf(),
   )
 fun GameDetailsInjuries.asDomain(): GameDetailsInjuriesListModel {
@@ -19,14 +21,15 @@ fun GameDetailsInjuries.asDomain(): GameDetailsInjuriesListModel {
   )
 }
 
+@Serializable
 data class InjTeam(
-  @SerializedName("id")
+  @SerialName("id")
   val id: String = "",
-  @SerializedName("uid")
+  @SerialName("uid")
   val uid: String = "",
-  @SerializedName("displayName")
+  @SerialName("displayName")
   val displayName: String = "",
-  @SerializedName("logo")
+  @SerialName("logo")
   val logo: String = "",
   )
 
@@ -38,14 +41,15 @@ fun InjTeam.asDomain(): InjTeamModel {
   )
 }
 
+@Serializable
 data class InjuriesItem(
-  @SerializedName("status")
+  @SerialName("status")
   val status: String = "",
-  @SerializedName("date")
+  @SerialName("date")
   val date: String = "",
-  @SerializedName("athlete")
+  @SerialName("athlete")
   val athlete: GameDetailsAthlete = GameDetailsAthlete(),
-  @SerializedName("type")
+  @SerialName("type")
   val type: GameDetailsType = GameDetailsType(),
   )
 

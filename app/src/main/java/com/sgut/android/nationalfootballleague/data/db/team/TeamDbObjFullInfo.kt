@@ -21,7 +21,6 @@ data class TeamDbObjFullInfo(
     val sport: String = "",
     val league: String,
     val leagueAbbreviation: String,
-//    TODO look to embed or relationships between objs, storing lists
-//    TODO problem is conflicting field names
+
 //    @Embedded val sportDbObj: SportModel
 )

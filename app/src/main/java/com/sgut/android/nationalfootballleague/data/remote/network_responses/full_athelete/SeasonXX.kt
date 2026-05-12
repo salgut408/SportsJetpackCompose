@@ -1,19 +1,21 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SeasonXX(
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("endDate")
+    @SerialName("endDate")
     val endDate: String = "",
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeX = TypeX(),
-    @SerializedName("types")
+    @SerialName("types")
     val types: TypesX = TypesX(),
-    @SerializedName("year")
+    @SerialName("year")
     val year: Int = 0
 )

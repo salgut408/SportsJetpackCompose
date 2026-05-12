@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class FullViewLink (
 
-  @SerializedName("text" ) val text : String? = null,
-  @SerializedName("href" ) val href : String? = null
+  @SerialName("text" ) val text : String? = null,
+  @SerialName("href" ) val href : String? = null
 
 )

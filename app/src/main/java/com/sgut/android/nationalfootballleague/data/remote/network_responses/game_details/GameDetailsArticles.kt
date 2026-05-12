@@ -1,18 +1,20 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsArticles (
 
-  @SerializedName("images"       ) var images       : List<GameDetailsImages>     = listOf(),
-  @SerializedName("description"  ) var description  : String?               = null,
-  @SerializedName("published"    ) var published    : String?               = null,
-  @SerializedName("type"         ) var type         : String?               = null,
-  @SerializedName("premium"      ) var premium      : Boolean?              = null,
-  @SerializedName("links"        ) var links        : GameDetailsLinks?                = GameDetailsLinks(),
-  @SerializedName("lastModified" ) var lastModified : String?               = null,
-  @SerializedName("categories"   ) var categories   : List<GameDetailsCategories> = listOf(),
-  @SerializedName("headline"     ) var headline     : String?               = null
+  @SerialName("images"       ) var images       : List<GameDetailsImages>     = listOf(),
+  @SerialName("description"  ) var description  : String?               = null,
+  @SerialName("published"    ) var published    : String?               = null,
+  @SerialName("type"         ) var type         : String?               = null,
+  @SerialName("premium"      ) var premium      : Boolean?              = null,
+  @SerialName("links"        ) var links        : GameDetailsLinks?                = GameDetailsLinks(),
+  @SerialName("lastModified" ) var lastModified : String?               = null,
+  @SerialName("categories"   ) var categories   : List<GameDetailsCategories> = listOf(),
+  @SerialName("headline"     ) var headline     : String?               = null
 
 )

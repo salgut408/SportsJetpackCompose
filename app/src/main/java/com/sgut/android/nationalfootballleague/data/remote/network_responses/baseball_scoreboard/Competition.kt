@@ -1,57 +1,60 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
+@Serializable
 data class Competition(
-    @SerializedName("attendance")
+    @SerialName("attendance")
     val attendance: Int? = 0,
-    @SerializedName("broadcasts")
+    @SerialName("broadcasts")
     val broadcasts: List<Broadcast>? = listOf(),
-    @SerializedName("competitors")
+    @SerialName("competitors")
     val competitors: List<Competitor>? = listOf(),
-    @SerializedName("conferenceCompetition")
+    @SerialName("conferenceCompetition")
     val conferenceCompetition: Boolean? = false,
-    @SerializedName("date")
+    @SerialName("date")
     val date: String? = "",
-    @SerializedName("format")
+    @SerialName("format")
     val format: Format? = Format(),
-    @SerializedName("geoBroadcasts")
+    @SerialName("geoBroadcasts")
     val geoBroadcasts: List<GeoBroadcast>? = listOf(),
-    @SerializedName("headlines")
+    @SerialName("headlines")
     val headlines: List<Headline>? = listOf(),
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = "",
-    @SerializedName("leaders")
+    @SerialName("leaders")
     val leaders: List<LeaderXX>? = listOf(),
-    @SerializedName("neutralSite")
+    @SerialName("neutralSite")
     val neutralSite: Boolean? = false,
-    @SerializedName("notes")
+    @Transient
     val notes: List<Any>? = listOf(),
-    @SerializedName("odds")
+    @SerialName("odds")
     val odds: List<Odd>? = listOf(),
-    @SerializedName("outsText")
+    @SerialName("outsText")
     val outsText: String? = "",
-    @SerializedName("playByPlayAvailable")
+    @SerialName("playByPlayAvailable")
     val playByPlayAvailable: Boolean? = false,
-    @SerializedName("recent")
+    @SerialName("recent")
     val recent: Boolean? = false,
-    @SerializedName("situation")
+    @SerialName("situation")
     val situation: Situation? = Situation(),
-    @SerializedName("startDate")
+    @SerialName("startDate")
     val startDate: String? = "",
-    @SerializedName("status")
+    @SerialName("status")
     val status: Status? = Status(),
-    @SerializedName("tickets")
+    @SerialName("tickets")
     val tickets: List<Ticket>? = listOf(),
-    @SerializedName("timeValid")
+    @SerialName("timeValid")
     val timeValid: Boolean? = false,
-    @SerializedName("type")
+    @SerialName("type")
     val type: TypeXXX? = TypeXXX(),
-    @SerializedName("uid")
+    @SerialName("uid")
     val uid: String? = "",
-    @SerializedName("venue")
+    @SerialName("venue")
     val venue: Venue? = Venue(),
-    @SerializedName("wasSuspended")
+    @SerialName("wasSuspended")
     val wasSuspended: Boolean? = false
 )

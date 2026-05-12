@@ -1,21 +1,23 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class ArticleDetailNetworkResponse(
 
-    @SerializedName("resultsOffset")
+    @SerialName("resultsOffset")
     val resultsOffset: Int = 0,
-    @SerializedName("resultsCount")
+    @SerialName("resultsCount")
     val resultsCount:  Int = 0,
-//    @SerializedName("headlines"     )
+//    @SerialName("headlines"     )
 //    val headlines     : ArrayList<Headlines> = arrayListOf(),
-    @SerializedName("resultsLimit")
+    @SerialName("resultsLimit")
     val resultsLimit:  Int = 0,
-    @SerializedName("timestamp")
+    @SerialName("timestamp")
     val timestamp: String = "",
-    @SerializedName("status")
+    @SerialName("status")
     val status: String = "",
 
     )

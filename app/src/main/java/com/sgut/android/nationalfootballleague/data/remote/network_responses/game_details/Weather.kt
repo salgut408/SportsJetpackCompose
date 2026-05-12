@@ -1,24 +1,26 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.WeatherModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Weather(
 
-  @SerializedName("temperature")
+  @SerialName("temperature")
   val temperature: String = "",
-  @SerializedName("highTemperature")
+  @SerialName("highTemperature")
   val highTemperature: Int = 0,
-  @SerializedName("lowTemperature")
+  @SerialName("lowTemperature")
   val lowTemperature: Int = 0,
-  @SerializedName("conditionId")
+  @SerialName("conditionId")
   val conditionId: String = "",
-  @SerializedName("gust")
+  @SerialName("gust")
   val gust: Int = 0,
-  @SerializedName("precipitation")
+  @SerialName("precipitation")
   val precipitation: Int = 0,
-  @SerializedName("link")
+  @SerialName("link")
   val link: GameDetailsLink? = GameDetailsLink(),
 
   )

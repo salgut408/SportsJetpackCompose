@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class PosterImages (
 
-  @SerializedName("default" ) var default : Default? = Default(),
-  @SerializedName("full"    ) var full    : Full?    = Full(),
-  @SerializedName("wide"    ) var wide    : Wide?    = Wide(),
-  @SerializedName("square"  ) var square  : Square?  = Square()
+  @SerialName("default" ) var default : Default? = Default(),
+  @SerialName("full"    ) var full    : Full?    = Full(),
+  @SerialName("wide"    ) var wide    : Wide?    = Wide(),
+  @SerialName("square"  ) var square  : Square?  = Square()
 
 )

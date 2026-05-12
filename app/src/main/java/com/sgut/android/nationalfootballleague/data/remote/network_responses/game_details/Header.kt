@@ -1,25 +1,27 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.HeaderModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class Header(
-  @SerializedName("id")
+  @SerialName("id")
   val id: String? = null,
-  @SerializedName("uid")
+  @SerialName("uid")
   val uid: String? = null,
-  @SerializedName("season")
+  @SerialName("season")
   val season: GameDetailsSeason = GameDetailsSeason(),
-  @SerializedName("timeValid")
+  @SerialName("timeValid")
   val timeValid: Boolean? = null,
-  @SerializedName("competitions")
+  @SerialName("competitions")
   val competitions: List<GameDetailsCompetitions> = listOf(),
-  @SerializedName("week")
+  @SerialName("week")
   val week: Int? = null,
-  @SerializedName("league")
+  @SerialName("league")
   val league: GameDetailsLeague = GameDetailsLeague(),
-  @SerializedName("gameNote")
+  @SerialName("gameNote")
   val gameNote: String? = null,
 
 

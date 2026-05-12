@@ -1,33 +1,35 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardDetailsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardTeamModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class DetailsScoreboard(
 
-  @SerializedName("type")
+  @SerialName("type")
   val type: TypeScoreboard? = TypeScoreboard(),
-  @SerializedName("clock")
+  @SerialName("clock")
   val clock: ClockScoreboard? = ClockScoreboard(),
-  @SerializedName("team")
+  @SerialName("team")
   val team: TeamScoreboard? = TeamScoreboard(),
-  @SerializedName("scoreValue")
+  @SerialName("scoreValue")
   val scoreValue: Int? = null,
-  @SerializedName("scoringPlay")
+  @SerialName("scoringPlay")
   val scoringPlay: Boolean? = null,
-  @SerializedName("redCard")
+  @SerialName("redCard")
   val redCard: Boolean? = null,
-  @SerializedName("yellowCard")
+  @SerialName("yellowCard")
   val yellowCard: Boolean? = null,
-  @SerializedName("penaltyKick")
+  @SerialName("penaltyKick")
   val penaltyKick: Boolean? = null,
-  @SerializedName("ownGoal")
+  @SerialName("ownGoal")
   val ownGoal: Boolean? = null,
-  @SerializedName("shootout")
+  @SerialName("shootout")
   val shootout: Boolean? = null,
-  @SerializedName("athletesInvolved")
+  @SerialName("athletesInvolved")
   val athletesInvolved: List<AthletesInvolvedScoreboard> = listOf(),
 
   )

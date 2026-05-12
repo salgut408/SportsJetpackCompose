@@ -62,16 +62,3 @@ fun Color.contrastAgainst(background: Color): Float {
 
     return max(fgLuminance, bgLuminance) / min(fgLuminance, bgLuminance)
 }
-
-@RequiresApi(Build.VERSION_CODES.S)
-fun Modifier.customBlur(blur: Float) = this.then(
-    graphicsLayer {
-        if (blur > 0f) {
-            renderEffect = RenderEffect.createBlurEffect(
-                blur,
-                blur,
-                Shader.TileMode.DECAL,
-            ).asComposeRenderEffect()
-        }
-    }
-)

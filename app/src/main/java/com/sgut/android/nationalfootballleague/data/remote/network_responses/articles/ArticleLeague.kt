@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class ArticleLeague(
 
-  @SerializedName("id")
+  @SerialName("id")
   val id: Int = 0,
-  @SerializedName("description")
+  @SerialName("description")
   val description: String = "",
-  @SerializedName("links")
+  @SerialName("links")
   val links: ArticleLinks? = ArticleLinks(),
 
   )

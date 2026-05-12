@@ -1,15 +1,17 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SpreadRecord(
-    @SerializedName("losses")
+    @SerialName("losses")
     val losses: Int? = 0,
-    @SerializedName("pushes")
+    @SerialName("pushes")
     val pushes: Int? = 0,
-    @SerializedName("summary")
+    @SerialName("summary")
     val summary: String? = "",
-    @SerializedName("wins")
+    @SerialName("wins")
     val wins: Int? = 0
 )

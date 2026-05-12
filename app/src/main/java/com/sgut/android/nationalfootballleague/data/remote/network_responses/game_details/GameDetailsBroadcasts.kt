@@ -1,16 +1,18 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class GameDetailsBroadcasts (
 
-  @SerializedName("type"   ) val type   : GameDetailsType?   = GameDetailsType(),
-  @SerializedName("market" ) val market : GameDetailsMarket? = GameDetailsMarket(),
-  @SerializedName("media"  ) val media  : GameDetailsMedia?  = GameDetailsMedia(),
-  @SerializedName("lang"   ) val lang   : String? = null,
-  @SerializedName("region" ) val region : String? = null,
-  @SerializedName("station" ) val station : String? = null,
+  @SerialName("type"   ) val type   : GameDetailsType?   = GameDetailsType(),
+  @SerialName("market" ) val market : GameDetailsMarket? = GameDetailsMarket(),
+  @SerialName("media"  ) val media  : GameDetailsMedia?  = GameDetailsMedia(),
+  @SerialName("lang"   ) val lang   : String? = null,
+  @SerialName("region" ) val region : String? = null,
+  @SerialName("station" ) val station : String? = null,
 
 
 

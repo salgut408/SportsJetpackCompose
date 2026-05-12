@@ -1,11 +1,13 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Broadcast(
-    @SerializedName("market")
+    @SerialName("market")
     val market: String? = "",
-    @SerializedName("names")
+    @SerialName("names")
     val names: List<String?>? = listOf()
 )

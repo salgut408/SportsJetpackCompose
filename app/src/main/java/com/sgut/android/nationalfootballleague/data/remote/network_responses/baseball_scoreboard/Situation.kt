@@ -1,27 +1,28 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
 data class Situation(
-    @SerializedName("balls")
+    @SerialName("balls")
     val balls: Int? = 0,
-    @SerializedName("batter")
+    @SerialName("batter")
     val batter: Batter? = Batter(),
-    @SerializedName("dueUp")
+    @SerialName("dueUp")
     val dueUp: List<DueUp>? = listOf(),
-    @SerializedName("lastPlay")
+    @SerialName("lastPlay")
     val lastPlay: LastPlay? = LastPlay(),
-    @SerializedName("onFirst")
+    @SerialName("onFirst")
     val onFirst: Boolean? = false,
-    @SerializedName("onSecond")
+    @SerialName("onSecond")
     val onSecond: Boolean? = false,
-    @SerializedName("onThird")
+    @SerialName("onThird")
     val onThird: Boolean? = false,
-    @SerializedName("outs")
+    @SerialName("outs")
     val outs: Int? = 0,
-    @SerializedName("pitcher")
+    @SerialName("pitcher")
     val pitcher: Pitcher? = Pitcher(),
-    @SerializedName("strikes")
+    @SerialName("strikes")
     val strikes: Int? = 0
 )

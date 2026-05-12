@@ -1,13 +1,15 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.Previous
 import com.sgut.android.nationalfootballleague.asDomain
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.DrivesModel
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Drives (
 
-    @SerializedName("previous" )
+    @SerialName("previous" )
     val previous : List<Previous> = listOf()
 
 

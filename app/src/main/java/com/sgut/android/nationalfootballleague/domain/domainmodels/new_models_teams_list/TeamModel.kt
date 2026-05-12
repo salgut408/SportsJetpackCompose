@@ -1,5 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list
 
+import com.sgut.android.nationalfootballleague.data.db.team.TeamDbObj
 import com.sgut.android.nationalfootballleague.data.db.team.TeamDbObjFullInfo
 
 data class TeamModel(
@@ -37,3 +38,20 @@ data class TeamModel(
             leagueAbbreviation = leagueAbrv
         )
     }
+
+
+fun TeamModel.asTeamDbObj(isFavorite: Boolean, sport: String?, league: String?) : TeamDbObj {
+    return TeamDbObj(
+        id = id,
+        uid = uid,
+        slug = slug,
+        abbreviation = abbreviation,
+        displayName = displayName,
+        color = color,
+        alternateColor = alternateColor,
+        isFavorite = isFavorite,
+        logo = logos,
+        sport = sport ?: "",
+        league = league ?: "",
+    )
+}

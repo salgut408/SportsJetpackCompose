@@ -1,12 +1,14 @@
 package com.sgut.android.nationalfootballleague
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailResponseModel
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class TeamDetailResponse2 (
 
-  @SerializedName("team") var fullTeam : Team3? = Team3()
+  @SerialName("team") var fullTeam : Team3? = Team3()
 
 )
 

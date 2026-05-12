@@ -8,28 +8,29 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.standings_mod
 import com.sgut.android.nationalfootballleague.domain.repositories.StandingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class StandingsRepositoryImpl @Inject constructor(
-    val sportsApi: SportsApi,
-    val sportsDataBase: SportsDataBase,
-    val ioDispatcher: CoroutineDispatcher
-): StandingsRepository  {
+    private val sportsApi: SportsApi,
+    private val sportsDataBase: SportsDataBase,
+    private val ioDispatcher: CoroutineDispatcher
+) : StandingsRepository {
+
     override suspend fun getStandings(
         sport: String,
         league: String,
-        type: String,
-    ): StandingsModel =
-
+        type: String
+    ): StandingsModel = withContext(ioDispatcher) {
         try {
-            withContext(ioDispatcher) {
-                val result = sportsApi.getStandings(sport, league, type).body()
-                return@withContext result?.asDomain() ?: StandingsModel("BLANK")
-            }
+            val response = sportsApi.getStandings(sport, league, type)
+            val result = response.body()
+            Timber.d("STANDINGS : $result")
+            result?.asDomain() ?: StandingsModel("BLANK")
 
         } catch (e: Exception) {
-            Log.e("STAND_REP", e.stackTrace.toString())
-           StandingsModel()
+            Timber.e(e, "Failed to fetch standings for sport: $sport, league: $league, type: $type")
+            StandingsModel("ERROR")
         }
-
+    }
 }

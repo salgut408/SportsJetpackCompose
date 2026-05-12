@@ -1,21 +1,23 @@
 package com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ScheduleRecordNetwork(
-    @SerializedName("abbreviation")
+    @SerialName("abbreviation")
     val abbreviation: String? = "",
-    @SerializedName("description")
+    @SerialName("description")
     val description: String = "",
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String = "",
-    @SerializedName("displayValue")
+    @SerialName("displayValue")
     val displayValue: String = "",
-    @SerializedName("id")
+    @SerialName("id")
     val id: String = "",
-    @SerializedName("shortDisplayName")
+    @SerialName("shortDisplayName")
     val shortDisplayName: String = "",
-    @SerializedName("type")
+    @SerialName("type")
     val type: String = ""
 )
