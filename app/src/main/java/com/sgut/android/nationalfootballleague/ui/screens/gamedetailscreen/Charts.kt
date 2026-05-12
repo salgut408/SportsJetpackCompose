@@ -3,8 +3,8 @@ package com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -63,7 +63,7 @@ fun AnimatedCircle(
         MutableTransitionState(AnimatedCircleProgress.START)
             .apply { targetState = AnimatedCircleProgress.END }
     }
-    val transition = updateTransition(currentState)
+    val transition = rememberTransition(currentState)
 
 
     val shift by transition.animateFloat(
@@ -119,11 +119,10 @@ fun AnimatedCircle(
                         fontWeight = FontWeight.Bold,
                     )
                     Spacer(modifier = modifier.width(8.dp))
-                    Divider(
+                    VerticalDivider(
                         color = Color.Black,
-                        modifier = modifier
-                            .height(100.dp)
-                            .width(1.dp)
+                        modifier = modifier.height(100.dp),
+                        thickness = 1.dp
                     )
                     Spacer(modifier = modifier.width(8.dp))
 

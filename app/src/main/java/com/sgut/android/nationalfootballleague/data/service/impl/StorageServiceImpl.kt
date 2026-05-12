@@ -9,6 +9,7 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.TeamDomainMod
 import com.sgut.android.nationalfootballleague.data.service.AccountService
 import com.sgut.android.nationalfootballleague.data.service.StorageService
 import com.sgut.android.nationalfootballleague.data.service.trace
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -22,6 +23,7 @@ class StorageServiceImpl @Inject constructor(
 ) :
     StorageService {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override val teams: Flow<List<TeamDomainModel>>
         get() = auth.currentUser.flatMapLatest { user ->
             currentCollection(user.id)

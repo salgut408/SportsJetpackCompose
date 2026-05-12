@@ -8,6 +8,7 @@ import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.sgut.android.nationalfootballleague.domain.location.LocationTracker
+import kotlin.coroutines.resume
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -40,17 +41,17 @@ class DefaultLocationTrackerImpl(
             fusedLocationProviderClient.lastLocation.apply {
                 if(isComplete) {
                     if (isSuccessful) {
-                        cont.resume(result) {}
+                        cont.resume(result)
                     } else {
-                        cont.resume(null) {}
+                        cont.resume(null)
                     }
                     return@suspendCancellableCoroutine
                 }
                 addOnSuccessListener {
-                    cont.resume(it) {}
+                    cont.resume(it)
                 }
                 addOnFailureListener{
-                    cont.resume(null) {}
+                    cont.resume(null)
                 }
                 addOnCanceledListener {
                     cont.cancel()

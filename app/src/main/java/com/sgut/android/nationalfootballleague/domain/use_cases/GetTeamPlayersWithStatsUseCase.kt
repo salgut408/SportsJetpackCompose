@@ -13,7 +13,7 @@ class GetTeamPlayersWithStatsUseCase(
     private val league: String,
     private val sport: String
 ) {
-    suspend open fun invoke(): List<PlayerWithStats> {
+    suspend fun invoke(): List<PlayerWithStats> {
         val players = teamDetailsRepository.getSpecificTeam(league, team, sport ).athletes
         val response: MutableList<PlayerWithStats> = mutableListOf()
         for (player in players) {

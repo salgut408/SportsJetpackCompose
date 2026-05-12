@@ -953,7 +953,7 @@ fun Leads(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-            Divider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
+            HorizontalDivider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
         }
     }
 }
@@ -1091,7 +1091,7 @@ fun DisplayLabels(list: List<GameDetailsStatisticModel>) {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Divider(color = Color.LightGray.copy(alpha = 0.4f), thickness = 0.5.dp)
+            HorizontalDivider(color = Color.LightGray.copy(alpha = 0.4f), thickness = 0.5.dp)
         }
     }
 }
@@ -1189,7 +1189,7 @@ fun TeamStatCard3(
                     modifier = Modifier.weight(1f)
                 )
             }
-            Divider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
+            HorizontalDivider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
         }
     }
 }
@@ -1651,7 +1651,7 @@ fun InjuryColumn(
                     )
                 }
             }
-            Divider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
+            HorizontalDivider(color = Color.LightGray.copy(alpha = 0.3f), thickness = 0.5.dp)
         }
     }
 }
@@ -2295,11 +2295,10 @@ fun DoughnutChart2(
                         fontWeight = FontWeight.Bold,
                     )
                     Spacer(modifier = modifier.width(8.dp))
-                    Divider(
+                    VerticalDivider(
                         color = Color.Black,
-                        modifier = modifier
-                            .height(100.dp)
-                            .width(1.dp)
+                        modifier = modifier.height(100.dp),
+                        thickness = 1.dp
                     )
                     Spacer(modifier = modifier.width(8.dp))
 
