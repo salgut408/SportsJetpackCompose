@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
+package com.sgut.android.nationalfootballleague.ui.commoncomps
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -25,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sgut.android.nationalfootballleague.ui.commoncomps.SIXTEEN
-import com.sgut.android.nationalfootballleague.ui.theme.NationalFootballLeagueTheme
 import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
 import com.sgut.android.nationalfootballleague.utils.dropdownSelector
 
@@ -158,8 +157,8 @@ fun SportCard(
 @Preview
 @Composable
 fun CardPreview() {
-    NationalFootballLeagueTheme {
-        SportCard() {
+    Theme {
+        SportCard {
             Text(text = "Demo")
         }
     }

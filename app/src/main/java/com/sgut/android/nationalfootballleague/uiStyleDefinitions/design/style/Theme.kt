@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
+import androidx.compose.material3.Typography as M3Typography
 
 @Composable
 fun Theme(
@@ -42,6 +43,21 @@ fun Theme(
         outline              = colors.primaryAccent,
     )
 
+    val materialTypography = M3Typography(
+        titleLarge   = typography.titleL,
+        titleMedium  = typography.titleM,
+        titleSmall   = typography.titleS,
+        headlineLarge = typography.titleL,
+        headlineMedium = typography.titleM,
+        headlineSmall = typography.titleS,
+        bodyLarge    = typography.body,
+        bodyMedium   = typography.body,
+        bodySmall    = typography.small,
+        labelLarge   = typography.subtitle,
+        labelMedium  = typography.caption,
+        labelSmall   = typography.caption,
+    )
+
     val textSelectionColors = remember(colors) {
         TextSelectionColors(
             handleColor = colors.primaryAccent,
@@ -49,7 +65,7 @@ fun Theme(
         )
     }
 
-    MaterialTheme(colorScheme = materialColorScheme) {
+    MaterialTheme(colorScheme = materialColorScheme, typography = materialTypography) {
         CompositionLocalProvider(
             LocalColorScheme provides colors,
             LocalTextSelectionColors provides textSelectionColors,

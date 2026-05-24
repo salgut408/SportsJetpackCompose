@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.sgut.android.nationalfootballleague.commoncomposables.InjuriesBox
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailWithRosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.VenueModel
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.HeadingSection
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.TeamLogoDetailImageLoader
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.VenueCardImageLoader
+import com.sgut.android.nationalfootballleague.ui.commoncomps.HeadingSection
+import com.sgut.android.nationalfootballleague.ui.commoncomps.TeamLogoDetailImageLoader
+import com.sgut.android.nationalfootballleague.ui.commoncomps.VenueCardImageLoader
 
 @Composable
 fun TeamDetailCard(

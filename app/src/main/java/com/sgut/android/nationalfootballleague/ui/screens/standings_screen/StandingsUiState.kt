@@ -2,9 +2,8 @@ package com.sgut.android.nationalfootballleague.ui.screens.standings_screen
 
 import com.sgut.android.nationalfootballleague.domain.domainmodels.standings_models.StandingsModel
 
-data class StandingsUiState (
-    val currentSport: String = "",
-    val currentLeague: String = "",
-    val standingsUiState: StandingsModel = StandingsModel(),
-//    val loading: Boolean = true
-)
+sealed interface StandingsUiState {
+    data object Loading : StandingsUiState
+    data class Content(val standings: StandingsModel) : StandingsUiState
+    data class Error(val message: String) : StandingsUiState
+}

@@ -15,7 +15,7 @@ data class News(
     @SerialName("link")
     val link: GameDetailsLink? = GameDetailsLink(),
     @SerialName("articles")
-    val articles: List<Articles> = listOf(), // same as ArticleDomianModel
+    val articles: List<Articles> = listOf(), // same as ArticleDomainModel
 
 )
 

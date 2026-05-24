@@ -37,13 +37,6 @@ class GameDetailViewModel @Inject constructor(
     val map: StateFlow<Map<String, GameDetailsAthleteDetailsModel>> = _map.asStateFlow()
 
 
-
-    init {
-        val evens = Array(3) {3}
-        println(evens)
-    }
-
-
     fun getPlayerFromId(id: String): GameDetailsAthleteDetailsModel {
         return map.value[id] ?: GameDetailsAthleteDetailsModel()
     }
@@ -69,8 +62,6 @@ class GameDetailViewModel @Inject constructor(
             }
 
             Timber.d("SAL_GUT newGameDeetUiState: ${newGameDeetUiState.toString()}")
-//            Timber.d("SAL_GUT newGameDeetUiState: ${newGameDeetUiState.}")
-
 
             newGameDeetUiState.boxscore?.teams?.forEach { i ->
                 _colorsTeamList.add(HexToJetpackColor2.getColor(i.team?.color ?: "Color"))
@@ -87,16 +78,10 @@ class GameDetailViewModel @Inject constructor(
         }
     }
 
-    fun onSaveArticleClick(article: GameDetailModel) = viewModelScope.launch {
-//        espnRepository.saveArticle(article)
-
-    }
-
     fun returnTeamNamesForTopBar(): String {
         val first = gameDetailUiState.value.currentGameUiState?.header?.competitions?.first()?.competitors?.last()?.team?.name ?: ""
         val second = gameDetailUiState.value.currentGameUiState?.header?.competitions?.first()?.competitors?.first()?.team?.name ?: ""
         return "$first @ $second"
-
     }
 
 

@@ -7,6 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,10 +35,10 @@ import com.sgut.android.nationalfootballleague.ui.commoncomps.CardHeaderText
 import com.sgut.android.nationalfootballleague.ui.commoncomps.EIGHT
 import com.sgut.android.nationalfootballleague.ui.commoncomps.LeagueSelectionRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.BasicImage
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.DefaultCard
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SpacerDp
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.TeamLogoScoreboardImageLoader
+import com.sgut.android.nationalfootballleague.ui.commoncomps.BasicImage
+import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
+import com.sgut.android.nationalfootballleague.ui.commoncomps.SpacerDp
+import com.sgut.android.nationalfootballleague.ui.commoncomps.TeamLogoScoreboardImageLoader
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.NewsRow
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
@@ -61,16 +62,17 @@ fun ScoreboardScreen(
     selectionViewModel: SelectionViewModel
 ) {
 
-    val selectionUiState by selectionViewModel.selectionUiFullSportState.collectAsStateWithLifecycle()
+    val selectionUiState by selectionViewModel.sport.collectAsStateWithLifecycle()
     val selectionUiSport = selectionUiState.slug
     val selectionUiLeague = selectionUiState.league.slug
 
-//    TODO this causes the switch when clicking different sport on scoreboard screen figure out what to do with selection viewmodel when selected tennis and errors bc tennis is different
-    if (selectionUiLeague.isNotBlank()) {
-        scoreboardViewModel.loadGenericScoreboard(selectionUiSport, selectionUiLeague)
+    LaunchedEffect(selectionUiSport, selectionUiLeague) {
+        if (selectionUiLeague.isNotBlank()) {
+            scoreboardViewModel.loadScoreboard(selectionUiSport, selectionUiLeague)
+        }
     }
 
-    Timber.d("SAL_GUT sportAll : $selectionUiSport")
+    Timber.d("SAL_GUT selectionUiSport: $selectionUiSport")
 
     val newUiState by scoreboardViewModel.scoreboardModelState.collectAsStateWithLifecycle()
     val news = newUiState.currentArticles
@@ -107,7 +109,7 @@ fun ScoreboardScreen(
                         if (sport == TENNIS) {
                             // TODO FIX bc first we call setDifferentSport so it can be null and show tennis
                             selectionViewModel.setDifferentSport(sport, league)
-                            scoreboardViewModel.fetchAbstractScoreboard(sport, league)
+                            scoreboardViewModel.loadScoreboard(sport, league)
                         } else {
                             selectionViewModel.setDifferentSport(sport, league)
                         }

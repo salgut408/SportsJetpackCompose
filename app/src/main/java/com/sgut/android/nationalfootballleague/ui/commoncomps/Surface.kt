@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
+package com.sgut.android.nationalfootballleague.ui.commoncomps
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

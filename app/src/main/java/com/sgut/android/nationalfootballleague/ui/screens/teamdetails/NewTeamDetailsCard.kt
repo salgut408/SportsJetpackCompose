@@ -24,7 +24,7 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_te
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.VenueModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule.ScheduleDomainModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_stats_models.TeamStatsModel
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.GeneralImageLoader
+import com.sgut.android.nationalfootballleague.ui.commoncomps.GeneralImageLoader
 import kotlin.math.max
 import kotlin.math.min
 

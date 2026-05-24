@@ -24,7 +24,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.AthletesRosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailWithRosterModel
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SportSurface
+import com.sgut.android.nationalfootballleague.ui.commoncomps.SportSurface
 
 
 @OptIn(ExperimentalFoundationApi::class)

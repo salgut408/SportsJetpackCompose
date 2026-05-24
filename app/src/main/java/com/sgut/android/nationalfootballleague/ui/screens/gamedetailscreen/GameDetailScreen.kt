@@ -43,7 +43,8 @@ import com.sgut.android.nationalfootballleague.*
 import com.sgut.android.nationalfootballleague.di.GameDetailsTopBar
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.*
 import com.sgut.android.nationalfootballleague.ui.commoncomps.*
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.*
+import com.sgut.android.nationalfootballleague.ui.commoncomps.*
+import com.sgut.android.nationalfootballleague.ui.commoncomps.PressIconButton
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
 import com.sgut.android.nationalfootballleague.utils.formatTo
 import com.sgut.android.nationalfootballleague.utils.toDate
@@ -630,28 +631,6 @@ fun ExpandableGameArticle(
                     }
                 }
             }
-
-
-            var isPressed by remember { mutableStateOf(false) }
-            val context = LocalContext.current
-            PressIconButton(
-                onClick = {
-//                    TODO fix removing viewmodel pass onClick
-//                    gameDetailViewModel.onSaveArticleClick(gameDetailModel)
-                    Toast.makeText(context, "Saved to list", Toast.LENGTH_SHORT).show()
-
-                    Toast.makeText(context, "Added to articles for later", Toast.LENGTH_SHORT)
-                        .show()
-                    when (isPressed) {
-                        true -> isPressed = false
-                        false -> isPressed = true
-                    }
-                },
-                icon = { Icon(Icons.Default.Favorite, contentDescription = null) },
-                text = { Text(if (isPressed) "Saved" else "Save for later") },
-                isPressed = isPressed
-            )
-
 
         }
     }

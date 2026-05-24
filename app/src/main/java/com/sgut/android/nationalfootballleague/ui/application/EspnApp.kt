@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sgut.android.nationalfootballleague.ui.application.EspnAppState
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.Navigation
+import com.sgut.android.nationalfootballleague.ui.navigation.Navigation
 import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
 import kotlinx.coroutines.CoroutineScope
 

@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
+package com.sgut.android.nationalfootballleague.ui.navigation
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +19,7 @@ import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
 import com.sgut.android.nationalfootballleague.ui.screens.athelete_detail.AthleteDetailScreen
 import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameDetailsScreen
 
-import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeTeamCardsListScreen
+import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeRoute
 import com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen.ScoreboardScreen
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.TeamDetailScreen
@@ -49,7 +49,7 @@ fun Navigation(
             }
             val selectionViewModel: SelectionViewModel = hiltViewModel(parentEntry)
 
-            HomeTeamCardsListScreen(
+            HomeRoute(
                 selectionViewModel = selectionViewModel,
                 onNavigateToScoreboard = { sport, league ->
                     appState.navigate(NavigationScreens.ScoreboardScreen.withArgs(sport, league))

@@ -14,7 +14,6 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.sgut.android.nationalfootballleague.data.db.SportsDataBase
 import com.sgut.android.nationalfootballleague.data.db.article.ArticleDao
 import com.sgut.android.nationalfootballleague.data.db.team.TeamsDao
-import com.sgut.android.nationalfootballleague.data.help.GenNetworkFlow
 import com.sgut.android.nationalfootballleague.data.location.DefaultLocationTrackerImpl
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
 import com.sgut.android.nationalfootballleague.data.repository.*
@@ -68,19 +67,17 @@ object AppModule {
     // repositories
 
     @Provides
-    fun provideTeamsListRepository(
+    fun provideSportRepository(
         sportsApi: SportsApi,
-        sportsDataBase: SportsDataBase,
         ioDispatcher: CoroutineDispatcher,
-    ): TeamsListsRepository = TeamsListRepositoryImpl(sportsApi, sportsDataBase, ioDispatcher)
+    ): SportRepository = SportRepositoryImpl(sportsApi, ioDispatcher)
 
 
     @Provides
     fun provideStandingsRepository(
         sportsApi: SportsApi,
-        sportsDataBase: SportsDataBase,
         ioDispatcher: CoroutineDispatcher,
-    ): StandingsRepository = StandingsRepositoryImpl(sportsApi, sportsDataBase, ioDispatcher)
+    ): StandingsRepository = StandingsRepositoryImpl(sportsApi, ioDispatcher)
 
 
     @Provides
@@ -108,9 +105,8 @@ object AppModule {
     @Provides
     fun provideArticleRepository(
         sportsApi: SportsApi,
-        sportsDataBase: SportsDataBase,
         ioDispatcher: CoroutineDispatcher,
-    ): ArticleRepository = ArticleRepositoryImpl(sportsApi, sportsDataBase, ioDispatcher)
+    ): ArticleRepository = ArticleRepositoryImpl(sportsApi, ioDispatcher)
 
     @Provides
     fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
@@ -120,28 +116,6 @@ object AppModule {
     fun provideArticleUseCase(
         articleRepository: ArticleRepository,
     ): GetArticlesUseCase = GetArticlesUseCase(articleRepository)
-
-    @Provides
-    fun provideNewArticleRepository(
-         articleDao: ArticleDao,
-         sportsApi: SportsApi,
-        genericNetworkFlow: GenNetworkFlow,
-    ): NewArticleRepository = NewArticleRepository(articleDao, sportsApi, genericNetworkFlow)
-
-    @Provides
-    fun provideNewGetArticlesUseCase(
-        articleRepository: NewArticleRepository,
-        ioDispatcher: CoroutineDispatcher,
-        articleDao: ArticleDao
-    ): NewGetArticlesUseCase = NewGetArticlesUseCase(articleRepository,
-//        ioDispatcher,
-//        articleDao
-    )
-
-    @Provides
-    fun provideGenericNetworkFlow(@ApplicationContext context: Context): GenNetworkFlow {
-        return GenNetworkFlow(context)
-    }
 
     @Provides
     fun provideGetBaseballSituationUseCase(

@@ -87,9 +87,7 @@ dependencies {
 
     // Network
     implementation libs.retrofit
-    implementation libs.retrofit.gson        // kept for GenNetworkFlow error parsing — remove in Phase 6
     implementation libs.okhttp.logging
-    implementation libs.gson                 // kept for GenNetworkFlow error parsing — remove in Phase 6
     implementation libs.kotlinx.serialization.json
     implementation libs.retrofit.kotlinx.serialization
 
