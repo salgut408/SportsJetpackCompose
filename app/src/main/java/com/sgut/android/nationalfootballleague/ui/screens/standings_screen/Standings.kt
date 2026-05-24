@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +45,7 @@ fun Standings(
     val state by standingsViewModel.uiState.collectAsStateWithLifecycle()
 
     DefaultCard(modifier = modifier) {
-        CardHeaderText(text = "Standings", icon = Icons.Filled.Star)
+        CardHeaderText(text = "Standings", emoji = "🏆")
         NormalDivider()
 
         when (val s = state) {

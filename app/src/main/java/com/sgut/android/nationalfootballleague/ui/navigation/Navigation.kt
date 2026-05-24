@@ -20,7 +20,7 @@ import com.sgut.android.nationalfootballleague.ui.screens.athelete_detail.Athlet
 import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameDetailsScreen
 
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeRoute
-import com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen.ScoreboardScreen
+import com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen.ScoreboardRoute
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.TeamDetailScreen
 import kotlinx.coroutines.CoroutineScope
@@ -36,9 +36,7 @@ fun Navigation(
         navController = appState.navController,
         startDestination = NavigationScreens.MainScreenTeamsList.route,
         modifier = Modifier.padding(padding),
-
     ) {
-
         composable(
             route = NavigationScreens.MainScreenTeamsList.route
         ) { backStackEntry ->
@@ -92,8 +90,6 @@ fun Navigation(
             AthleteDetailScreen()
         }
 
-
-
         composable(
             route = NavigationScreens.GameDetailScreen.route + "/{sport}/{league}/{event}",
             arguments = listOf(
@@ -141,15 +137,13 @@ fun Navigation(
             val selectionViewModel: SelectionViewModel = hiltViewModel(parentEntry)
 
 
-            ScoreboardScreen(
-                sport = sportName,
-                league = leagueName,
+            ScoreboardRoute(
                 canNavigateBack = appState.navController.previousBackStackEntry != null,
                 navigateUp = { appState.navController.navigateUp() },
                 onNavigateToGame = { sport, league, event ->
                     appState.navigate(NavigationScreens.GameDetailScreen.withArgs(sport, league, event))
                 },
-                selectionViewModel = selectionViewModel
+                selectionViewModel = selectionViewModel,
             )
         }
 

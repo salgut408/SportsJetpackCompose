@@ -14,7 +14,7 @@ class AbstractScoresUseCase @Inject constructor(
     suspend operator fun invoke(sport: String, league: String): ScoreboardData =
         withContext(ioDispatcher) {
             val scores = scoreboardRepository.getAbstractScoreBoard(sport, league)
-//           Timber.d("SAL_GUT ABSTRACT SCORE USE CASE scores: $scores")
+           Timber.d("SAL_GUT ABSTRACT SCORE USE CASE scores: $scores")
             return@withContext scores
         }
 }

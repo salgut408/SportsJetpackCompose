@@ -40,6 +40,10 @@ fun Theme(
         onError              = colors.onError,
         errorContainer       = colors.error.copy(alpha = 0.2f),
         onErrorContainer     = colors.onError,
+        tertiary             = colors.warn,
+        onTertiary           = colors.onWarn,
+        tertiaryContainer    = colors.warn.copy(alpha = 0.15f),
+        onTertiaryContainer  = colors.onWarn,
         outline              = colors.primaryAccent,
     )
 

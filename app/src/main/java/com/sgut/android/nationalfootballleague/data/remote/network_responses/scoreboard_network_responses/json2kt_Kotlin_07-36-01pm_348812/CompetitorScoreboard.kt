@@ -43,7 +43,11 @@ data class CompetitorScoreboard(
 @Serializable
 data class Linescore(
   @SerialName("value")
-  val value: Double? = 0.0
+  val value: Double? = 0.0,
+  @SerialName("displayValue")
+  val displayValue: String? = null,
+  @SerialName("period")
+  val period: Int? = null,
 )
 
 @Serializable

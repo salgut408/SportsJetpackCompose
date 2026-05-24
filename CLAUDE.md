@@ -602,6 +602,718 @@ Avoid over-engineering too early, but call out where a small architecture decisi
 
 ---
 
+## API info can be found in this page 
+https://gist.github.com/akeaswaran/b48b02f1c94f873c6655e7129910fc3b
+
+## ESPN API Endpoint Notes
+
+This app uses unofficial / undocumented ESPN endpoints. Treat this section as endpoint reference only. Always verify actual JSON responses before depending on fields.
+
+Primary base URLs seen:
+
+- `https://site.api.espn.com/apis/`
+- `https://site.web.api.espn.com/apis/`
+- `https://sports.core.api.espn.com/v2/`
+
+Most common endpoint pattern:
+
+- `https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/{endpoint}`
+
+Common examples:
+
+- `site/v2/sports/baseball/mlb/scoreboard`
+- `site/v2/sports/baseball/mlb/news`
+- `site/v2/sports/baseball/mlb/teams`
+- `site/v2/sports/baseball/mlb/teams/{teamIdOrSlug}`
+- `site/v2/sports/baseball/mlb/summary?event={eventId}`
+
+---
+
+## Core Params
+
+### `dates`
+
+Used on scoreboard endpoints.
+
+Format:
+
+- `YYYYMMDD`
+- `YYYYMMDD-YYYYMMDD`
+
+Examples:
+
+- `dates=20260524`
+- `dates=20260501-20260524`
+
+Notes:
+
+- Use `dates`, not `date`.
+- If omitted, ESPN may default to the current date, often based on UTC.
+- Prefer explicit dates to avoid timezone confusion.
+
+### `limit`
+
+Used when ESPN returns too few items by default.
+
+Examples:
+
+- `limit=100`
+- `limit=500`
+- `limit=1000`
+
+Notes:
+
+- Some endpoints appear to default to 25 items.
+- Useful for scoreboard, teams, college sports, and date ranges.
+
+### `groups`
+
+Used mostly for college sports and group/conference filtering.
+
+Examples:
+
+- College football FBS: `groups=80`
+- Men’s college basketball D1: `groups=50`
+
+Example:
+
+- `site/v2/sports/football/college-football/scoreboard?dates=20250830&groups=80&limit=1000`
+
+Notes:
+
+- Group IDs can often be found from ESPN scoreboard URLs after filtering by conference/group.
+- Prefer `groups`, but verify because some references mention `group`.
+
+### `event`
+
+Used by summary/game detail endpoints.
+
+Example:
+
+- `summary?event=401075852`
+
+Notes:
+
+- Event IDs usually come from the scoreboard response.
+- The param is usually `event`, not `gameId`.
+
+### `season`
+
+Used by some team schedule endpoints.
+
+Example:
+
+- `teams/11/schedule?season=2020`
+
+### `seasontype`
+
+Used by some schedule endpoints.
+
+Known values:
+
+- `1 = preseason`
+- `2 = regular season`
+- `3 = postseason`
+
+Example:
+
+- `teams/11/schedule?season=2020&seasontype=2`
+
+---
+
+## MLB Endpoints
+
+Focus on MLB first.
+
+Sport:
+
+- `baseball`
+
+League:
+
+- `mlb`
+
+### MLB Scoreboard
+
+Use for schedule, scores, live games, completed games, and event IDs.
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard`
+
+Examples:
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20260524`
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?dates=20260501-20260524&limit=1000`
+
+Useful params:
+
+- `dates`
+- `limit`
+
+### MLB Game Summary
+
+Use for deeper game details from a scoreboard event ID.
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/summary?event={eventId}`
+
+Example:
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/summary?event=401075852`
+
+Useful params:
+
+- `event`
+
+### MLB News
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news`
+
+### MLB Teams
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams`
+
+Example with limit:
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams?limit=100`
+
+### Specific MLB Team
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams/{teamIdOrSlug}`
+
+Example:
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams/1`
+
+### MLB Team Schedule
+
+Possible pattern:
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams/{teamIdOrSlug}/schedule`
+
+Possible params:
+
+- `season`
+- `seasontype`
+
+Verify actual MLB response before relying on it.
+
+### MLB Standings
+
+Standings use a slightly different URL pattern:
+
+- `https://site.api.espn.com/apis/v2/sports/baseball/mlb/standings`
+- `https://site.web.api.espn.com/apis/v2/sports/baseball/mlb/standings`
+
+### MLB Groups
+
+Useful for league/division metadata.
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/groups`
+- `https://site.web.api.espn.com/apis/site/v2/sports/baseball/mlb/groups`
+
+---
+
+## NFL Endpoints
+
+Sport:
+
+- `football`
+
+League:
+
+- `nfl`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/news`
+- Teams: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams`
+- Specific team: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/{teamIdOrSlug}`
+- Summary: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event={eventId}`
+- Standings: `https://site.api.espn.com/apis/v2/sports/football/nfl/standings`
+
+---
+
+## College Football Endpoints
+
+Sport:
+
+- `football`
+
+League:
+
+- `college-football`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/football/college-football/news`
+- Teams: `https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams`
+- Specific team: `https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/{teamIdOrSlug}`
+- Summary: `https://site.api.espn.com/apis/site/v2/sports/football/college-football/summary?event={eventId}`
+- Rankings: `https://site.api.espn.com/apis/site/v2/sports/football/college-football/rankings`
+
+Useful params:
+
+- `dates`
+- `limit`
+- `groups`
+
+Known group examples:
+
+- FBS: `groups=80`
+- ACC: `groups=1`
+- American: `groups=151`
+- Big 12: `groups=4`
+- Big Ten: `groups=5`
+- Conference USA: `groups=12`
+- FBS Independents: `groups=18`
+- MAC: `groups=15`
+- Mountain West: `groups=17`
+- Pac-12: `groups=9`
+- SEC: `groups=8`
+- Sun Belt: `groups=37`
+
+---
+
+## NBA Endpoints
+
+Sport:
+
+- `basketball`
+
+League:
+
+- `nba`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news`
+- Teams: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams`
+- Specific team: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/{teamIdOrSlug}`
+- Summary: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event={eventId}`
+
+---
+
+## WNBA Endpoints
+
+Sport:
+
+- `basketball`
+
+League:
+
+- `wnba`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/news`
+- Teams: `https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/teams`
+- Specific team: `https://site.api.espn.com/apis/site/v2/sports/basketball/wnba/teams/{teamIdOrSlug}`
+
+---
+
+## Men’s College Basketball Endpoints
+
+Sport:
+
+- `basketball`
+
+League:
+
+- `mens-college-basketball`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/news`
+- Teams: `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams`
+- Specific team: `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/teams/{teamIdOrSlug}`
+- Rankings: `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings`
+
+Useful params:
+
+- `dates`
+- `limit`
+- `groups=50` for D1
+
+Rankings may support:
+
+- `weeks`
+
+Example:
+
+- `rankings?weeks=3`
+
+---
+
+## Women’s College Basketball Endpoints
+
+Sport:
+
+- `basketball`
+
+League:
+
+- `womens-college-basketball`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/news`
+- Teams: `https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/teams`
+- Specific team: `https://site.api.espn.com/apis/site/v2/sports/basketball/womens-college-basketball/teams/{teamIdOrSlug}`
+
+---
+
+## NHL Endpoints
+
+Sport:
+
+- `hockey`
+
+League:
+
+- `nhl`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/news`
+- Teams: `https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams`
+- Specific team: `https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams/{teamIdOrSlug}`
+- Standings: `https://site.api.espn.com/apis/v2/sports/hockey/nhl/standings`
+
+---
+
+## Soccer Endpoints
+
+Soccer uses league codes instead of simple league names.
+
+Pattern:
+
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/{league}/scoreboard`
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/{league}/news`
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/{league}/teams`
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/{league}/teams/{teamId}`
+
+Examples:
+
+- EPL: `eng.1`
+- MLS: `usa.1`
+
+Example endpoints:
+
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard`
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard`
+
+Possible all-soccer scoreboard:
+
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/all/scoreboard`
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/all/scoreboard?dates=YYYYMMDD`
+
+Warning:
+
+- The `soccer/all` response may not include enough league metadata to reliably map every event back to a league code.
+
+---
+
+## College Baseball Endpoint
+
+Sport:
+
+- `baseball`
+
+League:
+
+- `college-baseball`
+
+Endpoint:
+
+- `https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard`
+
+---
+
+## Golf Endpoints
+
+Golf leaderboard uses a different pattern.
+
+Leaderboard:
+
+- `https://site.web.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=pga`
+
+Known league params:
+
+- `league=pga`
+- `league=champions-tour`
+- `league=lpga`
+- `league=eur`
+- `league=ntw`
+
+Specific tournament/event:
+
+- `https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard?event={eventId}`
+
+Golf linescores:
+
+- `https://sports.core.api.espn.com/v2/sports/golf/leagues/pga/events/{eventId}/competitions/{competitionId}/competitors/{athleteId}/linescores?lang=en&region=us`
+
+---
+
+## MMA / UFC Endpoints
+
+Sport:
+
+- `mma`
+
+League:
+
+- `ufc`
+
+Endpoints:
+
+- Scoreboard: `https://site.api.espn.com/apis/site/v2/sports/mma/ufc/scoreboard`
+- News: `https://site.api.espn.com/apis/site/v2/sports/mma/ufc/news`
+- Rankings: `https://site.api.espn.com/apis/site/v2/sports/mma/ufc/rankings`
+
+---
+
+## Athlete / Player Endpoints
+
+Common v3 athlete pattern:
+
+- `https://site.web.api.espn.com/apis/common/v3/sports/{sport}/{league}/athletes/{athleteId}`
+
+Example:
+
+- `https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/101`
+
+Athlete splits/stats pattern:
+
+- `https://site.web.api.espn.com/apis/common/v3/sports/{sport}/{league}/athletes/{athleteId}/splits`
+
+Example:
+
+- `https://site.web.api.espn.com/apis/common/v3/sports/basketball/mens-college-basketball/athletes/{athleteId}/splits`
+
+Core athlete patterns:
+
+- `https://sports.core.api.espn.com/v2/sports/{sport}/athletes`
+- `https://sports.core.api.espn.com/v2/sports/{sport}/athletes/{athleteId}`
+
+Notes:
+
+- Athlete endpoints are inconsistent across sports.
+- Some team sports use `site.web.api.espn.com/apis/common/v3`.
+- Some solo sports use `sports.core.api.espn.com/v2`.
+- There may not be a reliable public athlete search endpoint.
+- A practical flow is to get teams/rosters first, extract athlete IDs, then fetch athlete details.
+- Team specific news: https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news?team=ny
+- 
+
+---
+
+## Player Headshot Pattern
+
+Some ESPN player headshots follow this image URL format:
+
+- `https://a.espncdn.com/combiner/i?img=/i/headshots/{league}/players/full/{PLAYER_ID}.png&w=350&h=254`
+
+MLB example pattern:
+
+- `https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/{PLAYER_ID}.png&w=350&h=254`
+
+Also check athlete API responses because image URLs may already be included.
+
+---
+
+## League Discovery Endpoint
+
+Potential league dropdown endpoint:
+
+- `https://site.api.espn.com/apis/site/v2/leagues/dropdown?lang=en&region=us&calendartype=whitelist&limit=100&sport={sport}`
+
+Examples:
+
+- `sport=soccer`
+- `sport=golf`
+- `sport=racing`
+
+Use experimentally and verify results.
+
+---
+
+## XHR Page JSON Pattern
+
+Some ESPN web pages may return JSON-like page data with `xhr=1`.
+
+Pattern:
+
+- `https://secure.espn.com/{page}?xhr=1`
+
+Extra params sometimes used:
+
+- `xhr=1`
+- `render=true`
+- `device=desktop`
+- `country=us`
+- `lang=en`
+- `region=us`
+- `site=espn`
+- `edition-host=espn.com`
+- `site-type=full`
+- `date=YYYYMMDD`
+
+Example schedule-style URL pattern:
+
+- `https://secure.espn.com/core/mens-college-basketball/schedule?xhr=1&render=true&device=desktop&country=us&lang=en&region=us&site=espn&edition-host=espn.com&site-type=full&date=YYYYMMDD`
+
+Use this only when normal API endpoints are not enough.
+
+## ESPN News / Articles Endpoints
+
+General news pattern:
+
+- `https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/news`
+
+Examples:
+
+- MLB news: `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news`
+- NFL news: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/news`
+- NBA news: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news`
+- NHL news: `https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/news`
+- UFC news: `https://site.api.espn.com/apis/site/v2/sports/mma/ufc/news`
+
+Possible team-specific news pattern:
+
+- `https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/news?team={teamAbbreviationOrSlug}`
+
+Example:
+
+- Knicks/NBA: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news?team=ny`
+
+Notes:
+
+- News responses may only include a limited rotating set of articles.
+- Some responses may provide article links/metadata rather than full article bodies.
+- Verify whether the response includes enough content for the app before building article detail screens.
+
+## ESPN Stats Endpoints
+
+Stats support is inconsistent across sports. Verify each sport/league before depending on these endpoints.
+
+### Game-Level Stats / Box Score / Leaders
+
+Use the summary endpoint for one event:
+
+- `https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/summary?event={eventId}`
+
+Examples:
+
+- MLB summary: `https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/summary?event={eventId}`
+- NFL summary: `https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event={eventId}`
+- NBA summary: `https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event={eventId}`
+
+Possible data available depending on sport/game state:
+
+- Box score
+- Team stats
+- Player stats
+- Leader stats
+- Drives
+- Plays / play-by-play
+- Game preview data
+- In-game score data
+
+### Team Total Statistics
+
+Pattern seen for NFL:
+
+- `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/{teamId}/statistics`
+
+Example:
+
+- `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/11/statistics`
+
+Possible generalized pattern to test:
+
+- `https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/teams/{teamId}/statistics`
+
+Verify before using for MLB/NBA/NHL/etc.
+
+### Team Roster
+
+Roster endpoint can be used to get athlete/player IDs.
+
+Pattern:
+
+- `https://site.api.espn.com/apis/site/v2/sports/{sport}/{league}/teams/{teamId}/roster`
+
+Example:
+
+- `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/11/roster`
+
+Notes:
+
+- Roster may be grouped by offense/defense/special teams for football.
+- Roster response may not include season statistics.
+- Use roster mainly to discover athlete IDs.
+
+### Player Season Statistics
+
+Pattern seen for NFL:
+
+- `http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/{season}/types/{seasonType}/athletes/{playerId}/statistics/`
+
+Example:
+
+- `http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2023/types/2/athletes/{playerId}/statistics/`
+
+Known `seasonType` values:
+
+- `1 = preseason`
+- `2 = regular season`
+- `3 = postseason`
+
+### Player Career Statistics
+
+Pattern seen for NFL:
+
+- `http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/athletes/{playerId}/statistics`
+
+### Athlete Info / Splits
+
+Common v3 athlete pattern:
+
+- `https://site.web.api.espn.com/apis/common/v3/sports/{sport}/{league}/athletes/{athleteId}`
+
+Athlete splits/stats pattern:
+
+- `https://site.web.api.espn.com/apis/common/v3/sports/{sport}/{league}/athletes/{athleteId}/splits`
+
+Example:
+
+- `https://site.web.api.espn.com/apis/common/v3/sports/basketball/mens-college-basketball/athletes/{athleteId}/splits`
+
+### Standings Stats
+
+Standings responses can include stats inside each team entry.
+
+Pattern:
+
+- `https://site.web.api.espn.com/apis/v2/sports/{sport}/{league}/standings`
+
+Example:
+
+- `https://site.web.api.espn.com/apis/v2/sports/basketball/mens-college-basketball/standings?sort=winpercent%3Adesc`
+
+Notes:
+
+- Entries may contain a `stats` array.
+- Stats can include values like wins, losses, games behind, win percentage, and possibly conference record depending on sport.
+
+
 ## Memory Note
 
 The auto-memory snapshot lists older SDK versions and a `common_scoreboards` branch. Those are stale.

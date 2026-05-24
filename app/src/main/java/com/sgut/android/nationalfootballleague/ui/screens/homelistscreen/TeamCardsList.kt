@@ -9,9 +9,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
@@ -24,25 +21,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+import com.sgut.android.nationalfootballleague.data.emojis.teamEmoji
 import com.sgut.android.nationalfootballleague.di.ToolBar3
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.LeagueModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.SportModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.TeamModel
 import com.sgut.android.nationalfootballleague.homelistscreen.ArticleRow
+import com.sgut.android.nationalfootballleague.ui.commoncomps.BasicImage
 import com.sgut.android.nationalfootballleague.ui.commoncomps.CardHeaderText
+import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
 import com.sgut.android.nationalfootballleague.ui.commoncomps.LeagueSelectionRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ShimmerBox
 import com.sgut.android.nationalfootballleague.ui.commoncomps.SportScaffold
-import com.sgut.android.nationalfootballleague.ui.commoncomps.*
-
+import com.sgut.android.nationalfootballleague.ui.commoncomps.rememberRelativeTime
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
 import com.sgut.android.nationalfootballleague.ui.screens.standings_screen.Standings
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
 import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.LIST_OF_LEAGUE_PAIRS
+import com.sgut.android.nationalfootballleague.utils.sportEmoji
 import com.sgut.android.nationalfootballleague.R.string as AppText
 
 
@@ -236,15 +238,15 @@ private fun HomeContentSkeleton(padding: PaddingValues) {
 }
 
 @Composable
-fun TeamsListCircleRow(
+private fun TeamsListCircleRow(
     teams: List<TeamModel>,
-    modifier: Modifier = Modifier,
     sport: String,
     league: String,
     onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     DefaultCard(modifier = modifier) {
-        CardHeaderText(text = league, icon = Icons.Default.Person)
+        CardHeaderText(text = league, emoji = sportEmoji(sport))
         NormalDivider()
         LazyRow(
             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 10.dp),
@@ -265,7 +267,7 @@ fun TeamsListCircleRow(
 @Composable
 fun NewsRow(news: ArticlesListModel, modifier: Modifier) {
     DefaultCard(modifier = modifier) {
-        CardHeaderText(text = news.header, icon = Icons.AutoMirrored.Filled.List)
+        CardHeaderText(text = news.header, emoji = "📰")
         NormalDivider()
         ArticleRow(articleList = news.articles)
     }
@@ -280,12 +282,12 @@ fun LabelText(@StringRes stringResId: Int) {
 }
 
 @Composable
-fun TeamItem(
+private fun TeamItem(
     team: TeamModel,
-    modifier: Modifier = Modifier,
     sport: String,
     league: String,
     onNavigateToTeam: (team: String, sport: String, league: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val teamColor = HexToJetpackColor2.getColor(team.color)
     val altColor = HexToJetpackColor2.getColor(team.alternateColor)
@@ -328,14 +330,23 @@ fun TeamItem(
 
         Spacer(modifier = Modifier.height(5.dp))
 
-        Text(
-            text = team.abbreviation,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        val emoji = teamEmoji(sport = sport, league = league, teamAbbreviation = team.abbreviation)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            if (emoji != null) {
+                Text(text = emoji, fontSize = 11.sp)
+            }
+            Text(
+                text = team.abbreviation,
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
         Text(
             text = team.shortDisplayName,
             style = MaterialTheme.typography.labelSmall,

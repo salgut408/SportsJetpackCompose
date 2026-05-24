@@ -16,6 +16,7 @@ data class ScoreboardCompetitionModel(
      val competitors: List<ScoreboardCompetitorsModel> = listOf(),
     val details: List<ScoreboardDetailsModel> = listOf(),
     val headlines: List<ScoreboardHeadlineModel> = listOf(), // move to own obj
+    val notes: List<ScoreboardNoteModel> = listOf(),
     val venue: ScoreboardVenueModel = ScoreboardVenueModel(),
     val situation: SituationScoreboard = SituationScoreboard()
 ) {
