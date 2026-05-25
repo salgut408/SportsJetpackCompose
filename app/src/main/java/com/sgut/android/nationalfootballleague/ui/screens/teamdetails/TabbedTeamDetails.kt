@@ -32,6 +32,7 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_te
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_stats_models.TeamStatsModel
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
 import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
+import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.CardSectionHeader
 
 
 @Composable
@@ -42,10 +43,17 @@ fun TabLayout(
     stats: TeamStatsModel,
 ) {
     val teamColor = HexToJetpackColor2.getColor(team.color)
+    val accentColors = teamDetailColors(team)
     var tabIndex by remember { mutableStateOf(0) }
     val tabTitles = listOf("Stats", "Roster")
 
     DefaultCard(modifier = modifier) {
+        CardSectionHeader(
+            emoji = "👥",
+            title = "Roster & Stats",
+            subtitle = if (tabIndex == 0) "Season statistics" else "Player roster",
+            accentColors = accentColors,
+        )
         TabRow(
             selectedTabIndex = tabIndex,
             containerColor = teamColor.copy(alpha = 0.09f),
@@ -164,54 +172,18 @@ fun InjuriesCard(
     modifier: Modifier,
 ) {
     val teamColor = HexToJetpackColor2.getColor(team.color)
-    val altColor = HexToJetpackColor2.getColor(team.alternateColor)
+    val accentColors = teamDetailColors(team)
     val injuries = team.athletes.filter { it.injuries?.isNotEmpty() == true }
 
     if (injuries.isEmpty()) return
 
-    Card(
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = modifier.fillMaxWidth()
-    ) {
-        // Team-gradient header
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Brush.horizontalGradient(listOf(teamColor, altColor)))
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Warning,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "Injury Report",
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            }
-            Surface(
-                color = Color.White.copy(alpha = 0.22f),
-                shape = RoundedCornerShape(20.dp),
-            ) {
-                Text(
-                    text = "${injuries.size} players",
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp)
-                )
-            }
-        }
-
+    DefaultCard(modifier = modifier) {
+        CardSectionHeader(
+            emoji = "🏥",
+            title = "Injury Report",
+            subtitle = "${injuries.size} player${if (injuries.size == 1) "" else "s"} out, questionable, or day-to-day",
+            accentColors = accentColors,
+        )
         InjuredPlayerColumn(injuredList = injuries, teamColor = teamColor)
     }
 }

@@ -18,13 +18,14 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
-import com.sgut.android.nationalfootballleague.commoncomposables.InjuriesBox
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.AthletesRosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailWithRosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.VenueModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule.ScheduleDomainModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_stats_models.TeamStatsModel
 import com.sgut.android.nationalfootballleague.ui.commoncomps.GeneralImageLoader
+import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.SectionSpacer
+import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.TeamAccentStrip
 import kotlin.math.max
 import kotlin.math.min
 
@@ -189,12 +190,15 @@ fun Body(
 ) {
     val color = HexToJetpackColor2.getColor(team.color)
     val altColor = HexToJetpackColor2.getColor(team.alternateColor)
+    val accentColors = teamDetailColors(team)
 
     Column(
         modifier = Modifier
             .verticalScroll(scroll)
-            .background(color)
+            .background(MaterialTheme.colorScheme.background)
     ) {
+        // Reserve space for the hero header / title / image (drawn behind by
+        // NewTeamDetailCard via overlapping Boxes).
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -205,56 +209,72 @@ fun Body(
         Column {
             Spacer(Modifier.height(ImageOverlap))
             Spacer(Modifier.height(TitleHeight))
-            Spacer(Modifier.height(16.dp))
             Spacer(Modifier.height(300.dp))
-            Spacer(Modifier.height(16.dp))
 
+            // Team-color accent strip — anchors the gradient header into the
+            // scrolling body the same way Game Details does.
+            TeamAccentStrip(
+                colors = accentColors,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+            )
+
+            SectionSpacer()
             VenueCard(
                 venue = team.franchise.venue ?: VenueModel(),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
                 teamColor = color,
-                altColor = altColor
+                altColor = altColor,
+                accentColors = accentColors,
             )
-            Spacer(Modifier.height(12.dp))
 
+            SectionSpacer()
             TabLayout(
                 team = team,
-                modifier = Modifier,
+                modifier = Modifier.padding(horizontal = 8.dp),
                 people = roster,
-                stats = stats
+                stats = stats,
             )
-            Spacer(Modifier.height(12.dp))
 
             team.nextEvent.forEach { nextEvent ->
-                NextEvent(nextEvent = nextEvent, modifier = Modifier.padding(horizontal = 8.dp), team = team)
-                Spacer(Modifier.height(8.dp))
+                SectionSpacer()
+                NextEvent(
+                    nextEvent = nextEvent,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    team = team,
+                )
             }
 
+            SectionSpacer()
             TeamRecord(
                 record = team.record,
                 modifier = Modifier.padding(horizontal = 8.dp),
-                teamColor = color
+                teamColor = color,
+                accentColors = accentColors,
             )
-            Spacer(Modifier.height(12.dp))
 
-            PastGames(schedule = teamSchedule, teamColor = color, altColor = altColor)
-            Spacer(Modifier.height(12.dp))
+            SectionSpacer()
+            PastGames(
+                schedule = teamSchedule,
+                teamColor = color,
+                altColor = altColor,
+                accentColors = accentColors,
+            )
 
+            SectionSpacer()
             InjuriesCard(
                 team = team,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-            Spacer(Modifier.height(12.dp))
-
-            InjuriesBox(
-                stats = team.record.recordItems.getOrNull(0)?.summary.toString(), team
+                modifier = Modifier.padding(horizontal = 8.dp),
             )
 
+            // Trailing breathing room so the last section isn't flush against
+            // the system gesture area.
             Spacer(
                 modifier = Modifier
                     .padding(bottom = BottomBarHeight)
                     .navigationBarsPadding()
-                    .height(8.dp)
+                    .height(16.dp)
             )
         }
     }

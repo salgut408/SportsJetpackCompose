@@ -179,69 +179,29 @@ fun PastGames(
     schedule: ScheduleDomainModel,
     teamColor: Color = Color.Gray,
     altColor: Color = Color.DarkGray, // passed through from team, kept for future use
+    accentColors: com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameTeamColors? = null,
 ) {
     val sport = extractSportFromLogoUrl(schedule.team.logo)
+    val subtitle = buildList {
+        if (schedule.team.recordSummary.isNotBlank()) add(schedule.team.recordSummary)
+        if (schedule.season.name.isNotBlank()) add(schedule.season.name)
+    }.joinToString(" · ").takeIf { it.isNotBlank() }
 
-    Card(
-        shape = RoundedCornerShape(4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+    com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard(
+        modifier = Modifier.padding(horizontal = 8.dp),
     ) {
-        Column {
-            // ── HEADER ──────────────────────────────────────────────
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .width(3.dp)
-                            .height(16.dp)
-                            .background(teamColor)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = "RESULTS",
-                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 2.sp),
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    if (schedule.team.recordSummary.isNotBlank()) {
-                        Text(
-                            text = schedule.team.recordSummary,
-                            style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 0.5.sp),
-                            fontWeight = FontWeight.Bold,
-                            color = teamColor
-                        )
-                    }
-                    Text(
-                        text = schedule.season.name.uppercase(),
-                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.sp),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            HorizontalDivider(thickness = 1.dp, color = teamColor.copy(alpha = 0.18f))
-
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
-            ) {
-                items(schedule.events) { event ->
-                    PastEventCard(event = event, teamColor = teamColor, sport = sport)
-                }
+        com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.CardSectionHeader(
+            emoji = "📅",
+            title = "Recent Results",
+            subtitle = subtitle,
+            accentColors = accentColors,
+        )
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(top = 4.dp, bottom = 12.dp),
+        ) {
+            items(schedule.events) { event ->
+                PastEventCard(event = event, teamColor = teamColor, sport = sport)
             }
         }
     }
@@ -517,6 +477,7 @@ fun TeamRecord(
     record: RecordModel,
     modifier: Modifier,
     teamColor: Color = Color.Gray,
+    accentColors: com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameTeamColors? = null,
 ) {
     val items = record.recordItems.filterNotNull()
     if (items.isEmpty()) return
@@ -524,45 +485,14 @@ fun TeamRecord(
     val primary = items[0]
     val secondaries = items.drop(1)
 
-    Card(
-        shape = RoundedCornerShape(4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = modifier.fillMaxWidth()
-    ) {
+    com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard(modifier = modifier) {
+        com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.CardSectionHeader(
+            emoji = "📊",
+            title = "Team Record",
+            subtitle = primary.type.takeIf { it.isNotBlank() },
+            accentColors = accentColors,
+        )
         Column {
-
-            // ── HEADER ─────────────────────────────────────────────
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .width(3.dp)
-                            .height(16.dp)
-                            .background(teamColor)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = "TEAM RECORD",
-                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 2.sp),
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Text(
-                    text = primary.type.uppercase(),
-                    style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.sp),
-                    fontWeight = FontWeight.SemiBold,
-                    color = teamColor
-                )
-            }
-
-            HorizontalDivider(thickness = 1.dp, color = teamColor.copy(alpha = 0.18f))
 
             // ── HERO SUMMARY ────────────────────────────────────────
             Box(
