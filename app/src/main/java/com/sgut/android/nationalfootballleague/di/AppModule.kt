@@ -80,14 +80,22 @@ object AppModule {
     ): StandingsRepository = StandingsRepositoryImpl(sportsApi, ioDispatcher)
 
 
+    // @Singleton is load-bearing: the repo holds in-memory TTL caches for
+    // team / schedule / stats. Without it Hilt would create a new instance
+    // per injection and the caches would be useless.
     @Provides
+    @Singleton
     fun provideTeamsDetailRepository(
         sportsApi: SportsApi,
         sportsDataBase: SportsDataBase,
         ioDispatcher: CoroutineDispatcher,
     ): TeamDetailsRepository = TeamDetailsRepositoryImpl(sportsApi, sportsDataBase, ioDispatcher)
 
+    // @Singleton is load-bearing: the repo holds an in-memory TTL cache.
+    // Without it Hilt would create a new repo per injection and the cache
+    // would never be reused, defeating the point of caching.
     @Provides
+    @Singleton
     fun provideGameDetailsRepository(
         sportsApi: SportsApi,
         sportsDataBase: SportsDataBase,

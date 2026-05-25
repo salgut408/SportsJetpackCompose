@@ -3,30 +3,47 @@ package com.sgut.android.nationalfootballleague.domain.use_cases
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsAthleteDetailsModel
 import com.sgut.android.nationalfootballleague.domain.repositories.TeamDetailsRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
-//game details and full team information - > Athletes map
+/**
+ * Builds a `playerId → AthleteDetails` lookup map by fetching each team's roster
+ * and flattening the results.
+ *
+ * This use case earns its keep: it composes multiple roster calls (one per team)
+ * and reshapes the results. Compare with the thin pass-throughs elsewhere
+ * (`use case → repo.foo()` with no logic) — those should be inlined into the
+ * ViewModel, not kept around as ceremony. The rule of thumb for this codebase:
+ *
+ *   - Keep a use case if it composes multiple sources OR applies real logic.
+ *   - Drop a use case if it just forwards one repo call.
+ *   - Don't introduce new pass-through use cases when adding a screen.
+ *
+ * Rosters fetch in parallel so the total wait is one roster call, not N.
+ */
 class PlayersMapUseCase @Inject constructor(
     private val teamDetailsRepository: TeamDetailsRepository,
-    private val defaultDispatcher: CoroutineDispatcher ,
-    ) {
-    val map: MutableMap<String, GameDetailsAthleteDetailsModel> = mutableMapOf()
+    private val defaultDispatcher: CoroutineDispatcher,
+) {
 
     suspend operator fun invoke(
         sport: String,
         league: String,
         teams: List<String>,
     ): Map<String, GameDetailsAthleteDetailsModel> = withContext(defaultDispatcher) {
-
-        teams.forEach { team ->
-            map += teamDetailsRepository.getSpecificTeamRosterInGameDetails(sport, league, team).associate {
-                it.id to it
-            }.toMutableMap()
+        coroutineScope {
+            teams
+                .map { team ->
+                    async {
+                        teamDetailsRepository.getSpecificTeamRosterInGameDetails(sport, league, team)
+                    }
+                }
+                .awaitAll()
+                .flatten()
+                .associateBy { it.id }
         }
-
-        return@withContext map
     }
-
 }

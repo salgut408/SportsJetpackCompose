@@ -6,6 +6,8 @@ import com.sgut.android.nationalfootballleague.utils.Constants.Companion.FOOTBAL
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.HOCKEY
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.MLB
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NBA
+import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_BASEBALL
+import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NCAA_FOOTBALL
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NFL
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.NHL
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.WNBA
@@ -31,5 +33,7 @@ fun teamEmoji(
     sport == BASKETBALL && league == WNBA -> WnbaTeamEmojis[teamAbbreviation]
     sport == FOOTBALL && league == NFL -> NflTeamEmojis[teamAbbreviation]
     sport == HOCKEY && league == NHL -> NhlTeamEmojis[teamAbbreviation]
+    sport == FOOTBALL && league == NCAA_FOOTBALL -> NcaaFootballTeamEmojis[teamAbbreviation]
+    sport == BASEBALL && league == NCAA_BASEBALL -> CollegeBaseballTeamEmojis[teamAbbreviation]
     else -> null
 }

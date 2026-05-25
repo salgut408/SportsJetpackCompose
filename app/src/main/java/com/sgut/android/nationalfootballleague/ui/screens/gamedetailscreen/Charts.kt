@@ -33,8 +33,8 @@ fun AnimatedCircle(
     modifier: Modifier = Modifier,
     size: Dp = 200.dp,
     thickness: Dp = 20.dp,
-
-    ) {
+    @Suppress("unused") teamColors: com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameTeamColors? = null,
+) {
     val colors = mutableListOf<Color>()
     val legends = mutableListOf<String>()
     val teams = gameDetailModel.boxscore?.teams

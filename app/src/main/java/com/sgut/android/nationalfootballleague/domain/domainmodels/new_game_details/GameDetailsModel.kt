@@ -31,6 +31,12 @@ data class GameDetailsModel(
     val scoringPlays: List<ScoringPlayModel> = listOf(),
     val videos: List<VideoModel> = listOf(),
     val plays: List<BasketballPlayModel> = listOf(), // needs mod
+    // ------- Added for prediction/analysis (safe across sports — nullable/empty defaults) -------
+    val seasonseries: List<SeasonSeriesModel> = listOf(),
+    val baseballPlays: List<BaseballPlayModel> = listOf(),
+    val meta: GameMetaModel? = null,
+    val wallclockAvailable: Boolean = false,
+    val atBats: List<String> = listOf(), // play IDs (the API returns $refs)
 ) {
 
 

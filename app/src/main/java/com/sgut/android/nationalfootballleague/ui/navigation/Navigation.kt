@@ -17,12 +17,12 @@ import androidx.navigation.navArgument
 import com.sgut.android.nationalfootballleague.ui.application.EspnAppState
 import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
 import com.sgut.android.nationalfootballleague.ui.screens.athelete_detail.AthleteDetailScreen
-import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameDetailsScreen
+import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameDetailsRoute
 
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeRoute
 import com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen.ScoreboardRoute
 import com.sgut.android.nationalfootballleague.ui.screens.shared_viewmodels.SelectionViewModel
-import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.TeamDetailScreen
+import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.TeamDetailRoute
 import kotlinx.coroutines.CoroutineScope
 
 
@@ -76,7 +76,7 @@ fun Navigation(
             val sportName = entry.arguments?.getString("sport")!!
             val leagueName = entry.arguments?.getString("league")!!
 
-            TeamDetailScreen(
+            TeamDetailRoute(
                 team = teamName,
                 sport = sportName,
                 league = leagueName,
@@ -108,7 +108,7 @@ fun Navigation(
             val leagueName = it.arguments?.getString("league")!!
             val event = it.arguments?.getString("event")!!
 
-            GameDetailsScreen(
+            GameDetailsRoute(
                 sport = sportName,
                 league = leagueName,
                 event = event,

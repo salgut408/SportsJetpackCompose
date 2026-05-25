@@ -64,6 +64,7 @@ fun Statistics.asDomain(): BoxscorePlayerStatisticModel {
     name = name ?: "",
     keys = keys,
     text = text ?: "",
+    labels = labels,
     descriptions = descriptions,
     athletes = athletes.map { it.asDomain() },
     totals = totals

@@ -313,19 +313,49 @@ fun Scoreboard(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         CardHeaderText(text = "Scoreboard", emoji = sportEmoji(sport))
-        events.forEach { event ->
-            if (event.competitions.isEmpty()) {
-                TennisScoreboardHeader(scoreboardData)
-            } else {
-                NewEventMatchup(
-                    event = event,
-                    modifier = Modifier,
-                    sport = sport,
-                    league = league,
-                    onNavigateToGame = onNavigateToGame,
-                )
+        if (events.isEmpty()) {
+            ScoreboardEmptyState(sport = sport)
+        } else {
+            events.forEach { event ->
+                if (event.competitions.isEmpty()) {
+                    TennisScoreboardHeader(scoreboardData)
+                } else {
+                    NewEventMatchup(
+                        event = event,
+                        modifier = Modifier,
+                        sport = sport,
+                        league = league,
+                        onNavigateToGame = onNavigateToGame,
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun ScoreboardEmptyState(sport: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(
+            text = sportEmoji(sport),
+            fontSize = 40.sp,
+        )
+        Text(
+            text = "No games today",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        Text(
+            text = "Check back later for the next matchup.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 
@@ -420,7 +450,7 @@ fun CompetitorRow(
  * (PRE games, or sports that don't expose the stat).
  */
 private fun statValue(
-    competitor: com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitorsModel?,
+    competitor: ScoreboardCompetitorsModel?,
     abbreviation: String,
 ): String? = competitor?.statistics
     ?.firstOrNull { it.abbreviation == abbreviation }
@@ -466,7 +496,7 @@ private fun eventToPill(event: DefaultScoreboardEventModel): PillDescriptor {
             PillDescriptor(PillKind.DELAYED, type.shortDetail.ifBlank { type.description }.ifBlank { "Delayed" }, emoji)
         }
         state == StatusState.IN -> PillDescriptor(PillKind.LIVE, "LIVE")
-        state == StatusState.POST -> PillDescriptor(PillKind.FINAL, "FINAL", emoji = "🏁")
+        state == StatusState.POST -> PillDescriptor(PillKind.FINAL, "FINAL", emoji = "✅")
         state == StatusState.PRE -> PillDescriptor(
             PillKind.SCHEDULED,
             startDate?.toDate()?.formatTo("h:mm a") ?: "TBD",
@@ -485,7 +515,6 @@ fun NewEventMatchup(
     league: String,
 ) {
     val pill = eventToPill(event)
-    val state = event.status.type?.state
     val isLiveBaseball = sport == Constants.BASEBALL && pill.kind == PillKind.LIVE
     // Auto-expand for live MLB games — that's where the rich data lives.
     var expanded by remember(event.id) { mutableStateOf(isLiveBaseball) }
@@ -583,7 +612,7 @@ fun NewEventMatchup(
  */
 @Composable
 private fun TeamScoreSlot(
-    competitor: com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitorsModel?,
+    competitor: ScoreboardCompetitorsModel?,
     kind: PillKind,
 ) {
     val showRecords = kind == PillKind.SCHEDULED ||
