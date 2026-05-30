@@ -208,13 +208,21 @@ fun GameDetailsScreen(
                     }
                 }
                 is GameDetailsUiState.Content -> {
-                    GameDetailsContent(
-                        modifier = modifier,
-                        padding = padding,
-                        sport = s.sport,
-                        game = s.game,
-                        players = s.players,
-                    )
+                    androidx.compose.runtime.CompositionLocalProvider(
+                        com.sgut.android.nationalfootballleague.ui.navigation.LocalSportLeague provides
+                            com.sgut.android.nationalfootballleague.ui.navigation.SportLeagueContext(
+                                sport = s.sport,
+                                league = s.league,
+                            ),
+                    ) {
+                        GameDetailsContent(
+                            modifier = modifier,
+                            padding = padding,
+                            sport = s.sport,
+                            game = s.game,
+                            players = s.players,
+                        )
+                    }
                 }
             }
         },

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -16,7 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.sgut.android.nationalfootballleague.ui.application.EspnAppState
 import com.sgut.android.nationalfootballleague.ui.navigation.NavigationScreens
-import com.sgut.android.nationalfootballleague.ui.screens.athelete_detail.AthleteDetailScreen
+import com.sgut.android.nationalfootballleague.ui.screens.athelete_detail.AthleteDetailRoute
 import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameDetailsRoute
 
 import com.sgut.android.nationalfootballleague.ui.screens.homelistscreen.HomeRoute
@@ -32,6 +33,17 @@ fun Navigation(
     appState: EspnAppState,
     padding: PaddingValues,
 ) {
+    // App-wide athlete navigation, provided once so any deeply-nested athlete
+    // card can navigate without prop-drilling a callback through every screen.
+    val athleteNavigator = remember(appState) {
+        AthleteNavigator { athleteId, sport, league ->
+            appState.navigate(
+                NavigationScreens.AthleteDetailScreen.withArgs(sport, league, athleteId)
+            )
+        }
+    }
+
+    CompositionLocalProvider(LocalAthleteNavigator provides athleteNavigator) {
     NavHost(
         navController = appState.navController,
         startDestination = NavigationScreens.MainScreenTeamsList.route,
@@ -85,9 +97,24 @@ fun Navigation(
             )
         }
         composable(
-            route = NavigationScreens.AthleteDetailScreen.route,
-        ) {
-            AthleteDetailScreen()
+            route = NavigationScreens.AthleteDetailScreen.route + "/{sport}/{league}/{athleteId}",
+            arguments = listOf(
+                navArgument("sport") { type = NavType.StringType },
+                navArgument("league") { type = NavType.StringType },
+                navArgument("athleteId") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val sportName = entry.arguments?.getString("sport")!!
+            val leagueName = entry.arguments?.getString("league")!!
+            val athleteId = entry.arguments?.getString("athleteId")!!
+
+            AthleteDetailRoute(
+                sport = sportName,
+                league = leagueName,
+                athleteId = athleteId,
+                canNavigateBack = appState.navController.previousBackStackEntry != null,
+                navigateUp = { appState.navController.navigateUp() },
+            )
         }
 
         composable(
@@ -147,6 +174,7 @@ fun Navigation(
             )
         }
 
+    }
     }
 }
 

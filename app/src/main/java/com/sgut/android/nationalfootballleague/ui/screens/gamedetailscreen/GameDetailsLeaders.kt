@@ -236,11 +236,22 @@ fun Leads(
 
 @Composable
 fun SeasonLeadersPlayer(athlete: AthleteLeaderModel) {
+    val athleteNavigator = com.sgut.android.nationalfootballleague.ui.navigation.LocalAthleteNavigator.current
+    val sportLeague = com.sgut.android.nationalfootballleague.ui.navigation.LocalSportLeague.current
+    val athleteId = athlete.athlete.id
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier
             .fillMaxWidth()
+            .then(
+                if (athleteId.isNotBlank()) {
+                    Modifier.clickable {
+                        athleteNavigator(athleteId, sportLeague.sport, sportLeague.league)
+                    }
+                } else Modifier
+            )
             .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         EnlargeableAthleteImage(

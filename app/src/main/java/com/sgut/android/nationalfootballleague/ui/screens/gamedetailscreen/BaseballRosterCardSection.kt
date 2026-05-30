@@ -158,6 +158,10 @@ fun BaseballRosterPlayerRow(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
+    val athleteNavigator = com.sgut.android.nationalfootballleague.ui.navigation.LocalAthleteNavigator.current
+    val sportLeague = com.sgut.android.nationalfootballleague.ui.navigation.LocalSportLeague.current
+    val athleteId = player.athlete.id
+
     val battingStats = player.stats.filter { it.abbreviation in BASEBALL_BATTING_STATS }
     val pitchingStats = player.stats.filter { it.abbreviation in BASEBALL_PITCHING_STATS }
     val displayStats = battingStats.ifEmpty { pitchingStats }
@@ -184,12 +188,19 @@ fun BaseballRosterPlayerRow(
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
             )
 
-            // Headshot
+            // Headshot — tap opens the athlete page (row tap toggles stats).
             GenericImageLoader(
                 obj = player.athlete.headshot?.href ?: "",
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
+                    .then(
+                        if (athleteId.isNotBlank()) {
+                            Modifier.clickable {
+                                athleteNavigator(athleteId, sportLeague.sport, sportLeague.league)
+                            }
+                        } else Modifier
+                    )
             )
 
             Spacer(modifier = Modifier.width(10.dp))

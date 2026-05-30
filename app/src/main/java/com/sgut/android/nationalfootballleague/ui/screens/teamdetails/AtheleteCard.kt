@@ -38,6 +38,9 @@ fun VerticalAthleteCard(
     val isInjured = athelete.injuries?.isNotEmpty() == true
     var showEnlargedImage by remember { mutableStateOf(false) }
 
+    val athleteNavigator = com.sgut.android.nationalfootballleague.ui.navigation.LocalAthleteNavigator.current
+    val sportLeague = com.sgut.android.nationalfootballleague.ui.navigation.LocalSportLeague.current
+
     if (showEnlargedImage) {
         AthleteImageDialog(
             athlete = athelete,
@@ -52,13 +55,18 @@ fun VerticalAthleteCard(
         modifier = modifier.padding(4.dp)
     ) {
         Column {
-            // Hero image with overlays
+            // Hero image with overlays — tap opens the athlete page, long-press
+            // shows the enlarged headshot.
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(190.dp)
                     .combinedClickable(
-                        onClick = {},
+                        onClick = {
+                            if (athelete.id.isNotBlank()) {
+                                athleteNavigator(athelete.id, sportLeague.sport, sportLeague.league)
+                            }
+                        },
                         onLongClick = { showEnlargedImage = true }
                     )
             ) {

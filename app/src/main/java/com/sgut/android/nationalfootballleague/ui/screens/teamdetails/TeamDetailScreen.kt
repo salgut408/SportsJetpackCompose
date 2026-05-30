@@ -145,13 +145,21 @@ private fun TeamDetailContent(
     modifier: Modifier,
     content: TeamDetailsScreenUiState.Content,
 ) {
-    NewTeamDetailCard(
-        team = content.team,
-        roster = content.athletes,
-        modifier = modifier,
-        schedule = content.schedule,
-        stats = content.stats,
-    )
+    androidx.compose.runtime.CompositionLocalProvider(
+        com.sgut.android.nationalfootballleague.ui.navigation.LocalSportLeague provides
+            com.sgut.android.nationalfootballleague.ui.navigation.SportLeagueContext(
+                sport = content.sport,
+                league = content.league,
+            ),
+    ) {
+        NewTeamDetailCard(
+            team = content.team,
+            roster = content.athletes,
+            modifier = modifier,
+            schedule = content.schedule,
+            stats = content.stats,
+        )
+    }
 }
 
 @androidx.compose.ui.tooling.preview.Preview(showBackground = true, name = "Team Detail — Loading")

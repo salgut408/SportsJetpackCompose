@@ -16,8 +16,11 @@ data class ParentX(
     val midsizeName: String = "",
     @SerialName("name")
     val name: String = "",
+    // Nullable + null default: a non-null `= ParentX()` default recurses
+    // infinitely at construction (StackOverflowError). null breaks the cycle;
+    // kotlinx.serialization still populates it when the JSON nests a parent.
     @SerialName("parent")
-    val parent: ParentX = ParentX(),
+    val parent: ParentX? = null,
     @SerialName("season")
     val season: SeasonX = SeasonX(),
     @SerialName("shortName")
