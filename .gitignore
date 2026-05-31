@@ -14,3 +14,8 @@
 .cxx
 local.properties
 .idea/
+
+# Build / tooling artifacts and local logs
+.idea.bak/
+.kotlin/
+*.log
