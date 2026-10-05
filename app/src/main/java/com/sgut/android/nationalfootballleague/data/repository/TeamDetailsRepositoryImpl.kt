@@ -11,6 +11,7 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_te
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule.ScheduleDomainModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_stats_models.TeamStatsModel
 import com.sgut.android.nationalfootballleague.domain.repositories.TeamDetailsRepository
+import com.sgut.android.nationalfootballleague.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class TeamDetailsRepositoryImpl @Inject constructor(
     private val sportsApi: SportsApi,
     @Suppress("unused") private val sportsDataBase: SportsDataBase,
-    private val ioDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : TeamDetailsRepository {
 
     override suspend fun getSpecificTeam(

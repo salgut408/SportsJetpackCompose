@@ -4,13 +4,14 @@ import com.sgut.android.nationalfootballleague.asDomain
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
 import com.sgut.android.nationalfootballleague.domain.repositories.ArticleRepository
+import com.sgut.android.nationalfootballleague.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ArticleRepositoryImpl @Inject constructor(
     private val sportsApi: SportsApi,
-    private val ioDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ArticleRepository {
 
     override suspend fun getArticles(sport: String, league: String): ArticlesListModel =

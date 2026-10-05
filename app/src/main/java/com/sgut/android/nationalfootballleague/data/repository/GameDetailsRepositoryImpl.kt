@@ -5,6 +5,7 @@ import com.sgut.android.nationalfootballleague.data.db.SportsDataBase
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsModel
 import com.sgut.android.nationalfootballleague.domain.repositories.GameDetailsRepository
+import com.sgut.android.nationalfootballleague.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,7 +22,7 @@ import javax.inject.Inject
 class GameDetailsRepositoryImpl @Inject constructor(
     private val sportsApi: SportsApi,
     @Suppress("unused") private val sportsDataBase: SportsDataBase,
-    private val ioDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : GameDetailsRepository {
 
     override suspend fun getGameDetails(

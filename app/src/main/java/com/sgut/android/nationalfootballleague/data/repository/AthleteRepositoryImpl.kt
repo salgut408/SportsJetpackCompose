@@ -4,6 +4,7 @@ import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.full_athelete.asDomain
 import com.sgut.android.nationalfootballleague.domain.domainmodels.full_athlete.FullAthleteModel
 import com.sgut.android.nationalfootballleague.domain.repositories.AthleteRepository
+import com.sgut.android.nationalfootballleague.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -18,7 +19,7 @@ import javax.inject.Inject
  */
 class AthleteRepositoryImpl @Inject constructor(
     private val sportsApi: SportsApi,
-    private val ioDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : AthleteRepository {
 
     override suspend fun getAthlete(

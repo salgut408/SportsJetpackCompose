@@ -1,11 +1,6 @@
 package com.sgut.android.nationalfootballleague.utils
 
-import android.util.Log
 import com.sgut.android.nationalfootballleague.R
-
-fun Any?.printToLog(tag: String = "DEBUG_LOG") {
-    Log.d(tag, toString())
-}
 
 class Constants {
     companion object {
