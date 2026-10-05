@@ -1,7 +1,8 @@
 package com.sgut.android.nationalfootballleague.data.repository
 
-import com.sgut.android.nationalfootballleague.asDomainModel
-import com.sgut.android.nationalfootballleague.asGameDetailsAthlete
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.team_details_with_roster.detailswithroster.asDomainModel
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.teams_list.asDomainModel
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.team_details_with_roster.detailswithroster.asGameDetailsAthlete
 import com.sgut.android.nationalfootballleague.data.db.SportsDataBase
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.team_schedule.asDomain

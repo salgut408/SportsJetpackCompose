@@ -26,9 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sgut.android.nationalfootballleague.ui.commoncomps.SIXTEEN
 import com.sgut.android.nationalfootballleague.uiStyleDefinitions.design.style.Theme
-import com.sgut.android.nationalfootballleague.utils.dropdownSelector
-
-
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.dropdownSelector
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DangerousCardEditor(

@@ -37,7 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sgut.android.nationalfootballleague.StatusState
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.StatusState
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsCompetitorModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.HeaderModel

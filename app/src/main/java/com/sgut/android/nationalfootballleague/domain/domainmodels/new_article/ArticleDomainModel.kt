@@ -1,7 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_article
 
-import com.sgut.android.nationalfootballleague.ArticleLinks
-
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.articles.ArticleLinks
 data class ArticleDomainModel(
     val images: List<ArticleImageModel> = listOf(), // needs model
     val description: String? = "",

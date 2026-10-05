@@ -3,7 +3,7 @@ package com.sgut.android.nationalfootballleague.data.repository
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.SportModel
 import com.sgut.android.nationalfootballleague.domain.repositories.SportRepository
-import com.sgut.android.nationalfootballleague.toDomain
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.teams_list.toDomain
 import com.sgut.android.nationalfootballleague.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

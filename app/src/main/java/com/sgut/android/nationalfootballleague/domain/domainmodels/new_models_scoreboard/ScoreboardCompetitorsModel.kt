@@ -1,6 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard
 
-import com.sgut.android.nationalfootballleague.Linescore
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.Linescore
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameLeadersModel4
 
 

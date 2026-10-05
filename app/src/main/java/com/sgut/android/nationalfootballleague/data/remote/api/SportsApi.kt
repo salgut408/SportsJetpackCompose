@@ -1,5 +1,11 @@
 package com.sgut.android.nationalfootballleague.data.remote.api
 
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.article_detail.ArticleDetailNetworkResponse
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.articles.NetworkArticleResponse
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.GameDetailResponse
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.NetworkScoreboardResponse
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.team_details_with_roster.detailswithroster.TeamDetailResponse2
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.teams_list.NFLTeamsResponse
 import com.sgut.android.nationalfootballleague.*
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.ScoreboardData
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.baseball_scoreboard.BaseballScoreBoardNetwork

@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.homelistscreen
+package com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.di
+package com.sgut.android.nationalfootballleague.ui.commoncomps
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons

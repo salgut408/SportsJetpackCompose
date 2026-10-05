@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.commoncomposables
+package com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState

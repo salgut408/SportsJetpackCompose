@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague
+package com.sgut.android.nationalfootballleague.data.remote.network_responses.articles
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

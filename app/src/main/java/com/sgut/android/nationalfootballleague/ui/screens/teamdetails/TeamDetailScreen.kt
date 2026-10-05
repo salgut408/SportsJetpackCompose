@@ -29,12 +29,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.sgut.android.nationalfootballleague.di.ToolBar2
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ToolBar2
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.RecordModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule.*
-import com.sgut.android.nationalfootballleague.utils.formatTo
-import com.sgut.android.nationalfootballleague.utils.toDate
-
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.formatTo
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.toDate
 /**
  * Route → Screen → Content layering mirrors Home and Game Details:
  *

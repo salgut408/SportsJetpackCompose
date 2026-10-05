@@ -1,9 +1,7 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details
 
-import com.sgut.android.nationalfootballleague.GameDetailsBroadcasts
-import com.sgut.android.nationalfootballleague.GameDetailsStandings
-
-
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.GameDetailsBroadcasts
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.GameDetailsStandings
 //    TODO - Make Domain Objcts
 
 data class GameDetailsModel(

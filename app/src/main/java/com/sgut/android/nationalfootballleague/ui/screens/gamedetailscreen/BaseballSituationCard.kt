@@ -1,5 +1,10 @@
 package com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen
 
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.End
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.InningPrefix
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.Start
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.Probable
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.StatusState
 import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
@@ -47,14 +52,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.sgut.android.nationalfootballleague.*
-import com.sgut.android.nationalfootballleague.di.GameDetailsTopBar
+import com.sgut.android.nationalfootballleague.ui.commoncomps.GameDetailsTopBar
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.*
 import com.sgut.android.nationalfootballleague.ui.commoncomps.*
 import com.sgut.android.nationalfootballleague.ui.commoncomps.*
 import com.sgut.android.nationalfootballleague.ui.commoncomps.PressIconButton
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
-import com.sgut.android.nationalfootballleague.utils.formatTo
-import com.sgut.android.nationalfootballleague.utils.toDate
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.formatTo
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.toDate
 import java.util.*
 import kotlin.math.nextUp
 import timber.log.Timber

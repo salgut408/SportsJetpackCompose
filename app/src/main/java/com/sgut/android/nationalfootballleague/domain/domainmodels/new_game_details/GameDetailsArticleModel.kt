@@ -1,7 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details
 
-import com.sgut.android.nationalfootballleague.GameDetailsImages
-
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.GameDetailsImages
 data class GameDetailsArticleModel(
     val description: String = "",
     val headline: String = "",

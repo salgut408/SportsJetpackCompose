@@ -1,7 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details
 
-import com.sgut.android.nationalfootballleague.StatusState
-
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.StatusState
 data class GameDetailsTypeModel(
     val id: String = "",
     val name: String = "",

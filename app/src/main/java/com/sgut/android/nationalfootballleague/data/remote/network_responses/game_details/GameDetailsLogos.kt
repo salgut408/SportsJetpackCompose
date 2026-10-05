@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague
+package com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details
 
 import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.DomainLogoModel

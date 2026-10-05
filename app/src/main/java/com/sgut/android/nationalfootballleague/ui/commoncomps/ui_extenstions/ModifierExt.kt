@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.utils
+package com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions
 
 import android.graphics.RenderEffect
 import android.graphics.Shader
