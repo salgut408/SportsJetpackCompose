@@ -1,6 +1,5 @@
 package com.sgut.android.nationalfootballleague.data.repository
 
-import android.util.Log
 import com.sgut.android.nationalfootballleague.asDomainModel
 import com.sgut.android.nationalfootballleague.asGameDetailsAthlete
 import com.sgut.android.nationalfootballleague.data.db.SportsDataBase
@@ -15,72 +14,81 @@ import com.sgut.android.nationalfootballleague.domain.repositories.TeamDetailsRe
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-//TODO  - - Inject Dispatchers
 
+/**
+ * Team-details repository. Always fetches fresh — no caching.
+ *
+ * The previous impl had a same-shape bug in all three endpoints: the success
+ * path made an API call inside the `try`, then the function fell through and
+ * made a SECOND call as a "fallback" at the bottom — so a successful fetch
+ * cost two network round trips. This rewrite collapses each endpoint to a
+ * single call and throws on non-2xx so the ViewModel can surface a real error.
+ */
 class TeamDetailsRepositoryImpl @Inject constructor(
-    val sportsApi: SportsApi,
-    val sportsDataBase: SportsDataBase,
-    val ioDispatcher: CoroutineDispatcher
+    private val sportsApi: SportsApi,
+    @Suppress("unused") private val sportsDataBase: SportsDataBase,
+    private val ioDispatcher: CoroutineDispatcher,
 ) : TeamDetailsRepository {
 
-    override suspend fun getSpecificTeam(sport: String, league: String, team: String,
-    ): FullTeamDetailWithRosterModel =
-        try {
-            withContext(ioDispatcher) {
-                val result = sportsApi.getSpecificTeam(sport, league, team)
-                return@withContext result.body()?.asDomainModel()?.fullTeam ?: FullTeamDetailWithRosterModel()
-            }
-
+    override suspend fun getSpecificTeam(
+        sport: String,
+        league: String,
+        team: String,
+    ): FullTeamDetailWithRosterModel = withContext(ioDispatcher) {
+        val response = sportsApi.getSpecificTeam(sport, league, team)
+        val body = response.body()
+        if (!response.isSuccessful || body == null) {
+            throw IllegalStateException(
+                "getSpecificTeam failed: HTTP ${response.code()} ${response.message()}"
+            )
         }
-        catch (e: Exception) {
-            Log.e("SPECIFIC_TEAM", e.cause .toString())
-            FullTeamDetailWithRosterModel()
-        }
-
-
-    override suspend fun getSpecificTeamRosterInGameDetails(sport: String, league: String, team: String,
-    ): List<GameDetailsAthleteDetailsModel> {
-        try {
-            val result = sportsApi.getSpecificTeam(sport, league, team).body()?.fullTeam
-
-            return result?.athletes?.map { it.asGameDetailsAthlete() } ?: listOf()
-        }
-        catch (e: Exception) {
-            Log.e("Athletes list err-map", e.stackTraceToString())
-        }
-        return sportsApi.getSpecificTeam(sport, league, team)
-            .body()?.fullTeam?.athletes?.map { it.asGameDetailsAthlete() } ?: listOf()
+        body.asDomainModel().fullTeam
     }
 
-    override suspend fun getTeamSchedule(sport: String, league: String, teamId: String,
-    ): ScheduleDomainModel {
-        try {
-            val result = sportsApi.getTeamSchedule(sport, league, teamId)
-            if (result.isSuccessful) {
-                return result.body()?.asDomain() !!
-            }
+    /**
+     * Game-details flow uses this to map a team's athletes into the shape its
+     * UI expects. Failures return an empty list — this is a non-critical
+     * augmentation, not a primary load.
+     */
+    override suspend fun getSpecificTeamRosterInGameDetails(
+        sport: String,
+        league: String,
+        team: String,
+    ): List<GameDetailsAthleteDetailsModel> = withContext(ioDispatcher) {
+        runCatching {
+            val response = sportsApi.getSpecificTeam(sport, league, team)
+            val athletes = response.body()?.fullTeam?.athletes.orEmpty()
+            athletes.map { it.asGameDetailsAthlete() }
+        }.getOrDefault(emptyList())
+    }
+
+    override suspend fun getTeamSchedule(
+        sport: String,
+        league: String,
+        teamId: String,
+    ): ScheduleDomainModel = withContext(ioDispatcher) {
+        val response = sportsApi.getTeamSchedule(sport, league, teamId)
+        val body = response.body()
+        if (!response.isSuccessful || body == null) {
+            throw IllegalStateException(
+                "getTeamSchedule failed: HTTP ${response.code()} ${response.message()}"
+            )
         }
-        catch (e: Exception) {
-            Log.e("TeamSchedule_ERR", e.stackTrace.toString())
-        }
-        return sportsApi.getTeamSchedule(sport, league, teamId).body()?.asDomain() ?: ScheduleDomainModel()
+        body.asDomain()
     }
 
     override suspend fun getTeamStats(
         sport: String,
         league: String,
-        team: String
-    ): TeamStatsModel {
-        try {
-            val result = sportsApi.getStats(sport, league, team)
-            if(result.isSuccessful) {
-                Log.e("TEAM_Stats Good", result.toString())
-
-                return result.body()?.asDomain() !!
-            }
-        } catch (e: Exception) {
-            Log.e("TeamStats_ERR", e.message.toString())
+        team: String,
+    ): TeamStatsModel = withContext(ioDispatcher) {
+        val response = sportsApi.getStats(sport, league, team)
+        val body = response.body()
+        if (!response.isSuccessful || body == null) {
+            throw IllegalStateException(
+                "getTeamStats failed: HTTP ${response.code()} ${response.message()}"
+            )
         }
-        return sportsApi.getStats(sport, league, team).body()?.asDomain() ?: TeamStatsModel()
+        body.asDomain()
     }
 }

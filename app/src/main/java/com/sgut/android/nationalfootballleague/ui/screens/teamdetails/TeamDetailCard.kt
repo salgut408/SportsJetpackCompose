@@ -23,9 +23,12 @@ import androidx.compose.ui.unit.sp
 import com.sgut.android.nationalfootballleague.commoncomposables.InjuriesBox
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailWithRosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.VenueModel
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.HeadingSection
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.TeamLogoDetailImageLoader
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.VenueCardImageLoader
+import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
+import com.sgut.android.nationalfootballleague.ui.commoncomps.HeadingSection
+import com.sgut.android.nationalfootballleague.ui.commoncomps.TeamLogoDetailImageLoader
+import com.sgut.android.nationalfootballleague.ui.commoncomps.VenueCardImageLoader
+import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.CardSectionHeader
+import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameTeamColors
 
 @Composable
 fun TeamDetailCard(
@@ -112,60 +115,58 @@ fun VenueCard(
     modifier: Modifier,
     teamColor: Color = Color.Black,
     altColor: Color = Color.DarkGray,
+    accentColors: GameTeamColors? = null,
 ) {
-    Box(modifier = modifier.height(200.dp)) {
-        VenueCardImageLoader(venue)
+    val city = venue.address?.city
+    val state = venue.address?.state
+    val subtitle = when {
+        !city.isNullOrBlank() && !state.isNullOrBlank() -> "$city, $state"
+        !city.isNullOrBlank() -> city
+        else -> null
+    }
 
-        // Bottom gradient overlay with team colors
+    DefaultCard(modifier = modifier) {
+        CardSectionHeader(
+            emoji = "🏟",
+            title = "Stadium",
+            subtitle = subtitle,
+            accentColors = accentColors,
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(130.dp)
-                .align(Alignment.BottomCenter)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            teamColor.copy(alpha = 0.55f),
-                            teamColor.copy(alpha = 0.88f)
-                        )
-                    )
-                )
-        )
-
-        // Text content
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 14.dp, end = 14.dp, bottom = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+                .height(180.dp)
+                .padding(bottom = 12.dp),
         ) {
+            VenueCardImageLoader(venue)
+
+            // Bottom gradient overlay with team colors so the stadium name
+            // stays legible regardless of the venue photo brightness.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(110.dp)
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                teamColor.copy(alpha = 0.55f),
+                                teamColor.copy(alpha = 0.88f),
+                            ),
+                        ),
+                    ),
+            )
+
             Text(
                 text = venue.fullName,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 14.dp, end = 14.dp, bottom = 12.dp),
             )
-            val city = venue.address?.city
-            val state = venue.address?.state
-            if (!city.isNullOrBlank()) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Surface(
-                        color = altColor.copy(alpha = 0.55f),
-                        shape = RoundedCornerShape(4.dp)
-                    ) {
-                        Text(
-                            text = if (!state.isNullOrBlank()) "$city, $state" else city,
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                        )
-                    }
-                }
-            }
         }
     }
 }

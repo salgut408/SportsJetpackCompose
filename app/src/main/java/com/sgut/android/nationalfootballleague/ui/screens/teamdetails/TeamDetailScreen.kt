@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,11 +35,26 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.team_schedule
 import com.sgut.android.nationalfootballleague.utils.formatTo
 import com.sgut.android.nationalfootballleague.utils.toDate
 
-//TODO only pass what is needed
-
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Route → Screen → Content layering mirrors Home and Game Details:
+ *
+ *   Route   (TeamDetailRoute)    — VM-aware, runs the load LaunchedEffect.
+ *   Screen  (TeamDetailScreen)   — stateless dispatcher: takes a sealed
+ *                                  UiState + nav callbacks, owns Scaffold +
+ *                                  TopBar, branches Loading/Content/Error.
+ *   Content (TeamDetailContent)  — pure happy-path renderer of the unwrapped
+ *                                  Content fields.
+ *
+ * Two reasons this layering matters here specifically:
+ *   1. The old code called `viewModel.getFullTeamDetails(...)` from inside
+ *      the Composable body, so every recomposition fired the load. Moving it
+ *      into `LaunchedEffect(sport, league, team)` makes it run once per
+ *      route entry.
+ *   2. Scaffold/TopBar/Content gets to be pure and previewable; tests can
+ *      drive `TeamDetailScreen(state, ...)` with a synthetic state.
+ */
 @Composable
-fun TeamDetailScreen(
+fun TeamDetailRoute(
     modifier: Modifier = Modifier,
     teamDetailViewModel: TeamDetailViewModel = hiltViewModel(),
     team: String,
@@ -46,115 +62,154 @@ fun TeamDetailScreen(
     league: String,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
-    ) {
-    teamDetailViewModel.getFullTeamDetails(team, sport, league)
+) {
+    val state by teamDetailViewModel.uiState.collectAsStateWithLifecycle()
 
-    val teamDetailUiState by teamDetailViewModel.teamDetailUiState.collectAsStateWithLifecycle()
-    val teamDetail = teamDetailUiState.currentTeamDetails
-    val teamSchedule = teamDetailUiState.schedule
-    val roster = teamDetailUiState.atheletes
-    val stats = teamDetailUiState.stats
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior (rememberTopAppBarState())
+    LaunchedEffect(team, sport, league) {
+        teamDetailViewModel.loadTeamDetails(team, sport, league)
+    }
+
+    TeamDetailScreen(
+        modifier = modifier,
+        state = state,
+        canNavigateBack = canNavigateBack,
+        navigateUp = navigateUp,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TeamDetailScreen(
+    modifier: Modifier = Modifier,
+    state: TeamDetailsScreenUiState,
+    canNavigateBack: Boolean,
+    navigateUp: () -> Unit,
+) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+    val title = when (state) {
+        is TeamDetailsScreenUiState.Content -> state.team.displayName
+        TeamDetailsScreenUiState.Loading,
+        is TeamDetailsScreenUiState.Error,
+        -> ""
+    }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             ToolBar2(
-                title = teamDetail.displayName,
+                title = title,
                 canNavigateBack = canNavigateBack,
                 navigateUp = navigateUp,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
             )
         },
         content = { padding ->
-            NewTeamDetailCard(
-                team = teamDetail,
-                roster= roster,
-                modifier = Modifier.padding(padding),
-                schedule = teamSchedule,
-                stats = stats
-            )
-
-        }
+            when (val s = state) {
+                TeamDetailsScreenUiState.Loading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+                is TeamDetailsScreenUiState.Error -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = s.message,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+                is TeamDetailsScreenUiState.Content -> {
+                    TeamDetailContent(
+                        modifier = Modifier.padding(padding),
+                        content = s,
+                    )
+                }
+            }
+        },
     )
-
-
-
-
-
-
 }
 
+@Composable
+private fun TeamDetailContent(
+    modifier: Modifier,
+    content: TeamDetailsScreenUiState.Content,
+) {
+    androidx.compose.runtime.CompositionLocalProvider(
+        com.sgut.android.nationalfootballleague.ui.navigation.LocalSportLeague provides
+            com.sgut.android.nationalfootballleague.ui.navigation.SportLeagueContext(
+                sport = content.sport,
+                league = content.league,
+            ),
+    ) {
+        NewTeamDetailCard(
+            team = content.team,
+            roster = content.athletes,
+            modifier = modifier,
+            schedule = content.schedule,
+            stats = content.stats,
+        )
+    }
+}
 
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, name = "Team Detail — Loading")
+@Composable
+private fun TeamDetailScreenLoadingPreview() {
+    TeamDetailScreen(
+        state = TeamDetailsScreenUiState.Loading,
+        canNavigateBack = true,
+        navigateUp = {},
+    )
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, name = "Team Detail — Error")
+@Composable
+private fun TeamDetailScreenErrorPreview() {
+    TeamDetailScreen(
+        state = TeamDetailsScreenUiState.Error("Couldn't load team details. Please try again."),
+        canNavigateBack = true,
+        navigateUp = {},
+    )
+}
 
 @Composable
 fun PastGames(
     schedule: ScheduleDomainModel,
     teamColor: Color = Color.Gray,
     altColor: Color = Color.DarkGray, // passed through from team, kept for future use
+    accentColors: com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameTeamColors? = null,
 ) {
     val sport = extractSportFromLogoUrl(schedule.team.logo)
+    val subtitle = buildList {
+        if (schedule.team.recordSummary.isNotBlank()) add(schedule.team.recordSummary)
+        if (schedule.season.name.isNotBlank()) add(schedule.season.name)
+    }.joinToString(" · ").takeIf { it.isNotBlank() }
 
-    Card(
-        shape = RoundedCornerShape(4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+    com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard(
+        modifier = Modifier.padding(horizontal = 8.dp),
     ) {
-        Column {
-            // ── HEADER ──────────────────────────────────────────────
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .width(3.dp)
-                            .height(16.dp)
-                            .background(teamColor)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = "RESULTS",
-                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 2.sp),
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    if (schedule.team.recordSummary.isNotBlank()) {
-                        Text(
-                            text = schedule.team.recordSummary,
-                            style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 0.5.sp),
-                            fontWeight = FontWeight.Bold,
-                            color = teamColor
-                        )
-                    }
-                    Text(
-                        text = schedule.season.name.uppercase(),
-                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.sp),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            HorizontalDivider(thickness = 1.dp, color = teamColor.copy(alpha = 0.18f))
-
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp)
-            ) {
-                items(schedule.events) { event ->
-                    PastEventCard(event = event, teamColor = teamColor, sport = sport)
-                }
+        com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.CardSectionHeader(
+            emoji = "📅",
+            title = "Recent Results",
+            subtitle = subtitle,
+            accentColors = accentColors,
+        )
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(top = 4.dp, bottom = 12.dp),
+        ) {
+            items(schedule.events) { event ->
+                PastEventCard(event = event, teamColor = teamColor, sport = sport)
             }
         }
     }
@@ -430,6 +485,7 @@ fun TeamRecord(
     record: RecordModel,
     modifier: Modifier,
     teamColor: Color = Color.Gray,
+    accentColors: com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameTeamColors? = null,
 ) {
     val items = record.recordItems.filterNotNull()
     if (items.isEmpty()) return
@@ -437,45 +493,14 @@ fun TeamRecord(
     val primary = items[0]
     val secondaries = items.drop(1)
 
-    Card(
-        shape = RoundedCornerShape(4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = modifier.fillMaxWidth()
-    ) {
+    com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard(modifier = modifier) {
+        com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.CardSectionHeader(
+            emoji = "📊",
+            title = "Team Record",
+            subtitle = primary.type.takeIf { it.isNotBlank() },
+            accentColors = accentColors,
+        )
         Column {
-
-            // ── HEADER ─────────────────────────────────────────────
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .width(3.dp)
-                            .height(16.dp)
-                            .background(teamColor)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = "TEAM RECORD",
-                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 2.sp),
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Text(
-                    text = primary.type.uppercase(),
-                    style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.sp),
-                    fontWeight = FontWeight.SemiBold,
-                    color = teamColor
-                )
-            }
-
-            HorizontalDivider(thickness = 1.dp, color = teamColor.copy(alpha = 0.18f))
 
             // ── HERO SUMMARY ────────────────────────────────────────
             Box(

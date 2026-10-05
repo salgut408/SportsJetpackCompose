@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.GenericImageLoader
+import com.sgut.android.nationalfootballleague.ui.commoncomps.GenericImageLoader
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -126,11 +126,22 @@ fun ToolBar3(
     title: String,
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
+    logoUrl: String? = null,
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(text = title, fontWeight = FontWeight.Bold) },
-        navigationIcon = {
-
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                if (!logoUrl.isNullOrBlank()) {
+                    GenericImageLoader(
+                        obj = logoUrl,
+                        modifier = Modifier.size(28.dp),
+                    )
+                }
+                Text(text = title, fontWeight = FontWeight.Bold)
+            }
         },
         scrollBehavior = scrollBehavior,
     )

@@ -94,8 +94,25 @@ data class DueUpItem(
     val playerId: String = "",
     @SerialName("batOrder")
     val batOrder: String = "",
+    @SerialName("athlete")
+    val athlete: SituationAthlete? = null,
+)
 
-    )
+@Serializable
+data class SituationAthlete(
+    @SerialName("id")
+    val id: String = "",
+    @SerialName("fullName")
+    val fullName: String = "",
+    @SerialName("displayName")
+    val displayName: String = "",
+    @SerialName("shortName")
+    val shortName: String = "",
+    @SerialName("jersey")
+    val jersey: String? = null,
+    @SerialName("headshot")
+    val headshot: String? = null,
+)
 
 fun DueUpItem.asDomain(): DueUpItemModel {
     return DueUpItemModel(
@@ -138,6 +155,10 @@ fun LastPlay.asDomain(): LastPlayModel {
 data class Pitcher(
     @SerialName("playerId")
     val playerId: Int? = null,
+    @SerialName("athlete")
+    val athlete: SituationAthlete? = null,
+    @SerialName("summary")
+    val summary: String? = null,
 )
 
 fun Pitcher.asDomain(): PitcherModel {
@@ -150,8 +171,11 @@ fun Pitcher.asDomain(): PitcherModel {
 data class Batter(
     @SerialName("playerId")
     val playerId: Int? = null,
-
-    )
+    @SerialName("athlete")
+    val athlete: SituationAthlete? = null,
+    @SerialName("summary")
+    val summary: String? = null,
+)
 
 fun Batter.asDomain(): BatterModel {
     return BatterModel(

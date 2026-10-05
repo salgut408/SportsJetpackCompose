@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
+package com.sgut.android.nationalfootballleague.ui.commoncomps
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxWidth

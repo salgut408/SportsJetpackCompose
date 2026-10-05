@@ -28,10 +28,11 @@ data class Type3(
 fun Type3.asDomain(): CompetitionTypeModel {
   return  CompetitionTypeModel(
     id = id,
+    name = name,
     state = state,
     completed = completed,
     description = description,
     detail = detail,
-    shortDetail = shortDetail
+    shortDetail = shortDetail,
   )
 }

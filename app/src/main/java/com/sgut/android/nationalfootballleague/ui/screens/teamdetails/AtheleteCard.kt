@@ -24,7 +24,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.AthletesRosterModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.FullTeamDetailWithRosterModel
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SportSurface
+import com.sgut.android.nationalfootballleague.ui.commoncomps.SportSurface
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -37,6 +37,9 @@ fun VerticalAthleteCard(
     val teamColor = HexToJetpackColor2.getColor(team.color)
     val isInjured = athelete.injuries?.isNotEmpty() == true
     var showEnlargedImage by remember { mutableStateOf(false) }
+
+    val athleteNavigator = com.sgut.android.nationalfootballleague.ui.navigation.LocalAthleteNavigator.current
+    val sportLeague = com.sgut.android.nationalfootballleague.ui.navigation.LocalSportLeague.current
 
     if (showEnlargedImage) {
         AthleteImageDialog(
@@ -52,13 +55,18 @@ fun VerticalAthleteCard(
         modifier = modifier.padding(4.dp)
     ) {
         Column {
-            // Hero image with overlays
+            // Hero image with overlays — tap opens the athlete page, long-press
+            // shows the enlarged headshot.
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(190.dp)
                     .combinedClickable(
-                        onClick = {},
+                        onClick = {
+                            if (athelete.id.isNotBlank()) {
+                                athleteNavigator(athelete.id, sportLeague.sport, sportLeague.league)
+                            }
+                        },
                         onLongClick = { showEnlargedImage = true }
                     )
             ) {

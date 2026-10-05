@@ -2,6 +2,8 @@ package com.sgut.android.nationalfootballleague
 
 import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.SituationScoreboard
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.NoteScoreboard
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.asDomain
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitionModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardFormatModel
 import kotlinx.serialization.Serializable
@@ -31,6 +33,8 @@ data class CompetitionScoreboard(
     val details: List<DetailsScoreboard> = listOf(),
     @SerialName("headlines")
     val headlines: List<HeadlinesScoreboard> = listOf(),
+    @SerialName("notes")
+    val notes: List<NoteScoreboard> = listOf(),
     @SerialName("situation")
     val situation: SituationScoreboard? = SituationScoreboard(),
 
@@ -49,6 +53,7 @@ fun CompetitionScoreboard.asDomain(): ScoreboardCompetitionModel {
         competitors = competitors.map { it.asDomain() },
         details = details.map { it.asDomain() },
         headlines = headlines.map { it.asDomain() },
+        notes = notes.map { it.asDomain() },
         venue = venue.asDomain(),
         situation = situation ?: SituationScoreboard()
     )

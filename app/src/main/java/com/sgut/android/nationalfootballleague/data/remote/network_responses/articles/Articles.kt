@@ -1,7 +1,7 @@
 package com.sgut.android.nationalfootballleague
 
 import kotlinx.serialization.SerialName
-import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomianModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomainModel
 import kotlinx.serialization.Serializable
 
 
@@ -31,8 +31,8 @@ data class Articles(
 
     )
 
-fun Articles.asDomain(): ArticleDomianModel {
-    return ArticleDomianModel(
+fun Articles.asDomain(): ArticleDomainModel {
+    return ArticleDomainModel(
       images = images.map { it.asDomain() },
       description = description,
       published = published ?: "",

@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables
+package com.sgut.android.nationalfootballleague.ui.commoncomps
 
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout

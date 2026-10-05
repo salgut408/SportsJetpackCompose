@@ -23,8 +23,8 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_deta
 import com.sgut.android.nationalfootballleague.ui.commoncomps.CardHeaderText
 import com.sgut.android.nationalfootballleague.ui.commoncomps.EIGHT
 import com.sgut.android.nationalfootballleague.ui.commoncomps.NormalDivider
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.DefaultCard
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.SpacerDp
+import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
+import com.sgut.android.nationalfootballleague.ui.commoncomps.SpacerDp
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
 
 @Composable
@@ -33,8 +33,8 @@ fun AnimatedCircle(
     modifier: Modifier = Modifier,
     size: Dp = 200.dp,
     thickness: Dp = 20.dp,
-
-    ) {
+    @Suppress("unused") teamColors: com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.GameTeamColors? = null,
+) {
     val colors = mutableListOf<Color>()
     val legends = mutableListOf<String>()
     val teams = gameDetailModel.boxscore?.teams

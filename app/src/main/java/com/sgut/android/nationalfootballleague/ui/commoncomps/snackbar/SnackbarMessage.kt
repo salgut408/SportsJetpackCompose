@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.snackbar
+package com.sgut.android.nationalfootballleague.ui.commoncomps.snackbar
 
 import android.content.res.Resources
 import androidx.annotation.StringRes

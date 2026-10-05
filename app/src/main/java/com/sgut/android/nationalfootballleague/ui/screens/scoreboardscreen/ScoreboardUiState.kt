@@ -4,11 +4,14 @@ import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.BasicScoreboardModel
 
-data class ScoreboardUiState (
-    val currentSport: String = "",
-    val currentLeague: String = "",
-    val currentArticles: ArticlesListModel? = null,
-    val defaultScoreboardModelUiState: BasicScoreboardModel = BasicScoreboardModel(),
-    val abstractScoreData: ScoreboardData? = null
-//    val loading: Boolean = true
-    )
+sealed interface ScoreboardUiState {
+    data object Loading : ScoreboardUiState
+    data class Content(
+        val sport: String,
+        val league: String,
+        val defaultScoreboard: BasicScoreboardModel,
+        val abstractScoreData: ScoreboardData?,
+        val articles: ArticlesListModel,
+    ) : ScoreboardUiState
+    data class Error(val message: String) : ScoreboardUiState
+}

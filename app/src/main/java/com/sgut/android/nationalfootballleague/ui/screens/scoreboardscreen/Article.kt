@@ -21,14 +21,14 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomianModel
+import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomainModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardHeadlineModel
-import com.sgut.android.nationalfootballleague.ui.commoncomps.commoncomposables.DefaultCard
+import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
 
 
 @Composable
 fun ArticleCard(
-    article: ArticleDomianModel,
+    article: ArticleDomainModel,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -133,7 +133,7 @@ fun ArticleCard(
 
 // if list is needed
 @Composable
-fun ArticleList(articleList: List<ArticleDomianModel>, modifier: Modifier = Modifier) {
+fun ArticleList(articleList: List<ArticleDomainModel>, modifier: Modifier = Modifier) {
     LazyColumn(contentPadding = PaddingValues(vertical = 8.dp)) {
         items(items = articleList) { article ->
             ArticleCard(article = article)
@@ -142,7 +142,7 @@ fun ArticleList(articleList: List<ArticleDomianModel>, modifier: Modifier = Modi
 }
 
 @Composable
-fun ArticleRow(articleList: List<ArticleDomianModel>) {
+fun ArticleRow(articleList: List<ArticleDomainModel>) {
     LazyRow(contentPadding = PaddingValues(horizontal = 8.dp)) {
         items(items = articleList) { article ->
             ArticleCard(

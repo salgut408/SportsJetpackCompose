@@ -57,9 +57,14 @@ data class GameDetailResponse(
     val scoringPlays: List<ScoringPlays> = listOf(),
     @SerialName("videos")
     val videos: List<Videos> = listOf(),
-//    @SerialName("seasonseries")
-//    val seasonseries: List<Seasonseries> = listOf(),
-
+    @SerialName("seasonseries")
+    val seasonseries: List<Seasonseries> = listOf(),
+    @SerialName("meta")
+    val meta: GameMeta? = null,
+    @SerialName("wallclockAvailable")
+    val wallclockAvailable: Boolean = false,
+    @SerialName("baseballPlays")
+    val baseballPlays: List<BaseballPlay> = listOf(),
     )
 
 fun GameDetailResponse.asDomain(): GameDetailsModel {
@@ -87,6 +92,10 @@ fun GameDetailResponse.asDomain(): GameDetailsModel {
         videos = videos.map { it.asDomain() },
         plays = plays.map { it.asDomain() },
         rosters = rosters.map { it.asDomain() },
+        seasonseries = seasonseries.map { it.asDomain() },
+        meta = meta?.asDomain(),
+        wallclockAvailable = wallclockAvailable,
+        baseballPlays = baseballPlays.map { it.asDomain() },
     )
 }
 

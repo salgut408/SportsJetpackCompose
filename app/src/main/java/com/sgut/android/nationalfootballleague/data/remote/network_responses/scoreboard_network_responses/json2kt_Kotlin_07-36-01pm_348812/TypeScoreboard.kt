@@ -36,11 +36,12 @@ enum class StatusState {
 
 fun TypeScoreboard.asDomain(): CompetitionTypeModel {
     return CompetitionTypeModel(
-        id = id ?: "",
+        id = id,
+        name = name,
         state = state,
         completed = completed,
         description = description,
         detail = detail,
-        shortDetail = shortDetail
+        shortDetail = shortDetail,
     )
 }
