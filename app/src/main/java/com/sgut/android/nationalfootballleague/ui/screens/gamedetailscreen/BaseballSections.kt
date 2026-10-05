@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sgut.android.nationalfootballleague.GameDetailsBroadcasts
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.GameDetailsBroadcasts
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomainModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.AgainstTheSpreadModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.BaseballPlayModel

@@ -1,8 +1,7 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels
 
 import com.google.firebase.firestore.DocumentId
-import com.sgut.android.nationalfootballleague.Logos
-
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.teams_list.Logos
 data class TeamDomainModel(
     @DocumentId
     val id: String = "",

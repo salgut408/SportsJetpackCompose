@@ -2,6 +2,7 @@ package com.sgut.android.nationalfootballleague.domain.use_cases
 
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.GameDetailsAthleteDetailsModel
 import com.sgut.android.nationalfootballleague.domain.repositories.TeamDetailsRepository
+import com.sgut.android.nationalfootballleague.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -26,14 +27,14 @@ import javax.inject.Inject
  */
 class PlayersMapUseCase @Inject constructor(
     private val teamDetailsRepository: TeamDetailsRepository,
-    private val defaultDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
 
     suspend operator fun invoke(
         sport: String,
         league: String,
         teams: List<String>,
-    ): Map<String, GameDetailsAthleteDetailsModel> = withContext(defaultDispatcher) {
+    ): Map<String, GameDetailsAthleteDetailsModel> = withContext(ioDispatcher) {
         coroutineScope {
             teams
                 .map { team ->

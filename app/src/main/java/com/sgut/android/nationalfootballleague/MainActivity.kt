@@ -1,6 +1,7 @@
 package com.sgut.android.nationalfootballleague
 
 
+import com.sgut.android.nationalfootballleague.ui.application.EspnApp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

@@ -1,7 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details
 
-import com.sgut.android.nationalfootballleague.GameDetailsLinks
-
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.GameDetailsLinks
 data class VideoModel(
     val source: String = "",
     val id: Int = 0,

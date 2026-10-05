@@ -25,12 +25,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.sgut.android.nationalfootballleague.data.emojis.teamEmoji
-import com.sgut.android.nationalfootballleague.di.ToolBar3
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ToolBar3
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.LeagueModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.SportModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.TeamModel
-import com.sgut.android.nationalfootballleague.homelistscreen.ArticleRow
+import com.sgut.android.nationalfootballleague.ui.screens.scoreboardscreen.ArticleRow
 import com.sgut.android.nationalfootballleague.ui.commoncomps.BasicImage
 import com.sgut.android.nationalfootballleague.ui.commoncomps.CardHeaderText
 import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard

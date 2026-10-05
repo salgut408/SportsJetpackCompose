@@ -35,12 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.sgut.android.nationalfootballleague.StatusState
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.StatusState
 import com.sgut.android.nationalfootballleague.data.emojis.teamEmoji
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.ScoreboardData
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.TennisScoreboard
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.SituationScoreboard
-import com.sgut.android.nationalfootballleague.di.TopAppBarWithLogo
+import com.sgut.android.nationalfootballleague.ui.commoncomps.TopAppBarWithLogo
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticlesListModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.DefaultScoreboardEventModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.ScoreboardCompetitionModel
@@ -63,8 +63,8 @@ import com.sgut.android.nationalfootballleague.utils.sportEmoji
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
 import com.sgut.android.nationalfootballleague.utils.Constants
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.TENNIS
-import com.sgut.android.nationalfootballleague.utils.formatTo
-import com.sgut.android.nationalfootballleague.utils.toDate
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.formatTo
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.toDate
 import timber.log.Timber
 
 

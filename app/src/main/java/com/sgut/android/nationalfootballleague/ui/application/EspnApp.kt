@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague
+package com.sgut.android.nationalfootballleague.ui.application
 
 import android.content.res.Resources
 import androidx.compose.foundation.layout.*

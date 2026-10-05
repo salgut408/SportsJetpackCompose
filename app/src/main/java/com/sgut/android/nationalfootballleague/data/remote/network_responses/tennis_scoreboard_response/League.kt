@@ -3,8 +3,8 @@ package com.sgut.android.nationalfootballleague.data.remote.network_responses.te
 
 import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.LeagueTennisModel
-import com.sgut.android.nationalfootballleague.utils.formatTo
-import com.sgut.android.nationalfootballleague.utils.toDate
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.formatTo
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.toDate
 import kotlinx.serialization.Serializable
 
 @Serializable

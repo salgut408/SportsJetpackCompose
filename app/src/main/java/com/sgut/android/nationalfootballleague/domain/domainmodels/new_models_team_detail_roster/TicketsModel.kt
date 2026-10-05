@@ -1,7 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster
 
-import com.sgut.android.nationalfootballleague.Links3
-
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.team_details_with_roster.detailswithroster.Links3
 data class TicketsModel(
     val id: String = "",
     val summary: String = "",

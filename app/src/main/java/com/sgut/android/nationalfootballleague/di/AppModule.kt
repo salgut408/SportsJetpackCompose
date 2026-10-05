@@ -16,7 +16,13 @@ import com.sgut.android.nationalfootballleague.data.db.article.ArticleDao
 import com.sgut.android.nationalfootballleague.data.db.team.TeamsDao
 import com.sgut.android.nationalfootballleague.data.location.DefaultLocationTrackerImpl
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
-import com.sgut.android.nationalfootballleague.data.repository.*
+import com.sgut.android.nationalfootballleague.data.repository.ArticleRepositoryImpl
+import com.sgut.android.nationalfootballleague.data.repository.AthleteRepositoryImpl
+import com.sgut.android.nationalfootballleague.data.repository.GameDetailsRepositoryImpl
+import com.sgut.android.nationalfootballleague.data.repository.ScoreboardRepositoryImpl
+import com.sgut.android.nationalfootballleague.data.repository.SportRepositoryImpl
+import com.sgut.android.nationalfootballleague.data.repository.StandingsRepositoryImpl
+import com.sgut.android.nationalfootballleague.data.repository.TeamDetailsRepositoryImpl
 import com.sgut.android.nationalfootballleague.data.service.AccountService
 import com.sgut.android.nationalfootballleague.data.service.LogService
 import com.sgut.android.nationalfootballleague.data.service.StorageService
@@ -24,8 +30,13 @@ import com.sgut.android.nationalfootballleague.data.service.impl.AccountServiceI
 import com.sgut.android.nationalfootballleague.data.service.impl.LogServiceImpl
 import com.sgut.android.nationalfootballleague.data.service.impl.StorageServiceImpl
 import com.sgut.android.nationalfootballleague.domain.location.LocationTracker
-import com.sgut.android.nationalfootballleague.domain.repositories.*
-import com.sgut.android.nationalfootballleague.domain.use_cases.*
+import com.sgut.android.nationalfootballleague.domain.repositories.ArticleRepository
+import com.sgut.android.nationalfootballleague.domain.repositories.AthleteRepository
+import com.sgut.android.nationalfootballleague.domain.repositories.GameDetailsRepository
+import com.sgut.android.nationalfootballleague.domain.repositories.ScoreboardRepository
+import com.sgut.android.nationalfootballleague.domain.repositories.SportRepository
+import com.sgut.android.nationalfootballleague.domain.repositories.StandingsRepository
+import com.sgut.android.nationalfootballleague.domain.repositories.TeamDetailsRepository
 import com.sgut.android.nationalfootballleague.utils.Constants.Companion.BASE_URL
 import dagger.Binds
 import dagger.Module
@@ -43,113 +54,50 @@ import retrofit2.Retrofit
 import timber.log.Timber
 import javax.inject.Singleton
 
+/**
+ * App-wide infrastructure: database, networking, dispatchers, Firebase, location.
+ *
+ * Repositories and use cases are NOT provided here. They all have `@Inject`
+ * constructors, so Hilt builds them itself; [RepositoryModule] only tells Hilt
+ * which implementation backs each domain interface.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Provides
-    fun provideArticleDao(sportsDataBase: SportsDataBase): ArticleDao =
-        sportsDataBase.getArticleDao()
-
-    @Provides
-    fun provideTeamDao(sportsDataBase: SportsDataBase): TeamsDao = sportsDataBase.getTeamsDao()
+    // Database
 
     @Provides
     @Singleton
     fun provideSportsDatabase(@ApplicationContext context: Context): SportsDataBase =
-        Room.databaseBuilder(
-            context,
-            SportsDataBase::class.java,
-            "sports_db"
-        ).fallbackToDestructiveMigration()
+        Room.databaseBuilder(context, SportsDataBase::class.java, "sports_db")
+            .fallbackToDestructiveMigration()
             .build()
 
-    // repositories
+    @Provides
+    fun provideArticleDao(sportsDataBase: SportsDataBase): ArticleDao = sportsDataBase.getArticleDao()
 
     @Provides
-    fun provideSportRepository(
-        sportsApi: SportsApi,
-        ioDispatcher: CoroutineDispatcher,
-    ): SportRepository = SportRepositoryImpl(sportsApi, ioDispatcher)
+    fun provideTeamDao(sportsDataBase: SportsDataBase): TeamsDao = sportsDataBase.getTeamsDao()
 
+    // Coroutines
 
     @Provides
-    fun provideStandingsRepository(
-        sportsApi: SportsApi,
-        ioDispatcher: CoroutineDispatcher,
-    ): StandingsRepository = StandingsRepositoryImpl(sportsApi, ioDispatcher)
+    @IoDispatcher
+    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-
-    @Provides
-    fun provideTeamsDetailRepository(
-        sportsApi: SportsApi,
-        sportsDataBase: SportsDataBase,
-        ioDispatcher: CoroutineDispatcher,
-    ): TeamDetailsRepository = TeamDetailsRepositoryImpl(sportsApi, sportsDataBase, ioDispatcher)
+    // Networking
 
     @Provides
-    fun provideGameDetailsRepository(
-        sportsApi: SportsApi,
-        sportsDataBase: SportsDataBase,
-        ioDispatcher: CoroutineDispatcher,
-    ): GameDetailsRepository = GameDetailsRepositoryImpl(sportsApi, sportsDataBase, ioDispatcher)
-
-
-    @Provides
-    fun provideScoreboardRepository(
-        sportsApi: SportsApi,
-        sportsDataBase: SportsDataBase,
-        ioDispatcher: CoroutineDispatcher,
-    ): ScoreboardRepository = ScoreboardRepositoryImpl(sportsApi, sportsDataBase, ioDispatcher)
-
-    @Provides
-    fun provideArticleRepository(
-        sportsApi: SportsApi,
-        ioDispatcher: CoroutineDispatcher,
-    ): ArticleRepository = ArticleRepositoryImpl(sportsApi, ioDispatcher)
-
-    @Provides
-    fun provideAthleteRepository(
-        sportsApi: SportsApi,
-        ioDispatcher: CoroutineDispatcher,
-    ): AthleteRepository = AthleteRepositoryImpl(sportsApi, ioDispatcher)
-
-    @Provides
-    fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
-
-
-    @Provides
-    fun provideArticleUseCase(
-        articleRepository: ArticleRepository,
-    ): GetArticlesUseCase = GetArticlesUseCase(articleRepository)
-
-    @Provides
-    fun provideGetBaseballSituationUseCase(
-        gameDetailsRepository: GameDetailsRepository,
-        ioDispatcher: CoroutineDispatcher,
-    ): GetBaseballSituationUseCase =
-        GetBaseballSituationUseCase(gameDetailsRepository, ioDispatcher)
-
-    @Provides
-    fun providePlayersMapUseCase(
-        teamDetailsRepository: TeamDetailsRepository,
-        ioDispatcher: CoroutineDispatcher,
-    ): PlayersMapUseCase = PlayersMapUseCase(teamDetailsRepository, ioDispatcher)
-
-    @Provides
-    fun provideGetScoresUseCase(
-        scoreboardRepository: ScoreboardRepository,
-        ioDispatcher: CoroutineDispatcher,
-    ): GetScoresUseCase = GetScoresUseCase(scoreboardRepository, ioDispatcher)
-
-    @Provides
-    fun provideNewGetScoresUseCase(
-        scoreboardRepository: ScoreboardRepository,
-        ioDispatcher: CoroutineDispatcher,
-    ): AbstractScoresUseCase = AbstractScoresUseCase(scoreboardRepository, ioDispatcher)
-
     @Singleton
+    fun provideJson(): Json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+        isLenient = true
+    }
+
     @Provides
+    @Singleton
     fun provideOkhttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor { chain ->
@@ -159,31 +107,25 @@ object AppModule {
             }
             .build()
 
-    @Singleton
     @Provides
-    fun provideEspnApi(okHttpClient: OkHttpClient): SportsApi {
-        val json = Json {
-            ignoreUnknownKeys = true
-            coerceInputValues = true
-            isLenient = true
-        }
-        return Retrofit.Builder()
+    @Singleton
+    fun provideEspnApi(okHttpClient: OkHttpClient, json: Json): SportsApi =
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
             .create(SportsApi::class.java)
-    }
 
+    // Firebase
 
-    //Firebase things
     @Provides
     fun auth(): FirebaseAuth = Firebase.auth
 
     @Provides
     fun firestore(): FirebaseFirestore = Firebase.firestore
 
-    //Location
+    // Location
 
     @Provides
     @Singleton
@@ -198,7 +140,7 @@ object AppModule {
         application: Application,
     ): LocationTracker = DefaultLocationTrackerImpl(
         fusedLocationProviderClient = fusedLocationProviderClient,
-        application = application
+        application = application,
     )
 
     @Module
@@ -206,35 +148,42 @@ object AppModule {
     abstract class ServiceModule {
         @Binds
         abstract fun provideAccountService(impl: AccountServiceImpl): AccountService
+
         @Binds
         abstract fun provideLogService(impl: LogServiceImpl): LogService
+
         @Binds
         abstract fun provideStorageService(impl: StorageServiceImpl): StorageService
     }
 }
 
+/**
+ * Interface-to-implementation bindings for the data layer. `@Binds` is preferred over
+ * `@Provides` here: it's a pure type mapping, so Dagger generates no factory method and
+ * constructor changes in an impl never require touching this module.
+ */
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
 
-//}
+    @Binds
+    abstract fun bindSportRepository(impl: SportRepositoryImpl): SportRepository
 
+    @Binds
+    abstract fun bindStandingsRepository(impl: StandingsRepositoryImpl): StandingsRepository
 
+    @Binds
+    abstract fun bindTeamDetailsRepository(impl: TeamDetailsRepositoryImpl): TeamDetailsRepository
 
+    @Binds
+    abstract fun bindGameDetailsRepository(impl: GameDetailsRepositoryImpl): GameDetailsRepository
 
+    @Binds
+    abstract fun bindScoreboardRepository(impl: ScoreboardRepositoryImpl): ScoreboardRepository
 
+    @Binds
+    abstract fun bindArticleRepository(impl: ArticleRepositoryImpl): ArticleRepository
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Binds
+    abstract fun bindAthleteRepository(impl: AthleteRepositoryImpl): AthleteRepository
+}

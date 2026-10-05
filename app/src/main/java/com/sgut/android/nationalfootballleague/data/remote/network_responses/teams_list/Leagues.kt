@@ -1,5 +1,6 @@
-package com.sgut.android.nationalfootballleague
+package com.sgut.android.nationalfootballleague.data.remote.network_responses.teams_list
 
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.team_details_with_roster.detailswithroster.asDomainModel
 import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_teams_list.LeagueModel
 import kotlinx.serialization.Serializable

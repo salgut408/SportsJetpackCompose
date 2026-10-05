@@ -1,4 +1,4 @@
-package com.sgut.android.nationalfootballleague
+package com.sgut.android.nationalfootballleague.data.remote.network_responses.teams_list
 
 import kotlinx.serialization.SerialName
 import com.sgut.android.nationalfootballleague.data.db.sport.SportDbObj

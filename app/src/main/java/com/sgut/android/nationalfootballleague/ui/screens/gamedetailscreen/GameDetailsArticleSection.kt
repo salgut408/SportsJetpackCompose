@@ -47,14 +47,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.sgut.android.nationalfootballleague.*
-import com.sgut.android.nationalfootballleague.di.GameDetailsTopBar
+import com.sgut.android.nationalfootballleague.ui.commoncomps.GameDetailsTopBar
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details.*
 import com.sgut.android.nationalfootballleague.ui.commoncomps.*
 import com.sgut.android.nationalfootballleague.ui.commoncomps.*
 import com.sgut.android.nationalfootballleague.ui.commoncomps.PressIconButton
 import com.sgut.android.nationalfootballleague.ui.screens.teamdetails.HexToJetpackColor2
-import com.sgut.android.nationalfootballleague.utils.formatTo
-import com.sgut.android.nationalfootballleague.utils.toDate
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.formatTo
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.toDate
 import java.util.*
 import kotlin.math.nextUp
 import timber.log.Timber

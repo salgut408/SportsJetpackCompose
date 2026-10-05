@@ -1,7 +1,10 @@
 package com.sgut.android.nationalfootballleague.data.repository
 
-import android.util.Log
-import com.sgut.android.nationalfootballleague.asDomain
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.articles.asDomain
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.asDomain
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.scoreboard_network_responses.asDomain
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.team_details_with_roster.detailswithroster.asDomain
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.teams_list.asDomain
 import com.sgut.android.nationalfootballleague.data.db.SportsDataBase
 import com.sgut.android.nationalfootballleague.data.remote.api.SportsApi
 import com.sgut.android.nationalfootballleague.data.remote.network_responses.abs_scores.a_common.DefaultScoreboardData
@@ -11,114 +14,106 @@ import com.sgut.android.nationalfootballleague.data.remote.network_responses.ten
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_scoreboard.BasicScoreboardModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.tennis_scoreboard_models.TennisScoreboardModel
 import com.sgut.android.nationalfootballleague.domain.repositories.ScoreboardRepository
-import com.sgut.android.nationalfootballleague.utils.printToLog
+import com.sgut.android.nationalfootballleague.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
+/**
+ * Scoreboard repository. Every endpoint degrades to an empty model on failure
+ * (HTTP error, missing body, parse error) so one bad sport-specific parse can't
+ * take down the whole scoreboard screen, which loads several of these in parallel.
+ */
 class ScoreboardRepositoryImpl @Inject constructor(
-    val sportsApi: SportsApi,
-    val sportsDataBase: SportsDataBase,
-    val ioDispatcher: CoroutineDispatcher,
+    private val sportsApi: SportsApi,
+    @Suppress("unused") private val sportsDataBase: SportsDataBase,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ScoreboardRepository {
 
     override suspend fun getGeneralScoreboard(
         sport: String,
         league: String,
-    ): BasicScoreboardModel =
-        try {
-            Timber.d("SAL_GUT getScoreboard BasicScoreboardModel")
-            withContext(ioDispatcher) {
-                val response = sportsApi.getGeneralScoreboard(sport, league)
-                if (response.isSuccessful) {
-                    return@withContext response.body()?.asDomain()!!
-                } else {
-                    Timber.e("SAL_GUT getScoreboard-FAIL, ${response.toString()}")
-                    BasicScoreboardModel()
-                }
-            }
-        }
-        catch (e: Exception) {
-            Timber.e("getScoreboard fail , ${e.stackTraceToString()}")
-            BasicScoreboardModel()
-        }
-
+    ): BasicScoreboardModel = fetch(
+        label = "general $sport/$league",
+        default = BasicScoreboardModel(),
+        call = { sportsApi.getGeneralScoreboard(sport, league) },
+        transform = { it.asDomain() },
+    )
 
     override suspend fun getCollegeBasketballScoreboard(
         sport: String,
         league: String,
         limit: String,
-    ): BasicScoreboardModel =
-        withContext(ioDispatcher) {
-            Timber.d("SAL_GUT getScoreboard CollegeBasketballScoreboard")
-
-            val response = sportsApi.getCollegeBasketballScoreboard(sport, league, limit)
-            if (response.isSuccessful) {
-                return@withContext response.body()?.asDomain()!!
-            } else {
-                Timber.e("Scoreboard Repo-FAIL, ${response.errorBody().toString()}")
-                BasicScoreboardModel()
-            }
-        }
-
+    ): BasicScoreboardModel = fetch(
+        label = "college basketball $sport/$league",
+        default = BasicScoreboardModel(),
+        call = { sportsApi.getCollegeBasketballScoreboard(sport, league, limit) },
+        transform = { it.asDomain() },
+    )
 
     override suspend fun getBaseballScoreboard(
         sport: String,
         league: String,
-    ): BaseballScoreBoardNetwork =
-        withContext(ioDispatcher) {
-            Timber.d("SAL_GUT getScoreboard BaseballScoreboard")
+    ): BaseballScoreBoardNetwork = fetch(
+        label = "baseball $sport/$league",
+        default = BaseballScoreBoardNetwork(),
+        call = { sportsApi.getBaseballScoreboard(sport, league) },
+        transform = { it },
+    )
 
-            val response = sportsApi.getBaseballScoreboard(sport, league)
-            if (response.isSuccessful) {
-                return@withContext response.body() ?: BaseballScoreBoardNetwork()
-            }
-            BaseballScoreBoardNetwork()
-        }
+    override suspend fun getTennisScoreBoard(sport: String, league: String): TennisScoreboardModel = fetch(
+        label = "tennis $sport/$league",
+        default = TennisScoreboardModel(),
+        call = { sportsApi.getTennisScoreboard(sport, league) },
+        transform = { it.asDomain() },
+    )
 
-    override suspend fun getTennisScoreBoard(sport: String, league: String): TennisScoreboardModel =
-        try {
-            withContext(ioDispatcher) {
-                Timber.d("SAL_GUT getScoreboard TennisScoreboard")
-
-                val tennis = sportsApi.getTennisScoreboard(sport, league).body()?.asDomain()!!
-                return@withContext tennis
-            }
-        }
-        catch (e: Exception) {
-            Timber.e("SAL_GUT REPO-TENNIS, ${e.stackTraceToString()}")
-            TennisScoreboardModel()
-        }
-
-    override suspend fun getAbstractScoreBoard(sport: String, league: String): ScoreboardData {
-        return withContext(ioDispatcher) {
-            try {
-                val scores = sportsApi.getAbstractScoreboard(sport, league).body()
-                Timber.d("SAL_GUT GET ABSTRACT SCORE REPO SCORES League: ${scores?.events?.firstOrNull()}")
-                scores ?: DefaultScoreboardData()
-            } catch (e: Exception) {
-                Timber.e("ABSTRACT ERROR ${e.stackTraceToString()}")
-                DefaultScoreboardData()
-            }
-        }
-    }
-
+    override suspend fun getAbstractScoreBoard(sport: String, league: String): ScoreboardData = fetch(
+        label = "abstract $sport/$league",
+        default = DefaultScoreboardData(),
+        call = { sportsApi.getAbstractScoreboard(sport, league) },
+        transform = { it },
+    )
 
     override suspend fun getGeneralScoreboardByDate(
         sport: String,
         league: String,
         date: String,
-    ): BasicScoreboardModel =
-        withContext(ioDispatcher) {
-            Timber.d("SAL_GUT getScoreboard GeneralScoreboardByDate")
+    ): BasicScoreboardModel = fetch(
+        label = "general by date $sport/$league/$date",
+        default = BasicScoreboardModel(),
+        call = { sportsApi.getGeneralScoreboardWithDate(sport, league, date) },
+        transform = { it.asDomain() },
+    )
 
-            val result = sportsApi.getGeneralScoreboardWithDate(sport, league, date)
-            if (result.isSuccessful) {
-                return@withContext result.body()?.asDomain()!!
+    /**
+     * Runs [call] on [ioDispatcher] and maps the body with [transform], falling back to
+     * [default] on any failure. [CancellationException] is rethrown so leaving the screen
+     * still cancels the request (catching it would break structured concurrency).
+     */
+    private suspend fun <T, R> fetch(
+        label: String,
+        default: R,
+        call: suspend () -> Response<T>,
+        transform: (T) -> R,
+    ): R = withContext(ioDispatcher) {
+        try {
+            val response = call()
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                transform(body)
             } else {
-                Timber.e("getGeneralScoreboardByDate-FAIL")
-                BasicScoreboardModel()
+                Timber.e("Scoreboard $label failed: HTTP ${response.code()}")
+                default
             }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Timber.e(e, "Scoreboard $label threw")
+            default
         }
+    }
 }

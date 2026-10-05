@@ -1,6 +1,6 @@
 package com.sgut.android.nationalfootballleague.domain.domainmodels.new_game_details
 
-import com.sgut.android.nationalfootballleague.GameDetailsLink
+import com.sgut.android.nationalfootballleague.data.remote.network_responses.game_details.GameDetailsLink
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_article.ArticleDomainModel
 
 data class NewsModel(

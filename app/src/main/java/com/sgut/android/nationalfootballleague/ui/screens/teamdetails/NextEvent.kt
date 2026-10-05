@@ -17,10 +17,8 @@ import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_te
 import com.sgut.android.nationalfootballleague.domain.domainmodels.new_models_team_detail_roster.NextEventModel
 import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
 import com.sgut.android.nationalfootballleague.ui.screens.gamedetailscreen.CardSectionHeader
-import com.sgut.android.nationalfootballleague.utils.formatTo
-import com.sgut.android.nationalfootballleague.utils.toDate
-
-
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.formatTo
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ui_extenstions.toDate
 @Composable
 fun NextEvent(
     nextEvent: NextEventModel,

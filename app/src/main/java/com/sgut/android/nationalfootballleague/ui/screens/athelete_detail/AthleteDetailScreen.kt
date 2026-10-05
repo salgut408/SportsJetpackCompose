@@ -46,7 +46,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.sgut.android.nationalfootballleague.di.ToolBar2
+import com.sgut.android.nationalfootballleague.ui.commoncomps.ToolBar2
 import com.sgut.android.nationalfootballleague.domain.domainmodels.full_athlete.AthleteStatModel
 import com.sgut.android.nationalfootballleague.domain.domainmodels.full_athlete.FullAthleteModel
 import com.sgut.android.nationalfootballleague.ui.commoncomps.DefaultCard
