@@ -1,5 +1,10 @@
 # Sports App
 
+## Requirements
+
+- JDK 17 installed (any vendor, e.g. Temurin or JetBrains Runtime). Gradle picks it automatically via `gradle/gradle-daemon-jvm.properties`, so no `JAVA_HOME` or path setup is needed.
+- If Android Studio shows "Gradle JVM version incompatible", set *Settings → Build Tools → Gradle → Gradle JDK* to a JDK 17.
+
 A work-in-progress Sports App 
 This project is a personal sandbox of sorts, experimenting with the latest libraries and tools. These include:
 -100% Kotlin
